@@ -13,10 +13,10 @@ export const metadata: Metadata = {
 
 export default function SubscribePage() {
   return (
-    <div className="min-h-screen flex flex-col md:flex-row">
+    <div className="min-h-screen md:h-screen flex flex-col md:flex-row md:overflow-hidden">
       
       {/* Left Panel - Visual */}
-      <div className="w-full md:w-1/2 bg-gradient-dark relative min-h-[40vh] md:min-h-screen hidden sm:block">
+      <div className="w-full md:w-1/2 bg-gradient-dark relative min-h-[40vh] md:min-h-0 md:h-full hidden sm:block">
         <Image
           src="/images/nutrition_pillar.png"
           alt="Wellness Lifestyle"
@@ -49,17 +49,17 @@ export default function SubscribePage() {
       </div>
 
       {/* Right Panel - Form */}
-      <div className="w-full md:w-1/2 bg-white flex items-center justify-center py-16 px-4 sm:px-8 md:px-16 min-h-screen relative">
+      <div className="w-full md:w-1/2 bg-white flex flex-col py-12 px-4 sm:px-8 md:px-16 min-h-screen md:min-h-0 md:h-full md:overflow-y-auto relative hide-scrollbar">
         <div className="absolute top-6 left-6 md:top-10 md:left-10 z-10">
-          <Link href="/" className="text-text-secondary hover:text-dark transition-colors flex items-center gap-2 font-medium text-sm">
+          <Link href="/" className="text-text-secondary hover:text-dark transition-colors flex items-center gap-2 font-medium text-sm bg-white/80 backdrop-blur px-3 py-2 rounded-full md:bg-transparent md:px-0 md:py-0">
             <ArrowLeft size={16} /> Back to Website
           </Link>
         </div>
-        <ScrollReveal variant="fadeIn" className="w-full max-w-lg mx-auto">
+        <ScrollReveal variant="fadeIn" className="w-full max-w-lg mx-auto my-auto pt-16 md:pt-6 pb-8">
           
-          <div className="flex justify-center mb-10">
+          <div className="flex justify-center mb-6">
             <Link href="/" className="transition-transform hover:scale-105">
-              <div className="relative w-48 h-20">
+              <div className="relative w-36 h-14">
                 <Image
                   src="/images/logo_transparent.png"
                   alt="HealthGhuru Logo"
@@ -70,9 +70,9 @@ export default function SubscribePage() {
             </Link>
           </div>
 
-          <div className="text-center mb-10">
-            <h2 className="font-display text-3xl md:text-4xl text-dark mb-3">Start Your Wellness Journey</h2>
-            <p className="text-text-secondary">
+          <div className="text-center mb-6">
+            <h2 className="font-display text-2xl md:text-3xl text-dark mb-2">Start Your Wellness Journey</h2>
+            <p className="text-text-secondary text-sm md:text-base">
               Get personalized health content, expert tips, and exclusive resources.
             </p>
           </div>
