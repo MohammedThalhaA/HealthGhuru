@@ -1,0 +1,49 @@
+"use client";
+
+import { useState } from "react";
+import { BlogCard } from "./BlogCard";
+import CategoryFilter from "./CategoryFilter";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { BLOG_POSTS } from "@/lib/constants";
+
+const blogImages = [
+  "/images/yoga.png", // sun salutation
+  "/images/nutrition_pillar.png", // nutrient timing
+  "/images/fitness_pillar.png", // abs
+  "/images/mental_health_pillar.png", // yoga mental health
+  "/images/sleep_pillar.png", // boost immune
+];
+
+export default function BlogGrid() {
+  const [activeCategory, setActiveCategory] = useState("All");
+
+  const filteredPosts = BLOG_POSTS.filter(post => 
+    activeCategory === "All" || post.category === activeCategory
+  );
+
+  return (
+    <div className="w-full">
+      <ScrollReveal variant="fadeIn">
+        <CategoryFilter onCategoryChange={setActiveCategory} />
+      </ScrollReveal>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+        {filteredPosts.map((post, index) => {
+          // Find original index to assign the correct image
+          const originalIndex = BLOG_POSTS.findIndex(p => p.slug === post.slug);
+          return (
+            <ScrollReveal key={post.slug} delay={index * 0.1}>
+              <BlogCard post={post} image={blogImages[originalIndex]} />
+            </ScrollReveal>
+          );
+        })}
+      </div>
+      
+      {filteredPosts.length === 0 && (
+        <div className="text-center py-12 text-text-muted">
+          No articles found for this category.
+        </div>
+      )}
+    </div>
+  );
+}

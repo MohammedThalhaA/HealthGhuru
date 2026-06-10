@@ -1,0 +1,90 @@
+import Link from "next/link";
+import Image from "next/image";
+import { MapPin, Phone, MessageCircle, Share2, Globe, Send } from "lucide-react";
+import { NAV_LINKS } from "@/lib/constants";
+
+export default function Footer() {
+  return (
+    <footer className="bg-dark text-white pt-16 pb-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+          {/* Column 1: Logo & Tagline */}
+          <div className="flex flex-col items-start gap-4">
+            <div className="bg-white rounded-lg p-1.5 shadow-sm inline-flex items-center justify-center">
+              <div className="relative w-32 h-12">
+                <Image
+                  src="/images/logo.png"
+                  alt="HealthGhuru Logo"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+            </div>
+            <p className="font-heading text-lg font-medium text-white/90 mt-2">
+              Stay Fit. Stay Healthy.
+            </p>
+            <p className="text-white/70 text-sm max-w-sm mb-4">
+              Your science-backed wellness platform for a longer, healthier, and happier life.
+            </p>
+            <div className="flex gap-4 text-white/60">
+              <a href="#" className="hover:text-accent transition-colors"><Globe size={20} /></a>
+              <a href="#" className="hover:text-accent transition-colors"><MessageCircle size={20} /></a>
+              <a href="#" className="hover:text-accent transition-colors"><Share2 size={20} /></a>
+              <a href="#" className="hover:text-accent transition-colors"><Send size={20} /></a>
+            </div>
+          </div>
+
+          {/* Column 2: Quick Links */}
+          <div className="flex flex-col gap-4">
+            <h4 className="font-display text-xl text-white mb-2">Quick Links</h4>
+            <nav className="flex flex-col gap-3">
+              {NAV_LINKS.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-white/70 hover:text-white transition-colors flex items-center gap-2 group"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary/0 group-hover:bg-primary transition-colors" />
+                  {link.label}
+                </Link>
+              ))}
+              <Link
+                href="/subscribe"
+                className="text-white/70 hover:text-white transition-colors flex items-center gap-2 group"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-primary/0 group-hover:bg-primary transition-colors" />
+                Subscribe
+              </Link>
+            </nav>
+          </div>
+
+          {/* Column 3: Contact */}
+          <div className="flex flex-col gap-4">
+            <h4 className="font-display text-xl text-white mb-2">Contact Us</h4>
+            <div className="flex items-start gap-3 text-white/70">
+              <MapPin className="text-primary shrink-0 mt-1" size={20} />
+              <p className="text-sm leading-relaxed">
+                No.1A, Gurudev Complex,<br />
+                57th Street, Korattur,<br />
+                Chennai – 600 080
+              </p>
+            </div>
+            <div className="flex items-center gap-3 text-white/70 mt-2">
+              <Phone className="text-primary shrink-0" size={20} />
+              <p className="text-sm">+91 88259 48859</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between text-sm text-white/50">
+          <p>Copyright &copy; {new Date().getFullYear()} Healthghuru. All rights reserved.</p>
+          <div className="flex gap-4 mt-4 md:mt-0">
+            <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="#" className="hover:text-white transition-colors">Terms of Service</Link>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
