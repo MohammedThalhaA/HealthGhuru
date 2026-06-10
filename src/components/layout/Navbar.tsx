@@ -28,6 +28,10 @@ export default function Navbar() {
     setMobileMenuOpen(false);
   }, [pathname]);
 
+  if (pathname === '/login' || pathname === '/subscribe') {
+    return null;
+  }
+
   return (
     <header
       className={cn(
@@ -40,17 +44,15 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex-shrink-0 z-50">
-            <div className="bg-white rounded-lg p-1.5 shadow-sm inline-flex items-center justify-center">
-              <div className="relative w-28 h-10">
-                <Image
-                  src="/images/logo.png"
-                  alt="HealthGhuru Logo"
-                  fill
-                  className="object-contain"
-                  priority
-                />
-              </div>
+          <Link href="/" className="flex-shrink-0 z-50 transition-transform hover:scale-105">
+            <div className="relative w-40 h-14 sm:h-16">
+              <Image
+                src="/images/logo_transparent.png"
+                alt="HealthGhuru Logo"
+                fill
+                className="object-contain"
+                priority
+              />
             </div>
           </Link>
 

@@ -51,16 +51,14 @@ export default function SubscribePage() {
         <ScrollReveal variant="fadeIn" className="w-full max-w-lg mx-auto">
           
           <div className="flex justify-center mb-10">
-            <Link href="/">
-              <div className="bg-surface-alt rounded-lg p-2 flex items-center justify-center border border-primary/10">
-                <div className="relative w-36 h-12">
-                  <Image
-                    src="/images/logo.png"
-                    alt="HealthGhuru Logo"
-                    fill
-                    className="object-contain"
-                  />
-                </div>
+            <Link href="/" className="transition-transform hover:scale-105">
+              <div className="relative w-48 h-20">
+                <Image
+                  src="/images/logo_transparent.png"
+                  alt="HealthGhuru Logo"
+                  fill
+                  className="object-contain"
+                />
               </div>
             </Link>
           </div>

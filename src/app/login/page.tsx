@@ -20,16 +20,14 @@ export default function LoginPage() {
 
           {/* Logo */}
           <div className="flex justify-center mb-8">
-            <Link href="/">
-              <div className="bg-surface-alt rounded-lg p-2 flex items-center justify-center border border-primary/10">
-                <div className="relative w-32 h-10">
-                  <Image
-                    src="/images/logo.png"
-                    alt="HealthGhuru Logo"
-                    fill
-                    className="object-contain"
-                  />
-                </div>
+            <Link href="/" className="transition-transform hover:scale-105">
+              <div className="relative w-48 h-20">
+                <Image
+                  src="/images/logo_transparent.png"
+                  alt="HealthGhuru Logo"
+                  fill
+                  className="object-contain"
+                />
               </div>
             </Link>
           </div>

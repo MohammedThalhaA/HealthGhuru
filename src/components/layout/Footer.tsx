@@ -1,25 +1,34 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { MapPin, Phone, MessageCircle, Share2, Globe, Send } from "lucide-react";
 import { NAV_LINKS } from "@/lib/constants";
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  if (pathname === '/login' || pathname === '/subscribe') {
+    return null;
+  }
+
   return (
     <footer className="bg-dark text-white pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
           {/* Column 1: Logo & Tagline */}
           <div className="flex flex-col items-start gap-4">
-            <div className="bg-white rounded-lg p-1.5 shadow-sm inline-flex items-center justify-center">
-              <div className="relative w-32 h-12">
+            <Link href="/" className="transition-transform hover:scale-105">
+              <div className="relative w-48 h-20">
                 <Image
-                  src="/images/logo.png"
+                  src="/images/logo_transparent.png"
                   alt="HealthGhuru Logo"
                   fill
                   className="object-contain"
                 />
               </div>
-            </div>
+            </Link>
             <p className="font-heading text-lg font-medium text-white/90 mt-2">
               Stay Fit. Stay Healthy.
             </p>
