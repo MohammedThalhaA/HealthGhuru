@@ -34,6 +34,8 @@ export const metadata: Metadata = {
   description: "Science-backed wellness platform covering Nutrition, Sleep, Fitness and Mental Health. 20,000+ expert-reviewed articles.",
 };
 
+import ConditionalLayout from "@/components/layout/ConditionalLayout";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -43,11 +45,9 @@ export default function RootLayout({
     <html lang="en" className={`${dmSerif.variable} ${plusJakarta.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
       <body className="antialiased min-h-screen flex flex-col font-body">
         <SmoothScroll>
-          <Navbar />
-          <main className="flex-grow">
+          <ConditionalLayout navbar={<Navbar />} footer={<Footer />}>
             {children}
-          </main>
-          <Footer />
+          </ConditionalLayout>
         </SmoothScroll>
       </body>
     </html>

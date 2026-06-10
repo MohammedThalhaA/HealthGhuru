@@ -36,6 +36,22 @@ const config: Config = {
           DEFAULT: "rgba(46,125,50,0.15)",
           strong: "rgba(46,125,50,0.30)",
         },
+        chart: {
+          nutrition: "var(--chart-nutrition)",
+          sleep: "var(--chart-sleep)",
+          fitness: "var(--chart-fitness)",
+          mood: "var(--chart-mood)",
+          water: "var(--chart-water)",
+        },
+        status: {
+          good: "var(--status-good)",
+          warning: "var(--status-warning)",
+          danger: "var(--status-danger)",
+        },
+      },
+      spacing: {
+        sidebar: "var(--sidebar-width)",
+        "sidebar-collapsed": "var(--sidebar-collapsed)",
       },
       fontFamily: {
         display: ["var(--font-display)"],

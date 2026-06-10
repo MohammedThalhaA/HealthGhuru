@@ -55,6 +55,23 @@
   --gradient-dark:      linear-gradient(180deg, #1A2E1A 0%, #0D1F0D 100%);
   --gradient-surface:   linear-gradient(180deg, #F5FAF5 0%, #EBF5EB 100%);
   --gradient-accent:    linear-gradient(135deg, #F9A825 0%, #FFB300 100%);
+
+  /* Dashboard - Sidebar */
+  --sidebar-width:        260px;
+  --sidebar-collapsed:    72px;
+  --sidebar-bg:           #1A2E1A;
+
+  /* Dashboard - Chart colors */
+  --chart-nutrition:      #4CAF50;
+  --chart-sleep:          #7C4DFF;
+  --chart-fitness:        #F9A825;
+  --chart-mood:           #FF6B6B;
+  --chart-water:          #29B6F6;
+
+  /* Dashboard - Status colors */
+  --status-good:          #4CAF50;
+  --status-warning:       #F9A825;
+  --status-danger:        #EF5350;
 }
 
 @layer base {

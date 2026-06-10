@@ -1,10 +1,23 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "@studio-freight/lenis";
 
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+
   useEffect(() => {
+    const dashboardRoutes = [
+      '/dashboard', '/my-learning', '/nutrition', 
+      '/fitness', '/sleep', '/mood', '/profile'
+    ];
+    
+    // Disable smooth scroll on dashboard routes since they have their own inner scroll containers
+    if (dashboardRoutes.some(route => pathname?.startsWith(route))) {
+      return;
+    }
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -25,7 +38,7 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
     return () => {
       lenis.destroy();
     };
-  }, []);
+  }, [pathname]);
 
   return <>{children}</>;
 }

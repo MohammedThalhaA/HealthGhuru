@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Loader2, Eye, EyeOff, CheckCircle2 } from "lucide-react";
+import { Loader2, Eye, EyeOff, CheckCircle2, User, Crown } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
 const loginSchema = z.object({
@@ -22,10 +22,18 @@ export default function LoginForm() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
   });
+
+  const handleDemoUser = (type: 'free' | 'pro') => {
+    setValue('email', type === 'free' ? 'demo@healthghuru.com' : 'pro@healthghuru.com', { shouldValidate: true });
+    setValue('password', 'password123', { shouldValidate: true });
+    // Automatically submit the form
+    handleSubmit(onSubmit)();
+  };
 
   const onSubmit = async () => {
     setIsLoading(true);
@@ -36,7 +44,7 @@ export default function LoginForm() {
     
     // Simulate redirect
     setTimeout(() => {
-      window.location.href = "/";
+      window.location.href = "/dashboard";
     }, 1500);
   };
 
@@ -54,6 +62,27 @@ export default function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      
+      {/* Demo Users */}
+      <div className="flex gap-3 mb-6">
+        <button
+          type="button"
+          onClick={() => handleDemoUser('free')}
+          className="flex-1 flex flex-col items-center justify-center py-2 px-3 border border-border rounded-xl bg-surface hover:border-primary/50 hover:bg-primary/5 transition-colors group"
+        >
+          <User size={18} className="text-text-muted group-hover:text-primary mb-1" />
+          <span className="text-[10px] font-bold text-text-secondary uppercase tracking-wider group-hover:text-primary">Demo Free</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => handleDemoUser('pro')}
+          className="flex-1 flex flex-col items-center justify-center py-2 px-3 border border-accent/20 rounded-xl bg-accent/5 hover:border-accent hover:bg-accent/10 transition-colors group"
+        >
+          <Crown size={18} className="text-accent/70 group-hover:text-accent mb-1" />
+          <span className="text-[10px] font-bold text-text-secondary uppercase tracking-wider group-hover:text-accent">Demo Pro</span>
+        </button>
+      </div>
+
       {/* Email Input */}
       <div>
         <div className="relative">
