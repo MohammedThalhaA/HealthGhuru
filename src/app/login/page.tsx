@@ -4,6 +4,8 @@ import Link from "next/link";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import LoginForm from "@/components/forms/LoginForm";
 
+import { ArrowLeft } from "lucide-react";
+
 export const metadata: Metadata = {
   title: "Login | HealthGhuru",
   description: "Sign in to your HealthGhuru account.",
@@ -11,7 +13,12 @@ export const metadata: Metadata = {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen bg-surface flex items-center justify-center py-24 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-surface flex items-center justify-center py-24 px-4 sm:px-6 lg:px-8 relative">
+      <div className="absolute top-6 left-6 md:top-10 md:left-10">
+        <Link href="/" className="text-text-secondary hover:text-dark transition-colors flex items-center gap-2 font-medium text-sm">
+          <ArrowLeft size={16} /> Back to Website
+        </Link>
+      </div>
       <ScrollReveal variant="scaleUp" className="w-full max-w-[440px]">
         <div className="bg-white rounded-[20px] shadow-2xl border border-primary/10 p-8 sm:p-10 relative overflow-hidden">
           

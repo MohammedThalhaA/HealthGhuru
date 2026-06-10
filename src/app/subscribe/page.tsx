@@ -4,6 +4,8 @@ import Link from "next/link";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import SubscribeForm from "@/components/forms/SubscribeForm";
 
+import { ArrowLeft } from "lucide-react";
+
 export const metadata: Metadata = {
   title: "Subscribe | HealthGhuru",
   description: "Start your wellness journey with personalized health content and expert tips.",
@@ -47,7 +49,12 @@ export default function SubscribePage() {
       </div>
 
       {/* Right Panel - Form */}
-      <div className="w-full md:w-1/2 bg-white flex items-center justify-center py-16 px-4 sm:px-8 md:px-16 min-h-screen">
+      <div className="w-full md:w-1/2 bg-white flex items-center justify-center py-16 px-4 sm:px-8 md:px-16 min-h-screen relative">
+        <div className="absolute top-6 left-6 md:top-10 md:left-10 z-10">
+          <Link href="/" className="text-text-secondary hover:text-dark transition-colors flex items-center gap-2 font-medium text-sm">
+            <ArrowLeft size={16} /> Back to Website
+          </Link>
+        </div>
         <ScrollReveal variant="fadeIn" className="w-full max-w-lg mx-auto">
           
           <div className="flex justify-center mb-10">
