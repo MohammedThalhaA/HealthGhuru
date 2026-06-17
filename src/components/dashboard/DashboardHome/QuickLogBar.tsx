@@ -54,7 +54,7 @@ export default function QuickLogBar() {
     <>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {buttons.map(btn => (
-          <button 
+          <button
             key={btn.id}
             onClick={() => setActiveModal(btn.id)}
             className="bg-white border-2 border-border hover:border-primary/40 rounded-[12px] p-4 flex flex-col items-center justify-center gap-2 transition-all shadow-sm hover:shadow-md"
@@ -132,7 +132,7 @@ export default function QuickLogBar() {
             <label className="text-sm font-bold text-dark mb-1 block">Duration (minutes)</label>
             <input required name="duration" type="number" min="1" max="300" defaultValue="30" className="w-full border border-border rounded-lg p-3 bg-surface focus:outline-none focus:ring-2 focus:ring-primary/50" />
           </div>
-          <button type="submit" className="w-full bg-accent text-dark py-3 rounded-full font-bold shadow-[0_4px_0_#F57F17] active:shadow-none active:translate-y-1 transition-all mt-4">
+          <button type="submit" className="w-full bg-accent text-dark py-3 rounded-full font-bold shadow-btn-accent active:shadow-none active:translate-y-1 transition-all mt-4">
             Save Workout
           </button>
         </form>

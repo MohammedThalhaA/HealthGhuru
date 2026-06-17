@@ -85,7 +85,7 @@ export default function MacroRings({
 
         {/* Carbs Ring */}
         <div className="flex flex-col items-center">
-          <ProgressRing value={getPercentage(carbs, carbsTarget)} size={110} strokeWidth={8} color="#F9A825">
+          <ProgressRing value={getPercentage(carbs, carbsTarget)} size={110} strokeWidth={8} color="#f06d2f">
             <div className="flex flex-col items-center">
               <span className="font-mono text-xl font-bold text-dark">{carbs}g</span>
               <span className="text-[10px] text-text-muted uppercase tracking-wider font-bold mt-1">/ {carbsTarget}g</span>

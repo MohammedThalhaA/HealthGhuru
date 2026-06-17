@@ -16,8 +16,8 @@ const config: Config = {
         },
         secondary: "#66BB6A",
         accent: {
-          DEFAULT: "#F9A825",
-          light: "#FFF8E1",
+          DEFAULT: "#f06d2f",
+          light: "#ffd6c1",
         },
         surface: {
           DEFAULT: "#F5FAF5",
@@ -64,12 +64,13 @@ const config: Config = {
         "gradient-hero": "linear-gradient(135deg, #1B5E20 0%, #2E7D32 60%, #388E3C 100%)",
         "gradient-dark": "linear-gradient(180deg, #1A2E1A 0%, #0D1F0D 100%)",
         "gradient-surface": "linear-gradient(180deg, #F5FAF5 0%, #EBF5EB 100%)",
-        "gradient-accent": "linear-gradient(135deg, #F9A825 0%, #FFB300 100%)",
+        "gradient-accent": "linear-gradient(135deg, #f06d2f 0%, #ff8a57 100%)",
       },
       boxShadow: {
         "card": "0 4px 24px rgba(46,125,50,0.08)",
         "card-hover": "0 12px 40px rgba(46,125,50,0.18)",
         "btn-primary": "0 4px 0 #1B5E20",
+        "btn-accent": "0 4px 0 #b24920",
       },
       borderRadius: {
         "card": "14px",

@@ -53,7 +53,7 @@ export default function SubscriptionCard() {
 
             <button 
               onClick={handleUpgradeClick}
-              className="w-full bg-accent text-dark font-bold py-3 rounded-lg shadow-[0_4px_0_#F57F17] hover:brightness-105 active:shadow-none active:translate-y-1 transition-all flex items-center justify-center gap-2 mt-auto"
+              className="w-full bg-accent text-dark font-bold py-3 rounded-lg shadow-btn-accent hover:brightness-105 active:shadow-none active:translate-y-1 transition-all flex items-center justify-center gap-2 mt-auto"
             >
               <Zap size={18} /> Upgrade for $9.99/mo
             </button>

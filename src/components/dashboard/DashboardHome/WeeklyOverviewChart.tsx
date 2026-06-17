@@ -56,7 +56,7 @@ export default function WeeklyOverviewChart() {
           </button>
           <button 
             onClick={() => toggleMetric('activity')}
-            className={`px-3 py-1 rounded-full text-xs font-bold transition-colors ${activeMetrics.activity ? 'bg-[#F9A825]/10 text-[#F9A825] border border-[#F9A825]/20' : 'bg-surface text-text-muted border border-border'}`}
+            className={`px-3 py-1 rounded-full text-xs font-bold transition-colors ${activeMetrics.activity ? 'bg-accent/10 text-accent border border-accent/20' : 'bg-surface text-text-muted border border-border'}`}
           >
             Activity
           </button>
@@ -82,8 +82,8 @@ export default function WeeklyOverviewChart() {
                 <stop offset="95%" stopColor="#7C4DFF" stopOpacity={0}/>
               </linearGradient>
               <linearGradient id="colorActivity" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#F9A825" stopOpacity={0.3}/>
-                <stop offset="95%" stopColor="#F9A825" stopOpacity={0}/>
+                <stop offset="5%" stopColor="#f06d2f" stopOpacity={0.3}/>
+                <stop offset="95%" stopColor="#f06d2f" stopOpacity={0}/>
               </linearGradient>
               <linearGradient id="colorMood" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#FF6B6B" stopOpacity={0.3}/>
@@ -97,7 +97,7 @@ export default function WeeklyOverviewChart() {
             
             {activeMetrics.nutrition && <Area type="monotone" name="Nutrition Score" dataKey="nutritionScore" stroke="#4CAF50" strokeWidth={3} fillOpacity={1} fill="url(#colorNutrition)" />}
             {activeMetrics.sleep && <Area type="monotone" name="Sleep Hours" dataKey="sleepHours" stroke="#7C4DFF" strokeWidth={3} fillOpacity={1} fill="url(#colorSleep)" />}
-            {activeMetrics.activity && <Area type="monotone" name="Active Min" dataKey="activeMinutes" stroke="#F9A825" strokeWidth={3} fillOpacity={1} fill="url(#colorActivity)" />}
+            {activeMetrics.activity && <Area type="monotone" name="Active Min" dataKey="activeMinutes" stroke="#f06d2f" strokeWidth={3} fillOpacity={1} fill="url(#colorActivity)" />}
             {activeMetrics.mood && <Area type="monotone" name="Mood Score" dataKey="moodScore" stroke="#FF6B6B" strokeWidth={3} fillOpacity={1} fill="url(#colorMood)" />}
           </AreaChart>
         </ResponsiveContainer>

@@ -89,6 +89,7 @@ export type ArticleCategory = 'Nutrition' | 'Fitness' | 'Sleep' | 'Mental Health
 export interface Article {
   id: string;
   slug: string;
+  image?: string;
   title: string;
   category: ArticleCategory;
   readTime: number;
@@ -96,6 +97,7 @@ export interface Article {
   saved: boolean;
   readProgress: number;
   excerpt: string;
+  matchedGoalCategory?: GoalCategory;
 }
 
 export interface WeeklyDataPoint {
@@ -104,4 +106,67 @@ export interface WeeklyDataPoint {
   sleepHours: number;
   activeMinutes: number;
   moodScore: number;
+}
+
+// Vault Types
+export type RecordType = 'lab_report' | 'prescription' | 'visit_note' | 'vaccination' | 'insurance' | 'other';
+
+export interface VaultRecord {
+  id: string;
+  memberId: string;
+  type: RecordType;
+  title: string;
+  date: string;
+  doctorOrFacility?: string;
+  tags: string[];
+  fileName: string;
+  extractedText?: string;
+  createdAt: string;
+}
+
+export type GoalCategory = 'weight' | 'blood_sugar' | 'blood_pressure' | 'sleep' | 'fitness' | 'mental_health' | 'other';
+export type GoalStatus = 'active' | 'completed' | 'archived';
+
+export interface GoalProgressEntry {
+  date: string;
+  value: number;
+  note?: string;
+}
+
+export interface Goal {
+  id: string;
+  memberId: string;
+  title: string;
+  category: GoalCategory;
+  startValue: number;
+  targetValue: number;
+  unit: string;
+  targetDate: string;
+  status: GoalStatus;
+  history: GoalProgressEntry[];
+}
+
+export interface FamilyMember {
+  id: string;
+  name: string;
+  relationship: 'self' | 'spouse' | 'child' | 'parent' | 'other';
+  avatarInitials: string;
+  dob: string;
+}
+
+export interface VaultActivityEvent {
+  id: string;
+  memberId: string;
+  type: 'record_added' | 'goal_updated' | 'goal_created' | 'article_saved';
+  label: string;
+  timestamp: string;
+  linkHref: string;
+}
+
+export interface UserPlan {
+  tier: 'free' | 'pro';
+  recordsUsed: number;
+  recordsLimit: number;
+  activeGoalsLimit: number;
+  familyMembersLimit: number;
 }

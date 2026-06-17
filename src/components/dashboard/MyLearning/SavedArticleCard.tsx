@@ -15,6 +15,15 @@ interface SavedArticleCardProps {
 export default function SavedArticleCard({ article, onToggleSave, showProgress = false }: SavedArticleCardProps) {
   const [saved, setSaved] = useState(article.saved);
 
+  const categoryFallbackImage: Record<Article['category'], string> = {
+    Nutrition: '/images/nutrition_pillar.png',
+    Fitness: '/images/fitness_pillar.png',
+    Sleep: '/images/sleep_pillar.png',
+    'Mental Health': '/images/mental_health_pillar.png',
+  };
+
+  const articleImage = article.image || categoryFallbackImage[article.category];
+
   const handleSaveToggle = (e: React.MouseEvent) => {
     e.preventDefault();
     setSaved(!saved);
@@ -31,14 +40,13 @@ export default function SavedArticleCard({ article, onToggleSave, showProgress =
     <div className="bg-white rounded-2xl shadow-sm border border-border overflow-hidden hover:shadow-card transition-all flex flex-col h-full group">
       {/* Image Area */}
       <div className="relative w-full pt-[56.25%] bg-surface-alt overflow-hidden">
-        {/* Placeholder image using a gradient for now since we lack assets */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 mix-blend-multiply" />
         <Image 
-          src={`/images/blog-${(parseInt(article.id) % 3) + 1}.jpg`} 
+          src={articleImage}
           alt={article.title} 
           fill 
           className="object-cover group-hover:scale-105 transition-transform duration-500" 
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-black/5 to-transparent" />
         
         <div className="absolute top-3 left-3 bg-white/90 backdrop-blur text-primary text-xs font-bold px-2.5 py-1 rounded-md tracking-wide">
           {article.category.toUpperCase()}

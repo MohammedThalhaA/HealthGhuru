@@ -15,7 +15,7 @@ export default function MoodChart() {
       let color = 'text-primary';
       if (score === 1) { moodText = 'Awful'; color = 'text-status-danger'; }
       else if (score === 2) { moodText = 'Bad'; color = 'text-status-warning'; }
-      else if (score === 3) { moodText = 'Okay'; color = 'text-[#F9A825]'; }
+      else if (score === 3) { moodText = 'Okay'; color = 'text-accent'; }
       else if (score === 4) { moodText = 'Good'; color = 'text-[#4CAF50]'; }
 
       return (
@@ -39,7 +39,7 @@ export default function MoodChart() {
     let fill = 'var(--color-primary)';
     if (value === 1) fill = 'var(--status-danger)';
     else if (value === 2) fill = 'var(--status-warning)';
-    else if (value === 3) fill = '#F9A825';
+    else if (value === 3) fill = '#f06d2f';
     else if (value === 4) fill = '#4CAF50';
 
     return (

@@ -15,7 +15,7 @@ export default function MoodCheckIn() {
   const moods = [
     { score: 1, label: 'Awful', icon: Frown, color: 'text-status-danger', bgHover: 'hover:bg-status-danger/10' },
     { score: 2, label: 'Bad', icon: Frown, color: 'text-status-warning', bgHover: 'hover:bg-status-warning/10' },
-    { score: 3, label: 'Okay', icon: Meh, color: 'text-[#F9A825]', bgHover: 'hover:bg-[#F9A825]/10' },
+    { score: 3, label: 'Okay', icon: Meh, color: 'text-accent', bgHover: 'hover:bg-accent/10' },
     { score: 4, label: 'Good', icon: Smile, color: 'text-[#4CAF50]', bgHover: 'hover:bg-[#4CAF50]/10' },
     { score: 5, label: 'Awesome', icon: Smile, color: 'text-primary', bgHover: 'hover:bg-primary/10' },
   ];

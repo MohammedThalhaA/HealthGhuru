@@ -1,9 +1,10 @@
-import { Article, MealLog, WorkoutLog, SleepLog, WeeklyDataPoint, JournalEntry } from './types';
+import { Article, MealLog, WorkoutLog, SleepLog, WeeklyDataPoint, JournalEntry, VaultRecord, Goal, FamilyMember, VaultActivityEvent, UserPlan } from './types';
 
 export const MOCK_ARTICLES: Article[] = [
   {
     id: '1',
     slug: 'sun-salutation-secrets',
+    image: '/images/yoga.png',
     title: 'Sun Salutation Secrets: Elevate Your Wellness with Surya Namaskar',
     category: 'Fitness',
     readTime: 5,
@@ -11,10 +12,12 @@ export const MOCK_ARTICLES: Article[] = [
     saved: true,
     readProgress: 100,
     excerpt: 'Discover how 12 flowing poses can transform your morning routine and overall health.',
+    matchedGoalCategory: 'fitness',
   },
   {
     id: '2',
     slug: 'nutrient-timing',
+    image: '/images/nutrition_pillar.png',
     title: 'Mastering Nutrient Timing: Optimizing Your Diet for Peak Performance',
     category: 'Nutrition',
     readTime: 7,
@@ -22,10 +25,12 @@ export const MOCK_ARTICLES: Article[] = [
     saved: true,
     readProgress: 60,
     excerpt: 'When you eat matters as much as what you eat. Learn how to time your nutrition for maximum effect.',
+    matchedGoalCategory: 'weight',
   },
   {
     id: '3',
     slug: 'exercises-for-abs',
+    image: '/images/exercise_plank.png',
     title: 'The Best Exercises for Stronger Abs and a Stronger Core',
     category: 'Fitness',
     readTime: 4,
@@ -37,6 +42,7 @@ export const MOCK_ARTICLES: Article[] = [
   {
     id: '4',
     slug: 'yoga-mental-health',
+    image: '/images/mental_health_pillar.png',
     title: 'The Benefits of Yoga for Mental Health: A Holistic Approach to Wellness',
     category: 'Mental Health',
     readTime: 6,
@@ -48,6 +54,7 @@ export const MOCK_ARTICLES: Article[] = [
   {
     id: '5',
     slug: 'boost-immune-system',
+    image: '/images/nutrition_pillar.png',
     title: 'Boost Your Immune System Naturally: Effective Strategies for Optimal Health',
     category: 'Nutrition',
     readTime: 5,
@@ -59,6 +66,7 @@ export const MOCK_ARTICLES: Article[] = [
   {
     id: '6',
     slug: 'sleep-quality-guide',
+    image: '/images/sleep_pillar.png',
     title: 'Why Sleep Quality Matters More Than Sleep Quantity',
     category: 'Sleep',
     readTime: 6,
@@ -70,6 +78,7 @@ export const MOCK_ARTICLES: Article[] = [
   {
     id: '7',
     slug: 'stress-management',
+    image: '/images/mental_health_pillar.png',
     title: 'The Science of Stress: How Chronic Stress Destroys Your Health',
     category: 'Mental Health',
     readTime: 8,
@@ -81,6 +90,7 @@ export const MOCK_ARTICLES: Article[] = [
   {
     id: '8',
     slug: 'hydration-myths',
+    image: '/images/walking.png',
     title: 'Hydration Myths Debunked: How Much Water Do You Really Need?',
     category: 'Nutrition',
     readTime: 4,
@@ -92,6 +102,7 @@ export const MOCK_ARTICLES: Article[] = [
   {
     id: '9',
     slug: 'morning-routine',
+    image: '/images/exercise_squats.png',
     title: '7 Morning Habits That Set You Up for a Healthier Day',
     category: 'Fitness',
     readTime: 5,
@@ -103,6 +114,7 @@ export const MOCK_ARTICLES: Article[] = [
   {
     id: '10',
     slug: 'gut-health',
+    image: '/images/swimming.png',
     title: 'Your Gut is Your Second Brain: The Microbiome Guide',
     category: 'Nutrition',
     readTime: 9,
@@ -171,3 +183,183 @@ export const WEEKLY_OVERVIEW_DATA: WeeklyDataPoint[] = [
   { day: 'Sat', nutritionScore: 75, sleepHours: 9.0, activeMinutes: 90, moodScore: 5 },
   { day: 'Sun', nutritionScore: 80, sleepHours: 6.0, activeMinutes: 20, moodScore: 3 },
 ];
+
+export const MOCK_USER_PLAN: UserPlan = {
+  tier: 'free',
+  recordsUsed: 6,
+  recordsLimit: 10,
+  activeGoalsLimit: 1,
+  familyMembersLimit: 1,
+};
+
+export const MOCK_FAMILY_MEMBERS: FamilyMember[] = [
+  {
+    id: 'user-1',
+    name: 'Mohammed',
+    relationship: 'self',
+    avatarInitials: 'MT',
+    dob: '1990-05-15',
+  },
+  // {
+  //   id: 'user-2',
+  //   name: 'Aisha',
+  //   relationship: 'spouse',
+  //   avatarInitials: 'AK',
+  //   dob: '1992-08-22',
+  // },
+  // {
+  //   id: 'user-3',
+  //   name: 'Rohan',
+  //   relationship: 'child',
+  //   avatarInitials: 'RK',
+  //   dob: '2015-11-04',
+  // },
+];
+
+export const MOCK_VAULT_RECORDS: VaultRecord[] = [
+  {
+    id: 'rec-1',
+    memberId: 'user-1',
+    type: 'lab_report',
+    title: 'Complete Blood Count (CBC)',
+    date: '2025-10-12',
+    doctorOrFacility: 'Apollo Diagnostics',
+    tags: ['Annual Checkup', 'Blood'],
+    fileName: 'cbc_report_oct_2025.pdf',
+    createdAt: '2025-10-15T10:00:00Z',
+  },
+  {
+    id: 'rec-2',
+    memberId: 'user-1',
+    type: 'prescription',
+    title: 'Dermatologist Prescription',
+    date: '2025-12-05',
+    doctorOrFacility: 'Dr. Priya Nair',
+    tags: ['Skin', 'Prescription'],
+    fileName: 'prescription_dr_nair.pdf',
+    createdAt: '2025-12-05T14:30:00Z',
+  },
+  {
+    id: 'rec-3',
+    memberId: 'user-1',
+    type: 'visit_note',
+    title: 'Physiotherapy Assessment',
+    date: '2026-02-20',
+    doctorOrFacility: 'Elite Physio Care',
+    tags: ['Back Pain'],
+    fileName: 'physio_assessment_feb.png',
+    createdAt: '2026-02-21T09:15:00Z',
+  },
+  {
+    id: 'rec-4',
+    memberId: 'user-1',
+    type: 'vaccination',
+    title: 'Flu Shot Certificate',
+    date: '2026-04-10',
+    tags: ['Vaccine'],
+    fileName: 'flu_shot_2026.pdf',
+    createdAt: '2026-04-10T16:45:00Z',
+  },
+  {
+    id: 'rec-5',
+    memberId: 'user-1',
+    type: 'lab_report',
+    title: 'HbA1c & Lipid Profile',
+    date: '2026-05-15',
+    doctorOrFacility: 'Thyrocare',
+    tags: ['Blood Sugar', 'Cholesterol'],
+    fileName: 'hba1c_lipid_profile.pdf',
+    extractedText: 'Patient: Mohammed... HbA1c: 7.2% ... Total Cholesterol: 195 mg/dL ...',
+    createdAt: '2026-05-16T11:20:00Z',
+  },
+  {
+    id: 'rec-6',
+    memberId: 'user-1',
+    type: 'insurance',
+    title: 'Health Insurance Policy 2026',
+    date: '2026-06-01',
+    tags: ['Insurance'],
+    fileName: 'policy_2026.pdf',
+    createdAt: '2026-06-01T08:00:00Z',
+  },
+];
+
+export const MOCK_GOALS: Goal[] = [
+  {
+    id: 'goal-1',
+    memberId: 'user-1',
+    title: 'Lower HbA1c',
+    category: 'blood_sugar',
+    startValue: 7.2,
+    targetValue: 6.2,
+    unit: '%',
+    targetDate: '2026-12-31',
+    status: 'active',
+    history: [
+      { date: '2026-05-15', value: 7.2, note: 'Initial test' },
+      { date: '2026-06-05', value: 7.0, note: 'Feeling better, eating less sugar' },
+      { date: '2026-06-15', value: 6.9, note: 'Consistent with diet' },
+    ],
+  },
+  {
+    id: 'goal-2',
+    memberId: 'user-1',
+    title: 'Lose 5kg',
+    category: 'weight',
+    startValue: 82,
+    targetValue: 77,
+    unit: 'kg',
+    targetDate: '2026-09-30',
+    status: 'active',
+    history: [
+      { date: '2026-05-01', value: 82 },
+      { date: '2026-05-15', value: 81.2 },
+      { date: '2026-06-01', value: 80.5, note: 'Started gym' },
+      { date: '2026-06-16', value: 79.8 },
+    ],
+  },
+];
+
+export const MOCK_VAULT_EVENTS: VaultActivityEvent[] = [
+  {
+    id: 'evt-1',
+    memberId: 'user-1',
+    type: 'record_added',
+    label: 'Added Health Insurance Policy 2026',
+    timestamp: '2 weeks ago',
+    linkHref: '/records/rec-6',
+  },
+  {
+    id: 'evt-2',
+    memberId: 'user-1',
+    type: 'goal_updated',
+    label: 'Updated goal: Lose 5kg',
+    timestamp: '1 week ago',
+    linkHref: '/goals',
+  },
+  {
+    id: 'evt-3',
+    memberId: 'user-1',
+    type: 'article_saved',
+    label: 'Saved article: Nutrient Timing',
+    timestamp: '5 days ago',
+    linkHref: '/library',
+  },
+  {
+    id: 'evt-4',
+    memberId: 'user-1',
+    type: 'goal_updated',
+    label: 'Updated goal: Lower HbA1c',
+    timestamp: '2 days ago',
+    linkHref: '/goals',
+  },
+  {
+    id: 'evt-5',
+    memberId: 'user-1',
+    type: 'article_saved',
+    label: 'Saved article: Sun Salutation Secrets',
+    timestamp: 'Yesterday',
+    linkHref: '/library',
+  },
+];
+

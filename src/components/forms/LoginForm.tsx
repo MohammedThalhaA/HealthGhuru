@@ -44,7 +44,7 @@ export default function LoginForm() {
     
     // Simulate redirect
     setTimeout(() => {
-      window.location.href = "/dashboard";
+      window.location.href = "/vault";
     }, 1500);
   };
 

@@ -92,7 +92,7 @@ export default function WorkoutLogger({ onLogSuccess }: { onLogSuccess?: () => v
                 onClick={() => setIntensity(int.id as any)}
                 className={`py-2 px-1 rounded-lg text-sm font-medium transition-all border ${
                   intensity === int.id 
-                    ? 'border-accent bg-accent/10 text-accent shadow-[0_0_0_1px_#F9A825]' 
+                    ? 'border-accent bg-accent/10 text-accent shadow-[0_0_0_1px_#f06d2f]' 
                     : 'border-border bg-surface text-text-muted hover:border-accent/50'
                 }`}
               >
@@ -121,7 +121,7 @@ export default function WorkoutLogger({ onLogSuccess }: { onLogSuccess?: () => v
           
           <button 
             type="submit"
-            className="bg-accent text-dark font-bold py-3 px-8 rounded-full shadow-[0_4px_0_#F57F17] hover:brightness-105 active:shadow-none active:translate-y-1 transition-all"
+            className="bg-accent text-dark font-bold py-3 px-8 rounded-full shadow-btn-accent hover:brightness-105 active:shadow-none active:translate-y-1 transition-all"
           >
             Log Workout
           </button>
