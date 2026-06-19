@@ -181,7 +181,7 @@ export default function SubscribeForm() {
         type="submit"
         variant="primary"
         size="lg"
-        className="w-full relative shadow-[0_4px_0_#1B5E20]"
+        className="w-full relative"
         disabled={isLoading}
       >
         {isLoading ? (

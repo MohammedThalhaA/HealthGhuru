@@ -16,11 +16,9 @@ export default function ConditionalLayout({
   // Hide navbar and footer on these routes
   const dashboardRoutes = [
     '/dashboard',
-    '/my-learning',
-    '/nutrition',
-    '/fitness',
-    '/sleep',
-    '/mood',
+    '/records',
+    '/goals',
+    '/library',
     '/profile'
   ];
 

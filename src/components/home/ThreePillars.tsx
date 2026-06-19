@@ -42,6 +42,7 @@ export default function ThreePillars() {
                 <p className="text-text-secondary leading-relaxed mb-6 flex-grow">{pillar.description}</p>
                 <Link
                   href={pillar.link}
+                  data-cursor="text"
                   className="inline-flex items-center text-primary font-heading font-medium hover:text-primary-dark transition-colors group"
                 >
                   Learn More <span className="ml-1 group-hover:translate-x-1 transition-transform">&rarr;</span>

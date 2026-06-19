@@ -47,7 +47,7 @@ export default function ExerciseSpotlight() {
                     <p className="text-white/70 font-body text-sm line-clamp-3 mb-4 leading-relaxed">
                       {exercise.description}
                     </p>
-                    <span className="text-accent font-heading font-medium text-sm group-hover:text-white transition-colors flex items-center gap-1">
+                    <span data-cursor="text" className="text-accent font-heading font-medium text-sm group-hover:text-white transition-colors flex items-center gap-1">
                       Learn More <span className="group-hover:translate-x-1 transition-transform">&rarr;</span>
                     </span>
                   </div>
