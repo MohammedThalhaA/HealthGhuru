@@ -53,7 +53,7 @@ export function PinnedVitalsCard() {
         </div>
 
         {/* BP (Mocked for now since not in data) */}
-        <div className="bg-surface-alt rounded-xl p-4">
+        <div className="bg-surface-alt rounded-xl p-4 col-span-2">
           <div className="flex items-center gap-2 text-text-secondary mb-2">
             <Heart size={16} className="text-pink-500" />
             <span className="text-sm font-medium">Blood Pressure</span>

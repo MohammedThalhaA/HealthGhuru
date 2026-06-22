@@ -2,10 +2,10 @@
 
 import React from 'react';
 import { useVault } from '@/lib/context/VaultContext';
-import ActivityTimelineCard from './ActivityTimelineCard';
-import PinnedVitalsCard from './PinnedVitalsCard';
-import NudgeCard from './NudgeCard';
-import QuickAddMenu from './QuickAddMenu';
+import { ActivityTimelineCard } from './ActivityTimelineCard';
+import { PinnedVitalsCard } from './PinnedVitalsCard';
+import { NudgeCard } from './NudgeCard';
+import { QuickAddMenu } from './QuickAddMenu';
 import Link from 'next/link';
 import { ArrowRight, FileText, Target } from 'lucide-react';
 

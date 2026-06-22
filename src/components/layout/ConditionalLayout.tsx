@@ -15,6 +15,7 @@ export default function ConditionalLayout({
   
   // Hide navbar and footer on these routes
   const dashboardRoutes = [
+    '/vault',
     '/dashboard',
     '/records',
     '/goals',

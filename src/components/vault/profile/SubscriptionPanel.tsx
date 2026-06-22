@@ -6,8 +6,21 @@ import { useVault } from '@/lib/context/VaultContext';
 import { Button } from '@/components/ui/Button';
 
 export function SubscriptionPanel() {
-  const { userPlan } = useVault();
+  const { userPlan, setUserPlan } = useVault();
   const isFree = userPlan.tier === 'free';
+
+  const handleUpgradeToPro = () => {
+    setUserPlan({
+      ...userPlan,
+      tier: 'pro',
+      recordsLimit: 9999,
+      activeGoalsLimit: 9999,
+      familyMembersLimit: 5,
+      ocrEnabled: true,
+      dataExportEnabled: true,
+      adsEnabled: false
+    });
+  };
 
   return (
     <div className="bg-white border border-border rounded-[14px] shadow-[0_4px_24px_rgba(46,125,50,0.08)] p-8">
@@ -96,7 +109,11 @@ export function SubscriptionPanel() {
               </li>
             </ul>
             
-            <Button variant="accent" className="mt-auto relative z-10 w-full justify-center">
+            <Button 
+              variant="accent" 
+              className="mt-auto relative z-10 w-full justify-center"
+              onClick={handleUpgradeToPro}
+            >
               Upgrade to Pro — $9.99/mo
             </Button>
           </div>
