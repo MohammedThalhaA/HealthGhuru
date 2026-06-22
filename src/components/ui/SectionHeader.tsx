@@ -1,6 +1,14 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 
+const DoubleLeaf = ({ size = 24, className }: { size?: number, className?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+    <path d="M12 22V14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+    <path d="M12 14C12 14 9.5 7 4 6C4 12 8 16 12 16Z" fill="inherit" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
+    <path d="M12 16C12 16 15 10 20 9C20 15 16 19.5 12 20Z" fill="inherit" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
+  </svg>
+);
+
 interface SectionHeaderProps {
   eyebrow?: string;
   title: string;
@@ -38,9 +46,7 @@ export function SectionHeader({
       
       <div className="flex items-center justify-center gap-4 mb-6">
         <div className={cn("h-[1px] w-12", light ? "bg-white/20" : "bg-primary/20")} />
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="var(--color-accent)"/>
-        </svg>
+        <DoubleLeaf size={24} className={cn(light ? "text-white fill-white/20" : "text-primary fill-primary/20")} />
         <div className={cn("h-[1px] w-12", light ? "bg-white/20" : "bg-primary/20")} />
       </div>
 

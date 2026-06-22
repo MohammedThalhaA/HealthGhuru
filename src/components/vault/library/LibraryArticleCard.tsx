@@ -20,11 +20,21 @@ export function LibraryArticleCard({ article, compact = false }: LibraryArticleC
     <div className={`bg-white border border-border hover:border-primary/30 rounded-[14px] shadow-[0_4px_24px_rgba(46,125,50,0.08)] hover:-translate-y-1 transition-all group overflow-hidden flex flex-col h-full`}>
       {!compact && (
         <div className="relative h-48 w-full bg-surface-alt overflow-hidden shrink-0">
-          {/* Using a placeholder gradient since we don't have real images in mock data */}
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 mix-blend-multiply"></div>
-          <div className="absolute inset-0 flex items-center justify-center text-text-muted/30 font-display text-4xl">
-            {article.category}
-          </div>
+          {article.heroImage ? (
+            <Image 
+              src={article.heroImage} 
+              alt={article.title} 
+              fill 
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+          ) : (
+            <>
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 mix-blend-multiply"></div>
+              <div className="absolute inset-0 flex items-center justify-center text-text-muted/30 font-display text-4xl">
+                {article.category}
+              </div>
+            </>
+          )}
           <button 
             onClick={(e) => { e.preventDefault(); toggleSavedArticle(article.id); }}
             className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center hover:bg-white transition-colors z-10"

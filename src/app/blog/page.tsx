@@ -3,13 +3,23 @@ import BlogHero from "@/components/blog/BlogHero";
 import FeaturedArticle from "@/components/blog/FeaturedArticle";
 import BlogGrid from "@/components/blog/BlogGrid";
 import { Button } from "@/components/ui/Button";
+import { sql } from "@/lib/db";
 
 export const metadata: Metadata = {
   title: "Blog | HealthGhuru — Wellness Insights",
   description: "Expert insights on Nutrition, Fitness, Sleep, and Mental Health.",
 };
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const articles = await sql`
+    SELECT * FROM articles 
+    WHERE status = 'published' 
+    ORDER BY publish_date DESC
+  `;
+
+  const featuredPost = articles.length > 0 ? articles[0] : null;
+  const gridPosts = articles.length > 1 ? articles.slice(1) : [];
+
   return (
     <>
       <BlogHero />
@@ -20,9 +30,9 @@ export default function BlogPage() {
             
             {/* Main Content Area */}
             <div className="w-full lg:w-[70%] xl:w-[75%]">
-              <FeaturedArticle />
+              <FeaturedArticle post={featuredPost} />
               <div className="mt-8">
-                <BlogGrid />
+                <BlogGrid posts={gridPosts} />
               </div>
             </div>
 

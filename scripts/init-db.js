@@ -111,13 +111,64 @@ async function initDb() {
         category VARCHAR(50) NOT NULL,
         excerpt TEXT NOT NULL,
         read_time INTEGER NOT NULL,
-        publish_date TIMESTAMP WITH TIME ZONE NOT NULL,
-        image_url VARCHAR(255),
-        content TEXT,
-        matched_goal_category VARCHAR(50)
+        publish_date TIMESTAMP WITH TIME ZONE,
+        hero_image_url VARCHAR(255),
+        hero_image_alt VARCHAR(255),
+        author_name VARCHAR(255) DEFAULT 'Dr. Sarah Jenkins',
+        author_avatar VARCHAR(255) DEFAULT '/images/exercise_plank.png',
+        author_credential VARCHAR(255) DEFAULT 'MD, Nutrition Science',
+        status VARCHAR(50) DEFAULT 'published',
+        tags TEXT[] DEFAULT '{}',
+        blocks JSONB,
+        matched_goal_category VARCHAR(50),
+        updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
       );
     `;
     console.log('Created articles table');
+
+    // Seed "Sun Salutation Secrets" article if it doesn't exist
+    const articleCount = await sql`SELECT COUNT(*) FROM articles WHERE slug = 'sun-salutation-secrets'`;
+    if (articleCount[0].count === '0') {
+      const sunSalutationBlocks = [
+        { type: 'paragraph', id: '1', text: 'Surya Namaskar, or Sun Salutation, is a sequence of 12 linked postures that has been practiced for centuries as a way to greet the day. Far from being just a warm-up, the sequence engages nearly every major muscle group while syncing breath with movement.' },
+        { type: 'pull_quote', id: '2', text: 'Health is a state of complete harmony of the body, mind and spirit.', attribution: 'B.K.S. Iyengar' },
+        { type: 'heading', id: '3', text: 'The Core Principles', level: 2 },
+        { type: 'paragraph', id: '4', text: 'Each round of Sun Salutation moves through forward bends, backward extensions, and plank-like holds — building flexibility and strength simultaneously rather than treating them as separate goals.' },
+        { type: 'key_takeaway', id: '5', title: 'Why It Works', points: [
+            'Combines cardiovascular activation with flexibility training in a single sequence',
+            'Can be done in under 10 minutes, making it realistic for busy mornings',
+            'The breath-movement link has been shown to reduce morning cortisol spikes',
+          ] },
+        { type: 'tip_callout', id: '6', text: 'New to the practice? Start with 3 rounds rather than the traditional 12 — consistency matters more than volume in the first few weeks.', icon: 'leaf' },
+        { type: 'numbered_list', id: '7', title: 'A Simple 5-Pose Starting Sequence', items: [
+            'Mountain Pose — stand tall, palms together at the chest',
+            'Raised Arms Pose — reach overhead, gently arching back',
+            'Standing Forward Bend — hinge at the hips, hands toward the floor',
+            'Low Lunge — step one foot back, sink the hips forward',
+            'Downward Dog — press into both palms, hips lifted high',
+          ] },
+      ];
+      
+      await sql`
+        INSERT INTO articles (
+          slug, title, category, excerpt, read_time, publish_date, status, 
+          hero_image_url, hero_image_alt, tags, blocks
+        ) VALUES (
+          'sun-salutation-secrets', 
+          'Sun Salutation Secrets: Elevate Your Wellness with Surya Namaskar', 
+          'Fitness', 
+          'Discover the ancient practice of Surya Namaskar and how 12 flowing poses can transform your morning routine and overall health.',
+          5, 
+          CURRENT_TIMESTAMP, 
+          'published', 
+          '/images/exercise_push.png', 
+          'Sun Salutation', 
+          ARRAY['Wellness', 'Fitness'], 
+          ${JSON.stringify(sunSalutationBlocks)}::jsonb
+        )
+      `;
+      console.log('Seeded Sun Salutation article');
+    }
 
     await sql`
       CREATE TABLE IF NOT EXISTS user_saved_articles (

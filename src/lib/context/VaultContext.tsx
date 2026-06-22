@@ -76,10 +76,33 @@ export function VaultProvider({ children }: { children: React.ReactNode }) {
     }
 
     const storedArticles = localStorage.getItem(`vault_saved_articles_${memberId}`);
-    if (storedArticles) {
-      const savedIds = JSON.parse(storedArticles);
-      setArticles(MOCK_LIBRARY_ARTICLES.map(a => ({ ...a, saved: savedIds.includes(a.id) })));
-    }
+    
+    // Fetch real articles from database
+    fetch('/api/articles')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.articles) {
+          const dbArticles = data.articles.map((a: any) => ({
+            id: a.id,
+            slug: a.slug,
+            title: a.title,
+            excerpt: a.excerpt,
+            category: a.category,
+            matchedGoalCategory: a.matched_goal_category,
+            heroImage: a.hero_image_url || a.image_url || '/images/exercise_push.png',
+            readTime: `${a.read_time} min`,
+            saved: storedArticles ? JSON.parse(storedArticles).includes(a.id) : false
+          }));
+          setArticles(dbArticles);
+        }
+      })
+      .catch(err => {
+        console.error('Failed to fetch real articles, using mock fallback', err);
+        if (storedArticles) {
+          const savedIds = JSON.parse(storedArticles);
+          setArticles(MOCK_LIBRARY_ARTICLES.map(a => ({ ...a, saved: savedIds.includes(a.id) })));
+        }
+      });
   };
 
   const handleSetActiveMemberId = (id: string) => {

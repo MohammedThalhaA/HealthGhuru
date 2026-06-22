@@ -86,18 +86,7 @@ export interface JournalEntry {
 
 export type ArticleCategory = 'Nutrition' | 'Fitness' | 'Sleep' | 'Mental Health';
 
-export interface Article {
-  id: string;
-  slug: string;
-  image?: string;
-  title: string;
-  category: ArticleCategory;
-  readTime: number;
-  date: string;
-  saved: boolean;
-  readProgress: number;
-  excerpt: string;
-}
+// The Article interface has been moved to src/lib/types/article.ts
 
 export interface WeeklyDataPoint {
   day: string;
@@ -153,16 +142,17 @@ export interface FamilyMember {
   dob: string;
 }
 
+// Dashboard Types
 export interface LibraryArticle {
   id: string;
   slug: string;
   title: string;
-  category: 'Nutrition' | 'Fitness' | 'Sleep' | 'Mental Health';
-  readTime: number;
-  date: string;
+  category: string;
   excerpt: string;
+  readTime: string;
   saved: boolean;
-  matchedGoalCategory?: GoalCategory;
+  heroImage?: string;
+  matchedGoalCategory?: string;
 }
 
 export interface VaultActivityEvent {

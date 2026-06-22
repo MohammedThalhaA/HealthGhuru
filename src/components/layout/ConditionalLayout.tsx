@@ -13,14 +13,14 @@ export default function ConditionalLayout({
 }) {
   const pathname = usePathname();
   
-  // Hide navbar and footer on these routes
   const dashboardRoutes = [
     '/vault',
     '/dashboard',
     '/records',
     '/goals',
     '/library',
-    '/profile'
+    '/profile',
+    '/admin'
   ];
 
   const isHidden = 

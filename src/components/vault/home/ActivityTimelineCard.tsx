@@ -34,8 +34,8 @@ export function ActivityTimelineCard() {
   };
 
   return (
-    <div className="bg-white rounded-[14px] p-6 shadow-[0_4px_24px_rgba(46,125,50,0.08)] h-full flex flex-col">
-      <h3 className="font-heading font-bold text-lg text-dark mb-6">Recent Activity</h3>
+    <div className="bg-white rounded-[14px] p-6 shadow-[0_4px_24px_rgba(46,125,50,0.08)] h-full flex flex-col overflow-hidden">
+      <h3 className="font-heading font-bold text-lg text-dark mb-6 shrink-0">Recent Activity</h3>
       
       {memberActivities.length === 0 ? (
         <div className="flex-1 flex flex-col justify-center">
@@ -47,7 +47,7 @@ export function ActivityTimelineCard() {
           />
         </div>
       ) : (
-        <div className="space-y-6 flex-1">
+        <div className="space-y-6 flex-1 overflow-y-auto pr-2 pb-2">
           {memberActivities.map((activity, index) => (
             <div key={activity.id} className="flex gap-4 relative">
               {index !== memberActivities.length - 1 && (

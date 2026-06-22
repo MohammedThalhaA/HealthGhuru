@@ -36,6 +36,7 @@ export const metadata: Metadata = {
 
 import ConditionalLayout from "@/components/layout/ConditionalLayout";
 import CustomCursor from '@/components/ui/CustomCursor';
+import { ToastProvider } from "@/components/ui/Toast";
 
 export default function RootLayout({
   children,
@@ -45,12 +46,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${dmSerif.variable} ${plusJakarta.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
       <body className="antialiased min-h-screen flex flex-col font-body">
-        <CustomCursor />
-        <SmoothScroll>
-          <ConditionalLayout navbar={<Navbar />} footer={<Footer />}>
-            {children}
-          </ConditionalLayout>
-        </SmoothScroll>
+        <ToastProvider>
+          <CustomCursor />
+          <SmoothScroll>
+            <ConditionalLayout navbar={<Navbar />} footer={<Footer />}>
+              {children}
+            </ConditionalLayout>
+          </SmoothScroll>
+        </ToastProvider>
       </body>
     </html>
   );

@@ -4,7 +4,6 @@ import { useState } from "react";
 import { BlogCard } from "./BlogCard";
 import CategoryFilter from "./CategoryFilter";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
-import { BLOG_POSTS } from "@/lib/constants";
 
 const blogImages = [
   "/images/yoga.png", // sun salutation
@@ -14,10 +13,10 @@ const blogImages = [
   "/images/sleep_pillar.png", // boost immune
 ];
 
-export default function BlogGrid() {
+export default function BlogGrid({ posts }: { posts: any[] }) {
   const [activeCategory, setActiveCategory] = useState("All");
 
-  const filteredPosts = BLOG_POSTS.filter(post => 
+  const filteredPosts = posts.filter(post => 
     activeCategory === "All" || post.category === activeCategory
   );
 
@@ -29,11 +28,9 @@ export default function BlogGrid() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
         {filteredPosts.map((post, index) => {
-          // Find original index to assign the correct image
-          const originalIndex = BLOG_POSTS.findIndex(p => p.slug === post.slug);
           return (
-            <ScrollReveal key={post.slug} delay={index * 0.1}>
-              <BlogCard post={post} image={blogImages[originalIndex]} />
+            <ScrollReveal key={post.slug || index} delay={index * 0.1}>
+              <BlogCard post={post} image={post.hero_image_url || post.image_url || blogImages[index % blogImages.length]} />
             </ScrollReveal>
           );
         })}

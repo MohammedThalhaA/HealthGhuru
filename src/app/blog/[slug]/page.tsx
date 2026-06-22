@@ -2,46 +2,41 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Share2, MessageCircle, Link as LinkIcon } from "lucide-react";
-import { BLOG_POSTS } from "@/lib/constants";
 import { PillBadge } from "@/components/ui/PillBadge";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { sql } from "@/lib/db";
+import { AuthorBioCard } from "@/components/blog/AuthorBioCard";
+import { ArticleBodyClientWrapper } from "@/components/blog/ArticleBodyClientWrapper";
+import { Metadata } from "next";
 
-export async function generateStaticParams() {
-  return BLOG_POSTS.map((post) => ({
-    slug: post.slug,
-  }));
-}
-
-export function generateMetadata({ params }: { params: { slug: string } }) {
-  const post = BLOG_POSTS.find((p) => p.slug === params.slug);
-  if (!post) return { title: "Post Not Found" };
-
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const posts = await sql`SELECT title, excerpt FROM articles WHERE slug = ${params.slug} AND status = 'published'`;
+  if (posts.length === 0) return { title: "Post Not Found" };
+  const post = posts[0];
+  
   return {
     title: `${post.title} | HealthGhuru Blog`,
     description: post.excerpt,
   };
 }
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = BLOG_POSTS.find((p) => p.slug === params.slug);
+export default async function BlogPostPage({ params }: { params: { slug: string } }) {
+  const posts = await sql`
+    SELECT * FROM articles 
+    WHERE slug = ${params.slug} AND status = 'published'
+  `;
 
-  if (!post) {
+  if (posts.length === 0) {
     notFound();
   }
 
-  // Find a consistent image based on index (just for mockup)
-  const index = BLOG_POSTS.findIndex(p => p.slug === params.slug);
-  const images = [
-    "/images/mental_health_pillar.png",
-    "/images/sleep_pillar.png",
-    "/images/exercise_push.png",
-    "/images/exercise_pull.png",
-    "/images/exercise_squats.png",
-  ];
-  const heroImage = images[index] || images[0];
+  const post = posts[0];
+  const publishDate = new Date(post.publish_date).toLocaleDateString('en-US', {
+    month: 'long', day: 'numeric', year: 'numeric'
+  });
 
   return (
-    <article className="pt-32 pb-24 bg-white">
+    <article className="pt-32 pb-24 bg-white relative">
       <div className="max-w-[760px] mx-auto px-4 sm:px-6">
         
         {/* Breadcrumbs */}
@@ -67,57 +62,71 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           <div className="flex items-center gap-4 py-6 border-t border-b border-border mb-10">
             <div className="w-12 h-12 rounded-full relative overflow-hidden bg-surface-alt shrink-0">
               <Image 
-                src="/images/exercise_plank.png" 
-                alt="Author" 
+                src={post.author_avatar || "/images/exercise_plank.png"} 
+                alt={post.author_name || "Author"} 
                 fill 
                 className="object-cover"
               />
             </div>
             <div className="flex flex-col">
-              <span className="font-heading font-semibold text-text-primary">Dr. Sarah Jenkins</span>
-              <span className="text-text-muted text-sm">{post.date} · {post.readTime}</span>
+              <span className="font-heading font-semibold text-text-primary">{post.author_name}</span>
+              <span className="text-text-muted text-sm">
+                {post.author_credential && <span className="text-primary mr-2 font-medium">{post.author_credential}</span>}
+                {publishDate} · {post.read_time} min read
+              </span>
             </div>
           </div>
         </ScrollReveal>
 
         {/* Hero Image */}
-        <ScrollReveal variant="scaleUp" delay={0.2} className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden mb-12 shadow-lg">
-          <Image
-            src={heroImage}
-            alt={post.title}
-            fill
-            className="object-cover"
-            priority
-          />
+        <ScrollReveal variant="scaleUp" delay={0.2} className="mb-12">
+          <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden shadow-lg">
+            <Image
+              src={post.hero_image_url || "/images/exercise_push.png"}
+              alt={post.hero_image_alt || post.title}
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
+          {post.hero_image_alt && (
+            <p className="text-sm text-center mt-3 italic text-text-muted">
+              {post.hero_image_alt}
+            </p>
+          )}
         </ScrollReveal>
 
         {/* Article Body */}
-        <ScrollReveal variant="fadeIn" delay={0.3} className="prose prose-lg prose-green max-w-none font-body text-text-primary leading-[1.8]">
-          <p className="text-xl text-text-secondary leading-relaxed mb-8">
+        <ScrollReveal variant="fadeIn" delay={0.3}>
+          <p className="text-[20px] text-text-secondary leading-relaxed mb-10 font-medium">
             {post.excerpt}
           </p>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-          </p>
-          <h2>The Core Principles</h2>
-          <p>
-            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-          </p>
-          <blockquote>
-            &quot;Health is a state of complete harmony of the body, mind and spirit. When one is free from physical disabilities and mental distractions, the gates of the soul open.&quot;
-          </blockquote>
-          <p>
-            Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.
-          </p>
+          
+          <ArticleBodyClientWrapper blocks={post.blocks || []} />
+          
         </ScrollReveal>
 
-        {/* Footer actions */}
-        <div className="mt-16 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="flex gap-2">
-            <PillBadge active={false} className="text-xs py-1">Wellness</PillBadge>
-            <PillBadge active={false} className="text-xs py-1">{post.category}</PillBadge>
+        {/* Tags */}
+        {post.tags && post.tags.length > 0 && (
+          <div className="mt-12 flex gap-2 flex-wrap">
+            {post.tags.map((tag: string) => (
+              <PillBadge key={tag} active={false} className="text-xs py-1">
+                {tag}
+              </PillBadge>
+            ))}
           </div>
+        )}
 
+        {/* Author Bio Card */}
+        <AuthorBioCard 
+          name={post.author_name}
+          avatarUrl={post.author_avatar || "/images/exercise_plank.png"}
+          credential={post.author_credential}
+          bio="Specializing in holistic health and preventative care, dedicated to helping people live their healthiest lives through evidence-based lifestyle changes."
+        />
+
+        {/* Footer actions */}
+        <div className="mt-10 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-4">
             <span className="font-heading text-sm text-text-muted font-medium">Share:</span>
             <button className="w-10 h-10 rounded-full bg-surface-alt flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">

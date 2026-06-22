@@ -1,6 +1,7 @@
 import React from 'react';
 import { Lock } from 'lucide-react';
 import { Button } from './Button';
+import { useToast } from './Toast';
 
 interface LockedFeatureCardProps {
   message: string;
@@ -17,9 +18,11 @@ export function LockedFeatureCard({
   className = "",
   inline = false
 }: LockedFeatureCardProps) {
+  const { addToast } = useToast();
+
   // Mock upgrade logic for now if not provided
   const handleUpgrade = onUpgrade || (() => {
-    alert("Mock Upgrade Triggered");
+    addToast("Mock Upgrade Triggered", "info");
   });
 
   return (

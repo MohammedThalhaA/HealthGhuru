@@ -36,7 +36,7 @@ const BentoGrid: React.FC = () => {
       </div>
 
       {/* Small Card: Goals Snapshot */}
-      <div className="w-full h-full min-h-[160px] bg-white border border-gray-200 rounded-3xl p-6 shadow-sm hover:shadow transition-shadow flex flex-col justify-between">
+      <div className="w-full h-full min-h-[160px] bg-white border border-gray-200 rounded-3xl p-6 shadow-sm hover:shadow transition-shadow flex flex-col justify-between overflow-hidden">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center space-x-2 text-gray-900 font-semibold">
             <Target className="w-5 h-5 text-secondary" />
@@ -64,7 +64,7 @@ const BentoGrid: React.FC = () => {
       </div>
 
       {/* Small Card: Records Snapshot */}
-      <div className="w-full h-full min-h-[160px] bg-white border border-gray-200 rounded-3xl p-6 shadow-sm hover:shadow transition-shadow flex flex-col justify-between">
+      <div className="w-full h-full min-h-[160px] bg-white border border-gray-200 rounded-3xl p-6 shadow-sm hover:shadow transition-shadow flex flex-col justify-between overflow-hidden">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center space-x-2 text-gray-900 font-semibold">
             <FileText className="w-5 h-5 text-primary-light" />

@@ -19,7 +19,7 @@ export function NudgeCard() {
   ) || articles[0];
 
   return (
-    <div className="bg-white rounded-[14px] p-6 shadow-[0_4px_24px_rgba(46,125,50,0.08)] h-full border-t-4 border-secondary flex flex-col">
+    <div className="bg-white rounded-[14px] p-6 shadow-[0_4px_24px_rgba(46,125,50,0.08)] h-full border-t-4 border-secondary flex flex-col overflow-hidden">
       <div className="flex items-start gap-3 mb-4">
         <div className="w-10 h-10 rounded-full bg-surface-alt flex items-center justify-center text-secondary shrink-0">
           <Lightbulb size={20} />
@@ -32,7 +32,7 @@ export function NudgeCard() {
       
       <div className="mt-auto">
         <PillBadge active className="mb-3 text-[10px] px-2 py-0.5">{suggestedArticle.category}</PillBadge>
-        <h4 className="font-heading font-bold text-dark text-base mb-2 leading-tight">
+        <h4 className="font-heading font-bold text-dark text-base mb-2 leading-tight line-clamp-2">
           {suggestedArticle.title}
         </h4>
         <Link href={`/library`} data-cursor="text" className="text-sm text-secondary hover:underline font-medium inline-flex items-center gap-1">

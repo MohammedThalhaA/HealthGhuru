@@ -83,6 +83,12 @@ export default function LoginForm() {
         </button>
       </div>
 
+      <div className="flex justify-center mb-6">
+        <a href="/admin/login" className="text-xs font-bold text-primary hover:underline uppercase tracking-wider flex items-center gap-1">
+          Access Admin Portal &rarr;
+        </a>
+      </div>
+
       {/* Email Input */}
       <div>
         <div className="relative">
