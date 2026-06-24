@@ -1,31 +1,60 @@
 import React from 'react';
 import Link from 'next/link';
-import { FileText, MoreVertical } from 'lucide-react';
+import { FileText, Trash2 } from 'lucide-react';
 import { PillBadge } from '@/components/ui/PillBadge';
+import { useToast } from '@/components/providers/ToastProvider';
+import { useDialog } from '@/components/providers/DialogProvider';
+import { IconButton } from '@/components/ui/IconAction';
 import { VaultRecord } from '@/lib/types';
+import { useVault } from '@/lib/context/VaultContext';
 
 interface RecordCardProps {
   record: VaultRecord;
 }
 
 export function RecordCard({ record }: RecordCardProps) {
+  const { deleteRecord } = useVault();
+  const { toast } = useToast();
+  const { confirm } = useDialog();
+  
   const formatDate = (dateStr: string) => {
-    return new Date(dateStr).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+    const date = new Date(dateStr);
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
   };
 
   const getTypeName = (type: string) => {
     return type.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
   };
 
+  const handleDelete = async () => {
+    const isConfirmed = await confirm({
+      title: 'Delete Record',
+      description: `Are you sure you want to permanently delete "${record.title}"? This action cannot be undone.`,
+      confirmLabel: 'Delete Permanently',
+      variant: 'danger',
+    });
+    
+    if (isConfirmed) {
+      deleteRecord(record.id);
+      toast.success('Record deleted permanently');
+    }
+  };
+
   return (
     <div className="bg-white border border-border hover:border-primary/30 rounded-[14px] p-5 shadow-[0_4px_24px_rgba(46,125,50,0.08)] hover:-translate-y-1 transition-all group relative flex flex-col h-full">
       <div className="flex items-start justify-between mb-4">
-        <div className="w-10 h-10 rounded-full bg-surface-alt flex items-center justify-center text-primary shrink-0 group-hover:bg-primary group-hover:text-white transition-colors">
+        <div className="w-10 h-10 rounded-full bg-surface-alt flex items-center justify-center text-primary shrink-0 group-hover:bg-primary group-hover:text-white transition-colors relative z-10 group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-300">
           <FileText size={20} />
         </div>
-        <button className="text-text-muted hover:text-dark">
-          <MoreVertical size={18} />
-        </button>
+        <div className="text-text-muted hover:text-red-500 relative z-10">
+          <IconButton 
+            icon={Trash2} 
+            onClick={handleDelete} 
+            label="Delete Record" 
+            size={18} 
+          />
+        </div>
       </div>
 
       <h3 className="font-heading font-bold text-lg text-dark leading-tight mb-2 line-clamp-2">

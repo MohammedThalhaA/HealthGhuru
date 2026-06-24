@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { LayoutDashboard, FolderLock, Target, BookOpen, User, LogOut } from 'lucide-react';
+import { IconAction } from '@/components/ui/IconAction';
 import { cn } from '@/lib/utils';
 
 const VAULT_NAV = [
@@ -50,7 +51,9 @@ export function Sidebar() {
                     : "text-text-secondary hover:text-dark hover:bg-surface border-transparent"
                 )}
               >
-                <Icon size={20} className={isActive ? "text-primary" : "text-text-secondary"} />
+                <IconAction context="nav">
+                  <Icon size={20} className={isActive ? "text-primary" : "text-text-secondary"} />
+                </IconAction>
                 {item.label}
               </Link>
             );
@@ -63,7 +66,9 @@ export function Sidebar() {
             data-cursor="tab"
             className="group flex items-center gap-3 px-4 py-3 rounded-lg font-heading font-medium transition-all duration-200 border-l-4 border-transparent text-text-secondary hover:text-red-600 hover:bg-red-50"
           >
-            <LogOut size={20} className="text-text-secondary group-hover:text-red-600" />
+            <IconAction context="nav">
+              <LogOut size={20} className="text-text-secondary group-hover:text-red-600" />
+            </IconAction>
             Sign Out
           </Link>
         </div>

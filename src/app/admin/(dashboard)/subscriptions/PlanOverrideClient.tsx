@@ -3,7 +3,7 @@
 
 import React, { useState } from 'react';
 import { overrideUserPlan } from '@/lib/admin/actions/overrideUserPlan';
-import { useToast } from '@/components/ui/Toast';
+import { useToast } from '@/components/providers/ToastProvider';
 
 export function PlanOverrideClient({ users }: { users: any[] }) {
   const [selectedUserId, setSelectedUserId] = useState('');
@@ -14,7 +14,7 @@ export function PlanOverrideClient({ users }: { users: any[] }) {
   const [reason, setReason] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMsg, setSuccessMsg] = useState('');
-  const { addToast } = useToast();
+  const { toast } = useToast();
 
   const selectedUser = users.find(u => u.id === selectedUserId);
 
@@ -46,10 +46,10 @@ export function PlanOverrideClient({ users }: { users: any[] }) {
         reason
       });
       setSuccessMsg('Plan successfully updated.');
-      addToast('Plan successfully updated.', 'success');
+      toast.success('Plan successfully updated.');
       setReason('');
     } catch (err: any) {
-      addToast('Failed to override plan: ' + err.message, 'error');
+      toast.error('Failed to override plan: ' + err.message);
     } finally {
       setIsSubmitting(false);
     }

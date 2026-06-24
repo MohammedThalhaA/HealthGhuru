@@ -17,10 +17,33 @@ export function RecordUploadModal({ onClose, onUpload }: RecordUploadModalProps)
   const [doctorOrFacility, setDoctorOrFacility] = useState('');
   const [tags, setTags] = useState('');
   const [file, setFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !file) return;
+
+    setIsUploading(true);
+    let fileUrl = undefined;
+
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        fileUrl = data.url;
+      } else {
+        console.error('File upload failed:', data.error);
+      }
+    } catch (error) {
+      console.error('Error uploading file:', error);
+    }
 
     onUpload({
       type,
@@ -29,8 +52,11 @@ export function RecordUploadModal({ onClose, onUpload }: RecordUploadModalProps)
       doctorOrFacility,
       tags: tags.split(',').map(t => t.trim()).filter(Boolean),
       fileName: file.name,
+      fileUrl: fileUrl,
       extractedText: type === 'lab_report' ? 'Mock extracted text for OCR test...' : undefined
     });
+    
+    setIsUploading(false);
   };
 
   return (
@@ -126,8 +152,10 @@ export function RecordUploadModal({ onClose, onUpload }: RecordUploadModalProps)
           </div>
 
           <div className="pt-4 flex items-center justify-end gap-3 border-t border-border">
-            <Button type="button" variant="ghost" onClick={onClose}>Cancel</Button>
-            <Button type="submit" variant="primary">Upload Record</Button>
+            <Button type="button" variant="ghost" onClick={onClose} disabled={isUploading}>Cancel</Button>
+            <Button type="submit" variant="primary" disabled={isUploading}>
+              {isUploading ? 'Uploading...' : 'Upload Record'}
+            </Button>
           </div>
         </form>
       </div>

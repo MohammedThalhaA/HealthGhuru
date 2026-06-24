@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import React from 'react';
 import { Trash2, Plus } from 'lucide-react';
+import { useToast } from '@/components/providers/ToastProvider';
 import type { ArticleBlock } from '@/lib/types/article';
 
 interface BlockFieldsProps {
@@ -11,6 +13,8 @@ interface BlockFieldsProps {
 }
 
 export function BlockFields({ block, onUpdate }: BlockFieldsProps) {
+  const { toast } = useToast();
+
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file || block.type !== 'image') return;
@@ -24,10 +28,10 @@ export function BlockFields({ block, onUpdate }: BlockFieldsProps) {
       if (data.url) {
         onUpdate({ ...block, url: data.url });
       } else {
-        alert(data.error || 'Upload failed');
+        toast.error(data.error || 'Upload failed');
       }
     } catch (error: any) {
-      alert('Upload failed: ' + error.message);
+      toast.error('Upload failed: ' + error.message);
     }
   };
 

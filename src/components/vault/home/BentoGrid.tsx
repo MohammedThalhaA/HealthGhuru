@@ -36,10 +36,10 @@ const BentoGrid: React.FC = () => {
       </div>
 
       {/* Small Card: Goals Snapshot */}
-      <div className="w-full h-full min-h-[160px] bg-white border border-gray-200 rounded-3xl p-6 shadow-sm hover:shadow transition-shadow flex flex-col justify-between overflow-hidden">
+      <div className="w-full h-full min-h-[160px] bg-white border border-gray-200 rounded-3xl p-6 shadow-sm hover:shadow transition-shadow flex flex-col justify-between overflow-hidden group">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center space-x-2 text-gray-900 font-semibold">
-            <Target className="w-5 h-5 text-secondary" />
+            <Target className="w-5 h-5 text-secondary group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-300" />
             <h3>Active Goals ({activeGoals.length})</h3>
           </div>
         </div>
@@ -48,7 +48,7 @@ const BentoGrid: React.FC = () => {
           <div className="flex-1 flex flex-col justify-center">
             <p className="text-sm font-medium text-gray-800 truncate mb-2">{nearestGoal.title}</p>
             <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden mb-1">
-              <div className="h-full bg-secondary rounded-full" style={{ width: '45%' }}></div>
+              <div className="h-full bg-secondary rounded-full transition-all duration-1000 ease-out" style={{ width: '45%' }}></div>
             </div>
             <p className="text-xs text-gray-500 text-right">45% there</p>
           </div>
@@ -64,10 +64,10 @@ const BentoGrid: React.FC = () => {
       </div>
 
       {/* Small Card: Records Snapshot */}
-      <div className="w-full h-full min-h-[160px] bg-white border border-gray-200 rounded-3xl p-6 shadow-sm hover:shadow transition-shadow flex flex-col justify-between overflow-hidden">
+      <div className="w-full h-full min-h-[160px] bg-white border border-gray-200 rounded-3xl p-6 shadow-sm hover:shadow transition-shadow flex flex-col justify-between overflow-hidden group">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center space-x-2 text-gray-900 font-semibold">
-            <FileText className="w-5 h-5 text-primary-light" />
+            <FileText className="w-5 h-5 text-primary-light group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-300" />
             <h3>Records</h3>
           </div>
           <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-md">
@@ -77,7 +77,7 @@ const BentoGrid: React.FC = () => {
         
         <div className="flex-1 flex items-center space-x-2 overflow-hidden py-2">
           {records.length > 0 ? records.slice(0, 3).map((rec, i) => (
-            <div key={rec.id} className={`w-12 h-16 rounded bg-gray-50 border border-gray-200 flex items-center justify-center shadow-sm -ml-${i > 0 ? '4' : '0'} relative z-${10 - i}`}>
+            <div key={rec.id} className={`w-12 h-16 rounded bg-gray-50 border border-gray-200 flex items-center justify-center shadow-sm -ml-${i > 0 ? '4' : '0'} relative z-${10 - i} group-hover:rotate-3 group-hover:-translate-y-1 transition-transform duration-300`}>
               <FileText className="w-4 h-4 text-gray-400" />
             </div>
           )) : (

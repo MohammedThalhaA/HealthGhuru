@@ -36,8 +36,10 @@ export default function ThreePillars() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
           {pillars.map((pillar, index) => (
             <ScrollReveal key={pillar.title} delay={index * 0.1}>
-              <Card className="h-full border-l-[4px] border-l-primary p-8 flex flex-col items-start">
-                {pillar.icon}
+              <Card className="h-full border-l-[4px] border-l-primary p-8 flex flex-col items-start group">
+                <div className="group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-300">
+                  {pillar.icon}
+                </div>
                 <h3 className="text-xl font-heading font-semibold text-dark mb-3">{pillar.title}</h3>
                 <p className="text-text-secondary leading-relaxed mb-6 flex-grow">{pillar.description}</p>
                 <Link

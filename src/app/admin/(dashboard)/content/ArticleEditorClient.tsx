@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import React, { useState, useEffect } from 'react';
 import { manageArticle } from '@/lib/admin/actions/manageArticle';
 import { useRouter } from 'next/navigation';
-import { useToast } from '@/components/ui/Toast';
+import { useToast } from '@/components/providers/ToastProvider';
 import { BlockEditor } from '@/components/admin/content/BlockEditor';
 import type { ArticleBlock } from '@/lib/types/article';
 import { estimateReadTime } from '@/lib/utils/readTime';
@@ -33,7 +34,7 @@ export function ArticleEditorClient({ initialArticle }: { initialArticle?: any }
   );
   
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { addToast } = useToast();
+  const { toast } = useToast();
 
   const handleHeroImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -47,12 +48,12 @@ export function ArticleEditorClient({ initialArticle }: { initialArticle?: any }
       const data = await res.json();
       if (data.url) {
         setFormData(prev => ({ ...prev, heroImageUrl: data.url }));
-        addToast('Hero image uploaded successfully', 'success');
+        toast.success('Hero image uploaded successfully');
       } else {
         throw new Error(data.error || 'Upload failed');
       }
     } catch (error: any) {
-      addToast('Upload failed: ' + error.message, 'error');
+      toast.error('Upload failed: ' + error.message);
     }
   };
 
@@ -75,9 +76,9 @@ export function ArticleEditorClient({ initialArticle }: { initialArticle?: any }
       } as any);
       router.push('/admin/content');
       router.refresh();
-      addToast(initialArticle ? 'Article updated successfully' : 'Article created successfully', 'success');
+      toast.success(initialArticle ? 'Article updated successfully' : 'Article created successfully');
     } catch (e: any) {
-      addToast('Error saving article: ' + e.message, 'error');
+      toast.error('Error saving article: ' + e.message);
       setIsSubmitting(false);
     }
   };

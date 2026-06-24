@@ -1,7 +1,11 @@
 import React from 'react';
 import { PillBadge } from '@/components/ui/PillBadge';
 import { Goal } from '@/lib/types';
-import { Target, Activity } from 'lucide-react';
+import { Target, Activity, Trash2 } from 'lucide-react';
+import { IconAction, IconButton } from '@/components/ui/IconAction';
+import { useVault } from '@/lib/context/VaultContext';
+import { useDialog } from '@/components/providers/DialogProvider';
+import { useToast } from '@/components/providers/ToastProvider';
 
 interface GoalCardProps {
   goal: Goal;
@@ -9,8 +13,26 @@ interface GoalCardProps {
 }
 
 export function GoalCard({ goal, onUpdateProgress }: GoalCardProps) {
+  const { deleteGoal } = useVault();
+  const { confirm } = useDialog();
+  const { toast } = useToast();
+
   const getCategoryName = (cat: string) => {
     return cat.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  };
+
+  const handleDelete = async () => {
+    const isConfirmed = await confirm({
+      title: 'Delete Goal',
+      description: `Are you sure you want to permanently delete "${goal.title}"? This action cannot be undone.`,
+      confirmLabel: 'Delete Permanently',
+      variant: 'danger',
+    });
+    
+    if (isConfirmed) {
+      deleteGoal(goal.id);
+      toast.success('Goal deleted permanently');
+    }
   };
 
   const currentVal = goal.history.length > 0 ? goal.history[goal.history.length - 1].value : goal.startValue;
@@ -37,9 +59,19 @@ export function GoalCard({ goal, onUpdateProgress }: GoalCardProps) {
         <PillBadge className="bg-surface-alt border-border text-xs px-2.5 py-1">
           {getCategoryName(goal.category)}
         </PillBadge>
-        <span className="text-xs font-bold bg-primary/10 text-primary px-2 py-1 rounded-md uppercase tracking-wider">
-          {goal.status}
-        </span>
+        <div className="flex items-center gap-3">
+          <span className="text-xs font-bold bg-primary/10 text-primary px-2 py-1 rounded-md uppercase tracking-wider">
+            {goal.status}
+          </span>
+          <div className="text-text-muted hover:text-red-500 transition-colors">
+            <IconButton 
+              icon={Trash2} 
+              onClick={handleDelete} 
+              label="Delete Goal" 
+              size={18} 
+            />
+          </div>
+        </div>
       </div>
 
       <h3 className="font-heading font-bold text-xl text-dark leading-tight mb-3">
@@ -64,7 +96,7 @@ export function GoalCard({ goal, onUpdateProgress }: GoalCardProps) {
       <div className="mb-4">
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm font-medium text-dark flex items-center gap-1.5">
-            <Activity size={14} className="text-secondary" /> Current: <span className="font-mono">{currentVal}{goal.unit}</span>
+            <IconAction context="decorative"><Activity size={14} className="text-secondary" /></IconAction> Current: <span className="font-mono">{currentVal}{goal.unit}</span>
           </span>
           <span className="font-mono font-bold text-primary">{percentage}%</span>
         </div>
@@ -77,7 +109,7 @@ export function GoalCard({ goal, onUpdateProgress }: GoalCardProps) {
       </div>
 
       <p className="text-xs text-text-muted mb-6 flex items-center gap-1">
-        <Target size={12} /> Last updated: {timeSinceUpdate === 0 ? 'Today' : `${timeSinceUpdate} days ago`}
+        <IconAction context="decorative"><Target size={12} /></IconAction> Last updated: {timeSinceUpdate === 0 ? 'Today' : `${timeSinceUpdate} days ago`}
       </p>
 
       <div className="mt-auto flex items-center justify-between gap-3">

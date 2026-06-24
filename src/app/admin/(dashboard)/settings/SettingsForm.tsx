@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useToast } from '@/components/ui/Toast';
+import { useToast } from '@/components/providers/ToastProvider';
 
 export function SettingsForm({ user }: { user: any }) {
   const [formData, setFormData] = useState({
@@ -10,11 +10,11 @@ export function SettingsForm({ user }: { user: any }) {
     email: user.email,
   });
 
-  const { addToast } = useToast();
+  const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    addToast('Settings update would happen here. Role change is strictly forbidden on this page per the security prompt.', 'error');
+    toast.error('Settings update would happen here. Role change is strictly forbidden on this page per the security prompt.');
   };
 
   return (

@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Bookmark, Clock } from 'lucide-react';
 import { LibraryArticle } from '@/lib/types';
 import { PillBadge } from '@/components/ui/PillBadge';
+import { IconAction } from '@/components/ui/IconAction';
 import { useVault } from '@/lib/context/VaultContext';
 
 interface LibraryArticleCardProps {
@@ -39,7 +40,9 @@ export function LibraryArticleCard({ article, compact = false }: LibraryArticleC
             onClick={(e) => { e.preventDefault(); toggleSavedArticle(article.id); }}
             className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center hover:bg-white transition-colors z-10"
           >
-            <Bookmark size={16} className={article.saved ? "fill-primary text-primary" : "text-text-secondary"} />
+            <IconAction context="action">
+              <Bookmark size={16} className={article.saved ? "fill-primary text-primary" : "text-text-secondary"} />
+            </IconAction>
           </button>
         </div>
       )}
@@ -50,7 +53,9 @@ export function LibraryArticleCard({ article, compact = false }: LibraryArticleC
             onClick={(e) => { e.preventDefault(); toggleSavedArticle(article.id); }}
             className="absolute top-4 right-4 text-text-muted hover:text-primary transition-colors z-10"
           >
-            <Bookmark size={16} className={article.saved ? "fill-primary text-primary" : ""} />
+            <IconAction context="action">
+              <Bookmark size={16} className={article.saved ? "fill-primary text-primary" : ""} />
+            </IconAction>
           </button>
         )}
 
@@ -59,12 +64,12 @@ export function LibraryArticleCard({ article, compact = false }: LibraryArticleC
             {article.category}
           </PillBadge>
           <span className="text-xs text-text-muted flex items-center gap-1">
-            <Clock size={12} /> {article.readTime} min
+            <IconAction context="decorative"><Clock size={12} /></IconAction> {article.readTime} min
           </span>
         </div>
 
         <h3 className={`font-heading font-bold text-dark leading-tight mb-2 group-hover:text-primary transition-colors ${compact ? 'text-base line-clamp-2' : 'text-xl'}`}>
-          <Link href={`#`} className="before:absolute before:inset-0 z-0">
+          <Link href={`/library/${article.id}`} className="before:absolute before:inset-0 z-0">
             {article.title}
           </Link>
         </h3>

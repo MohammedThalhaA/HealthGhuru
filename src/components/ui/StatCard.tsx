@@ -1,6 +1,7 @@
 import React from 'react';
 import { TrendingUp, TrendingDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { IconAction } from '@/components/ui/IconAction';
 
 interface StatCardProps {
   icon: React.ReactNode;
@@ -41,7 +42,7 @@ export default function StatCard({
     )}>
       <div className="flex items-start justify-between mb-2">
         <div className={cn("p-2 rounded-lg bg-surface", textColors[color])}>
-          {icon}
+          <IconAction context="decorative">{icon}</IconAction>
         </div>
         
         {trend && (

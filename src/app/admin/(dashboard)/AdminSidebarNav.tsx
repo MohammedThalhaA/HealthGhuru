@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { LayoutDashboard, Users, FileText, Settings, CreditCard, ShieldAlert } from 'lucide-react';
+import { IconAction } from '@/components/ui/IconAction';
 
 export function AdminSidebarNav() {
   const pathname = usePathname();
@@ -32,7 +33,9 @@ export function AdminSidebarNav() {
                   : "text-text-secondary hover:text-dark hover:bg-surface border-transparent"
               }`}
             >
-              <Icon size={20} className={isActive ? "text-primary" : "text-text-secondary"} />
+              <IconAction context="nav">
+                <Icon size={20} className={isActive ? "text-primary" : "text-text-secondary"} />
+              </IconAction>
               {link.label}
             </Link>
           );
@@ -48,7 +51,9 @@ export function AdminSidebarNav() {
               : "text-text-secondary hover:text-dark hover:bg-surface border-transparent"
           }`}
         >
-          <Settings size={20} className={pathname.startsWith('/admin/settings') ? "text-primary" : "text-text-secondary"} />
+          <IconAction context="nav">
+            <Settings size={20} className={pathname.startsWith('/admin/settings') ? "text-primary" : "text-text-secondary"} />
+          </IconAction>
           Settings
         </Link>
       </div>

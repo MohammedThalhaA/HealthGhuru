@@ -4,6 +4,7 @@ import React from 'react';
 import { X, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useVault } from '@/lib/context/VaultContext';
+import { IconAction } from '@/components/ui/IconAction';
 
 export function WelcomeCard() {
   const { userPlan, activeMemberId, familyMembers, setWelcomeSeen } = useVault();
@@ -19,7 +20,7 @@ export function WelcomeCard() {
         onClick={() => setWelcomeSeen(true)}
         className="absolute top-4 right-4 text-white/60 hover:text-white transition-colors"
       >
-        <X size={20} />
+        <IconAction context="action"><X size={20} /></IconAction>
       </button>
 
       <div className="relative z-10 max-w-2xl">
@@ -36,7 +37,7 @@ export function WelcomeCard() {
         </p>
 
         <Button variant="accent" onClick={() => setWelcomeSeen(true)} className="gap-2">
-          Add your first record <ArrowRight size={18} />
+          Add your first record <IconAction context="decorative"><ArrowRight size={18} /></IconAction>
         </Button>
       </div>
     </div>

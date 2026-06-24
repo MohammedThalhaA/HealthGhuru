@@ -6,19 +6,28 @@ import { manageArticle } from '@/lib/admin/actions/manageArticle';
 import { PillBadge } from '@/components/ui/PillBadge';
 import Link from 'next/link';
 import { Trash2, Edit } from 'lucide-react';
-import { useToast } from '@/components/ui/Toast';
+import { useDialog } from '@/components/providers/DialogProvider';
+import { useToast } from '@/components/providers/ToastProvider';
 
 export function ArticleTableClient({ initialArticles }: { initialArticles: any[] }) {
   const [articles, setArticles] = useState(initialArticles);
-  const [deleteId, setDeleteId] = useState<string | null>(null);
-  const { addToast } = useToast();
+  const { confirm } = useDialog();
+  const { toast } = useToast();
 
-  const handleDelete = async () => {
-    if (!deleteId) return;
+  const handleDelete = async (id: string) => {
+    const ok = await confirm({
+      title: 'Confirm Deletion',
+      description: 'Are you sure you want to delete this article? This is a soft-delete and the history will be retained.',
+      confirmLabel: 'Confirm Delete',
+      variant: 'danger'
+    });
+    
+    if (!ok) return;
+
     try {
       await manageArticle({ 
         action: 'delete', 
-        id: deleteId,
+        id,
         title: 'delete', // placeholder for zod
         slug: 'delete',
         category: 'Fitness',
@@ -26,11 +35,10 @@ export function ArticleTableClient({ initialArticles }: { initialArticles: any[]
         readTime: 1,
         status: 'draft'
       });
-      setArticles(articles.filter(a => a.id !== deleteId));
-      setDeleteId(null);
-      addToast('Article deleted successfully', 'success');
+      setArticles(articles.filter(a => a.id !== id));
+      toast.success('Article deleted successfully');
     } catch (e) {
-      addToast('Failed to delete article', 'error');
+      toast.error('Failed to delete article');
     }
   };
 
@@ -67,7 +75,7 @@ export function ArticleTableClient({ initialArticles }: { initialArticles: any[]
                     <Edit size={16} />
                   </Link>
                   <button 
-                    onClick={() => setDeleteId(article.id)}
+                    onClick={() => handleDelete(article.id)}
                     className="p-2 text-[#78909C] hover:bg-red-50 hover:text-[#C62828] rounded-md transition-colors"
                   >
                     <Trash2 size={16} />
@@ -81,19 +89,6 @@ export function ArticleTableClient({ initialArticles }: { initialArticles: any[]
           </tbody>
         </table>
       </div>
-
-      {deleteId && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
-            <h3 className="font-heading font-bold text-lg text-[#C62828] mb-4">Confirm Deletion</h3>
-            <p className="text-[#1A2E1A] mb-6">Are you sure you want to delete this article? This is a soft-delete and the history will be retained.</p>
-            <div className="flex justify-end gap-3">
-              <button onClick={() => setDeleteId(null)} className="px-4 py-2 text-sm text-[#78909C]">Cancel</button>
-              <button onClick={handleDelete} className="px-4 py-2 text-sm text-white bg-[#C62828] rounded-lg hover:bg-red-800">Confirm Delete</button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

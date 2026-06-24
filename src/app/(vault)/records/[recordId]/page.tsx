@@ -1,5 +1,6 @@
 "use client";
 
+/* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -10,15 +11,57 @@ import { PillBadge } from '@/components/ui/PillBadge';
 import { LockedFeatureCard } from '@/components/ui/LockedFeatureCard';
 
 export default function RecordDetailPage({ params }: { params: { recordId: string } }) {
-  const { records, userPlan } = useVault();
+  const { records, userPlan, isLoaded } = useVault();
   const record = records.find(r => r.id === params.recordId);
+
+  if (!isLoaded && !record) {
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full"></div>
+      </div>
+    );
+  }
 
   if (!record) {
     notFound();
   }
 
-  // const isFree = userPlan.tier === \'free\';
+  // const isFree = userPlan.tier === 'free';
   const ocrEnabled = userPlan.ocrEnabled;
+
+  const handleShare = async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: record.title,
+          text: `Check out my HealthGhuru record: ${record.title}`,
+          url: window.location.href,
+        });
+      } else {
+        await navigator.clipboard.writeText(window.location.href);
+        alert('Link copied to clipboard!');
+      }
+    } catch (err) {
+      console.error('Error sharing', err);
+    }
+  };
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  const handleDownload = () => {
+    if (record.fileUrl) {
+      const a = document.createElement('a');
+      a.href = record.fileUrl;
+      a.download = record.fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    } else {
+      alert('No file attached to this record to download.');
+    }
+  };
 
   const formatDate = (dateStr: string) => {
     return new Date(dateStr).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
@@ -52,14 +95,14 @@ export default function RecordDetailPage({ params }: { params: { recordId: strin
           </div>
         </div>
         
-        <div className="flex items-center gap-3 shrink-0">
-          <Button variant="ghost" className="gap-2 px-4 shadow-sm border border-border bg-white text-text-primary">
+        <div className="flex items-center gap-3 shrink-0 print:hidden">
+          <Button variant="ghost" onClick={handleShare} className="gap-2 px-4 shadow-sm border border-border bg-white text-text-primary">
             <Share2 size={16} /> Share
           </Button>
-          <Button variant="ghost" className="gap-2 px-4 shadow-sm border border-border bg-white text-text-primary">
+          <Button variant="ghost" onClick={handlePrint} className="gap-2 px-4 shadow-sm border border-border bg-white text-text-primary">
             <Printer size={16} /> Print
           </Button>
-          <Button variant="primary" className="gap-2 px-4">
+          <Button variant="primary" onClick={handleDownload} className="gap-2 px-4">
             <Download size={16} /> Download
           </Button>
         </div>
@@ -74,20 +117,27 @@ export default function RecordDetailPage({ params }: { params: { recordId: strin
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-4">
         {/* Document Preview Area */}
         <div className="lg:col-span-2 bg-surface-alt rounded-[14px] border border-border min-h-[600px] flex items-center justify-center p-8 relative">
-          {/* Mock Document Preview */}
-          <div className="w-full max-w-lg bg-white shadow-lg aspect-[1/1.4] rounded-sm flex flex-col p-8 opacity-90 border border-gray-200">
-             <div className="h-6 w-1/3 bg-gray-200 rounded mb-8"></div>
-             <div className="h-4 w-1/2 bg-gray-100 rounded mb-4"></div>
-             <div className="h-4 w-full bg-gray-100 rounded mb-4"></div>
-             <div className="h-4 w-full bg-gray-100 rounded mb-4"></div>
-             <div className="h-4 w-3/4 bg-gray-100 rounded mb-8"></div>
-             
-             <div className="h-32 w-full bg-blue-50/50 border border-blue-100 rounded mb-8 flex items-center justify-center text-blue-300 font-medium text-sm">Data Table Graphic</div>
-             
-             <div className="h-4 w-full bg-gray-100 rounded mb-4"></div>
-             <div className="h-4 w-full bg-gray-100 rounded mb-4"></div>
-             <div className="h-4 w-2/3 bg-gray-100 rounded mb-4"></div>
-          </div>
+          {record.fileUrl ? (
+            record.fileUrl.endsWith('.pdf') ? (
+              <iframe src={record.fileUrl} className="w-full h-full min-h-[600px] border-0 rounded-sm shadow-sm" title={record.title} />
+            ) : (
+              <img src={record.fileUrl} alt={record.title} className="max-w-full max-h-[800px] object-contain rounded-sm shadow-sm" />
+            )
+          ) : (
+            <div className="w-full max-w-lg bg-white shadow-lg aspect-[1/1.4] rounded-sm flex flex-col p-8 opacity-90 border border-gray-200">
+               <div className="h-6 w-1/3 bg-gray-200 rounded mb-8"></div>
+               <div className="h-4 w-1/2 bg-gray-100 rounded mb-4"></div>
+               <div className="h-4 w-full bg-gray-100 rounded mb-4"></div>
+               <div className="h-4 w-full bg-gray-100 rounded mb-4"></div>
+               <div className="h-4 w-3/4 bg-gray-100 rounded mb-8"></div>
+               
+               <div className="h-32 w-full bg-blue-50/50 border border-blue-100 rounded mb-8 flex items-center justify-center text-blue-300 font-medium text-sm">No Document Available</div>
+               
+               <div className="h-4 w-full bg-gray-100 rounded mb-4"></div>
+               <div className="h-4 w-full bg-gray-100 rounded mb-4"></div>
+               <div className="h-4 w-2/3 bg-gray-100 rounded mb-4"></div>
+            </div>
+          )}
           <div className="absolute bottom-4 right-4 text-xs font-mono text-text-muted bg-white/80 px-2 py-1 rounded backdrop-blur-sm shadow-sm border border-border">
             {record.fileName}
           </div>

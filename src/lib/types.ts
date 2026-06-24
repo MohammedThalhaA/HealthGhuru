@@ -108,6 +108,7 @@ export interface VaultRecord {
   doctorOrFacility?: string;
   tags: string[];
   fileName: string;
+  fileUrl?: string;
   extractedText?: string;
   createdAt: string;
 }

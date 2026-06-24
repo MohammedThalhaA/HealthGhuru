@@ -15,7 +15,7 @@ import { FolderLock, Plus } from 'lucide-react';
 import { RecordType, VaultRecord } from '@/lib/types';
 
 export default function RecordsPage() {
-  const { records, activeMemberId, userPlan, addRecord } = useVault();
+  const { records, activeMemberId, userPlan, addRecord, isLoaded } = useVault();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<RecordType | 'all'>('all');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -76,7 +76,11 @@ export default function RecordsPage() {
         <RecordSearchBar value={searchQuery} onChange={setSearchQuery} />
       </ScrollReveal>
 
-      {filteredRecords.length === 0 ? (
+      {!isLoaded ? (
+        <div className="flex justify-center items-center py-20">
+          <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full"></div>
+        </div>
+      ) : filteredRecords.length === 0 ? (
         <ScrollReveal delay={0.3}>
           <EmptyState 
             icon={FolderLock}

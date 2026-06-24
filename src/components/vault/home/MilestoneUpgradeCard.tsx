@@ -3,6 +3,7 @@
 import React from 'react';
 import { Sparkles, X } from 'lucide-react';
 import { useVault } from '@/lib/context/VaultContext';
+import { IconAction } from '@/components/ui/IconAction';
 
 export function MilestoneUpgradeCard() {
   const { setMilestoneSeen } = useVault();
@@ -24,13 +25,13 @@ export function MilestoneUpgradeCard() {
         className="absolute top-3 right-3 text-text-muted hover:text-dark transition-colors"
         title="Dismiss"
       >
-        <X size={16} />
+        <IconAction context="action"><X size={16} /></IconAction>
       </button>
 
       <div className="flex flex-col h-full">
         <div className="flex items-center gap-2 mb-3">
           <div className="w-8 h-8 rounded-full bg-[#FFF8E1] text-[#F9A825] flex items-center justify-center shrink-0">
-            <Sparkles size={16} />
+            <IconAction context="decorative"><Sparkles size={16} /></IconAction>
           </div>
           <h3 className="font-heading font-bold text-base text-dark">One week milestone</h3>
         </div>

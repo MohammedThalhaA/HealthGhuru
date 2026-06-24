@@ -5,6 +5,7 @@ import { ChevronDown, Plus, Lock } from 'lucide-react';
 import { useVault } from '@/lib/context/VaultContext';
 import { cn } from '@/lib/utils';
 import { FamilyMember } from '@/lib/types';
+import { IconAction } from '@/components/ui/IconAction';
 
 export function FamilyMemberSwitcher() {
   const { userPlan, activeMemberId, setActiveMemberId, familyMembers } = useVault();
@@ -46,7 +47,9 @@ export function FamilyMemberSwitcher() {
             {activeMember?.relationship || 'self'}
           </span>
         </div>
-        <ChevronDown size={16} className={`text-text-muted transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        <IconAction context="action">
+          <ChevronDown size={16} className={`text-text-muted transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        </IconAction>
       </button>
 
       {isOpen && (
@@ -86,7 +89,7 @@ export function FamilyMemberSwitcher() {
               <div className="px-3 py-3 bg-surface-alt rounded-lg m-1 flex items-center justify-between group opacity-70">
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-text-muted shadow-sm">
-                    <Lock size={14} />
+                    <IconAction context="status"><Lock size={14} /></IconAction>
                   </div>
                   <span className="text-sm text-text-secondary font-medium">Add Family Member</span>
                 </div>
@@ -100,7 +103,7 @@ export function FamilyMemberSwitcher() {
                 className="w-full flex items-center gap-2 px-3 py-2 text-primary hover:bg-surface-alt rounded-lg transition-colors m-1"
               >
                 <div className="w-8 h-8 rounded-full border-2 border-dashed border-primary/30 flex items-center justify-center text-primary">
-                  <Plus size={16} />
+                  <IconAction context="action"><Plus size={16} /></IconAction>
                 </div>
                 <span className="text-sm font-medium">Add Family Member</span>
               </button>

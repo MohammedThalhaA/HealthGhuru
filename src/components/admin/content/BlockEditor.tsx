@@ -4,6 +4,8 @@ import { ChevronUp, ChevronDown, Trash2 } from 'lucide-react';
 import type { ArticleBlock } from '@/lib/types/article';
 import { BlockFields } from './BlockFields';
 import { AddBlockMenu } from './AddBlockMenu';
+import { useDialog } from '@/components/providers/DialogProvider';
+import { IconButton } from '@/components/ui/IconAction';
 
 interface BlockEditorProps {
   blocks: ArticleBlock[];
@@ -11,6 +13,8 @@ interface BlockEditorProps {
 }
 
 export function BlockEditor({ blocks, onChange }: BlockEditorProps) {
+  const { confirm } = useDialog();
+
   const moveBlock = (index: number, direction: 'up' | 'down') => {
     const newBlocks = [...blocks];
     const targetIndex = direction === 'up' ? index - 1 : index + 1;
@@ -25,8 +29,16 @@ export function BlockEditor({ blocks, onChange }: BlockEditorProps) {
     onChange(newBlocks);
   };
 
-  const deleteBlock = (index: number) => {
-    onChange(blocks.filter((_, i) => i !== index));
+  const deleteBlock = async (index: number) => {
+    const ok = await confirm({
+      title: 'Delete Block',
+      description: 'Are you sure you want to delete this content block? This cannot be undone.',
+      confirmLabel: 'Delete',
+      variant: 'danger'
+    });
+    if (ok) {
+      onChange(blocks.filter((_, i) => i !== index));
+    }
   };
 
   const addBlock = (type: ArticleBlock['type']) => {
@@ -51,30 +63,34 @@ export function BlockEditor({ blocks, onChange }: BlockEditorProps) {
               {blockLabel(block.type)}
             </span>
             <div className="flex items-center gap-1 bg-gray-50 rounded-lg p-1 border border-gray-100">
-              <button 
-                type="button"
-                onClick={() => moveBlock(index, 'up')} 
-                disabled={index === 0} 
-                className="p-1 text-gray-400 hover:text-gray-700 disabled:opacity-30 transition-colors"
-              >
-                <ChevronUp size={14} />
-              </button>
-              <button 
-                type="button"
-                onClick={() => moveBlock(index, 'down')} 
-                disabled={index === blocks.length - 1} 
-                className="p-1 text-gray-400 hover:text-gray-700 disabled:opacity-30 transition-colors"
-              >
-                <ChevronDown size={14} />
-              </button>
+              <div className="p-1">
+                <IconButton 
+                  icon={ChevronUp} 
+                  onClick={() => moveBlock(index, 'up')} 
+                  disabled={index === 0}
+                  label="Move Up"
+                  size={14}
+                />
+              </div>
+              <div className="p-1">
+                <IconButton 
+                  icon={ChevronDown} 
+                  onClick={() => moveBlock(index, 'down')} 
+                  disabled={index === blocks.length - 1}
+                  label="Move Down"
+                  size={14}
+                />
+              </div>
               <div className="w-px h-4 bg-gray-200 mx-1"></div>
-              <button 
-                type="button"
-                onClick={() => deleteBlock(index)} 
-                className="p-1 text-red-400 hover:text-red-600 transition-colors"
-              >
-                <Trash2 size={14} />
-              </button>
+              <div className="p-1 text-red-500">
+                <IconButton 
+                  icon={Trash2} 
+                  onClick={() => deleteBlock(index)} 
+                  label="Delete Block"
+                  size={14}
+                  color="currentColor"
+                />
+              </div>
             </div>
           </div>
           <BlockFields block={block} onUpdate={(updated) => updateBlock(index, updated)} />
