@@ -18,9 +18,9 @@ export function LibraryArticleCard({ article, compact = false }: LibraryArticleC
   const { toggleSavedArticle } = useVault();
 
   return (
-    <div className={`bg-white border border-border hover:border-primary/30 rounded-[14px] shadow-[0_4px_24px_rgba(46,125,50,0.08)] hover:-translate-y-1 transition-all group overflow-hidden flex flex-col h-full`}>
+    <div className={`bg-white border border-border hover:border-primary/30 rounded-xl md:rounded-[14px] shadow-[0_4px_24px_rgba(46,125,50,0.08)] hover:-translate-y-1 transition-all group overflow-hidden flex flex-col h-full`}>
       {!compact && (
-        <div className="relative h-48 w-full bg-surface-alt overflow-hidden shrink-0">
+        <div className="relative h-40 md:h-48 w-full bg-surface-alt overflow-hidden shrink-0">
           {article.heroImage ? (
             <Image 
               src={article.heroImage} 
@@ -47,7 +47,7 @@ export function LibraryArticleCard({ article, compact = false }: LibraryArticleC
         </div>
       )}
 
-      <div className={`p-5 flex flex-col flex-1 relative ${compact ? 'pt-4' : ''}`}>
+      <div className={`p-4 md:p-5 flex flex-col flex-1 relative ${compact ? 'pt-3 md:pt-4' : ''}`}>
         {compact && (
           <button 
             onClick={(e) => { e.preventDefault(); toggleSavedArticle(article.id); }}
@@ -63,19 +63,19 @@ export function LibraryArticleCard({ article, compact = false }: LibraryArticleC
           <PillBadge className={`border-border ${compact ? 'text-[10px] px-2 py-0.5' : 'text-xs px-2.5 py-1'}`}>
             {article.category}
           </PillBadge>
-          <span className="text-xs text-text-muted flex items-center gap-1">
+          <span className="saved-article-meta text-xs text-text-muted flex items-center gap-1">
             <IconAction context="decorative"><Clock size={12} /></IconAction> {article.readTime} min
           </span>
         </div>
 
-        <h3 className={`font-heading font-bold text-dark leading-tight mb-2 group-hover:text-primary transition-colors ${compact ? 'text-base line-clamp-2' : 'text-xl'}`}>
+        <h3 className={`font-heading font-bold text-dark leading-tight mb-2 group-hover:text-primary transition-colors ${compact ? 'text-sm md:text-base line-clamp-2' : 'text-base md:text-xl'}`}>
           <Link href={`/library/${article.id}`} className="before:absolute before:inset-0 z-0">
             {article.title}
           </Link>
         </h3>
         
         {!compact && (
-          <p className="text-sm text-text-secondary line-clamp-3 mb-4 flex-1">
+          <p className="text-xs md:text-sm text-text-secondary line-clamp-3 mb-3 md:mb-4 flex-1">
             {article.excerpt}
           </p>
         )}

@@ -16,6 +16,7 @@ interface SectionHeaderProps {
   centered?: boolean;
   light?: boolean;
   className?: string;
+  titleClassName?: string;
 }
 
 export function SectionHeader({
@@ -25,34 +26,36 @@ export function SectionHeader({
   centered = true,
   light = false,
   className,
+  titleClassName,
 }: SectionHeaderProps) {
   return (
     <div className={cn("flex flex-col", centered ? "items-center text-center" : "items-start", className)}>
       {eyebrow && (
         <span className={cn(
-          "font-heading text-sm font-bold uppercase tracking-widest mb-3",
+          "font-heading text-[10px] md:text-sm font-bold uppercase tracking-widest mb-2 md:mb-3",
           light ? "text-primary-light" : "text-primary"
         )}>
           {eyebrow}
         </span>
       )}
-      
+
       <h2 className={cn(
-        "font-display text-h2 mb-4",
-        light ? "text-white" : "text-dark"
+        "font-display text-xl md:text-h2 mb-2 md:mb-4",
+        light ? "text-white" : "text-dark",
+        titleClassName
       )}>
         {title}
       </h2>
-      
-      <div className="flex items-center justify-center gap-4 mb-6">
-        <div className={cn("h-[1px] w-12", light ? "bg-white/20" : "bg-primary/20")} />
-        <DoubleLeaf size={24} className={cn(light ? "text-white fill-white/20" : "text-primary fill-primary/20")} />
-        <div className={cn("h-[1px] w-12", light ? "bg-white/20" : "bg-primary/20")} />
+
+      <div className="flex items-center justify-center gap-3 md:gap-4 mb-3 md:mb-6">
+        <div className={cn("h-[1px] w-8 md:w-12", light ? "bg-white/20" : "bg-primary/20")} />
+        <DoubleLeaf size={20} className={cn("md:w-6 md:h-6", light ? "text-white fill-white/20" : "text-primary fill-primary/20")} />
+        <div className={cn("h-[1px] w-8 md:w-12", light ? "bg-white/20" : "bg-primary/20")} />
       </div>
 
       {subtitle && (
         <p className={cn(
-          "font-body max-w-2xl text-lg",
+          "font-body max-w-2xl text-sm md:text-lg leading-relaxed",
           light ? "text-white/80" : "text-text-secondary"
         )}>
           {subtitle}

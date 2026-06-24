@@ -29,7 +29,7 @@ export default function CategoryFilter({ onCategoryChange }: CategoryFilterProps
             key={category}
             onClick={() => handleCategoryClick(category)}
             className={cn(
-              "relative px-5 py-2.5 rounded-full text-sm font-heading font-semibold transition-colors duration-300",
+              "category-filter-pill relative px-5 py-2.5 rounded-full text-sm font-heading font-semibold transition-colors duration-300",
               isActive ? "text-dark" : "bg-white border border-primary/20 text-primary hover:border-primary/50"
             )}
           >

@@ -141,3 +141,151 @@ html.lenis, html.lenis body {
 .lenis.lenis-smooth iframe {
   pointer-events: none;
 }
+
+/* --- MOBILE TYPOGRAPHY & TOUCH OPTIMIZATION --- */
+
+@media (max-width: 640px) {
+  :root {
+    /* HEADINGS */
+    --text-hero:  2rem;
+    --text-h1:    1.75rem;
+    --text-h2:    1.5rem;
+    --text-h3:    1.25rem;
+
+    /* BODY */
+    --text-body:        1rem;
+    --text-body-article: 1.0625rem;
+    --text-sm:    0.9375rem;
+    --text-xs:    0.8125rem;
+
+    /* LINE HEIGHT */
+    --leading-heading: 1.25;
+    --leading-body:    1.7;
+    --leading-tight:   1.35;
+
+    /* LETTER SPACING */
+    --tracking-display: -0.01em;
+  }
+
+  /* TOUCH TARGETS */
+  button, a[role="button"], .btn, [data-cursor="button"], [data-cursor="tab"] {
+    min-height: 48px;
+    min-width: 48px;
+  }
+
+  .icon-button-mobile-target {
+    min-height: 48px;
+    min-width: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  input, select, textarea {
+    font-size: 16px !important;
+    min-height: 48px;
+  }
+
+  .tap-target-group > * + * {
+    margin-left: 8px;
+  }
+
+  /* PUBLIC SITE */
+  .hero-eyebrow-pill { font-size: 0.8125rem; padding: 6px 14px; }
+  .hero-headline { font-size: var(--text-hero); line-height: var(--leading-heading); }
+  .hero-subtext { font-size: var(--text-body); line-height: var(--leading-body); max-width: 100%; }
+  .hero-floating-badges { font-size: 0.75rem; padding: 4px 10px; }
+  .hero-cta-primary { width: 100%; min-height: 52px; font-size: 1rem; }
+  .hero-cta-secondary { width: 100%; min-height: 52px; font-size: 1rem; }
+  
+  .trust-bar-number { font-size: 1.75rem; }
+  .trust-bar-label { font-size: 0.75rem; letter-spacing: 0.06em; }
+
+  .article-h1 { font-size: var(--text-h1); line-height: 1.2; }
+  .article-category-pill { font-size: 0.8125rem; min-height: 32px; }
+  .article-byline-name { font-size: 0.9375rem; }
+  .article-byline-meta { font-size: 0.8125rem; }
+  .article-body-text { font-size: var(--text-body-article); line-height: var(--leading-body); }
+  .article-h2-block { font-size: 1.375rem; margin-top: 2.5rem; margin-bottom: 1.25rem; }
+  .article-h3-block { font-size: 1.125rem; margin-top: 1.75rem; }
+  .article-quote-block { font-size: 1.0625rem; padding: 1.25rem; }
+  .article-callout-title { font-size: 1rem; }
+  .article-callout-text { font-size: 0.9375rem; line-height: 1.65; }
+  .article-takeaways-heading { font-size: 1.125rem; }
+  .article-takeaways-item { font-size: 0.9375rem; line-height: 1.65; }
+  .article-share-icon { width: 44px; height: 44px; }
+
+  .blog-hero-h1 { font-size: var(--text-h1); }
+  .category-filter-pill { font-size: 0.875rem; min-height: 40px; padding: 0 16px; }
+  .blog-card-title { font-size: 1.125rem; line-height: 1.35; }
+  .blog-card-excerpt { font-size: 0.9375rem; line-height: 1.6; }
+  .blog-card-meta { font-size: 0.8125rem; }
+
+  .form-card-heading { font-size: 1.5rem; }
+  .form-card-subtitle { font-size: 0.9375rem; }
+  .form-label { font-size: 0.875rem; font-weight: 600; margin-bottom: 6px; }
+  .form-input { font-size: 16px; min-height: 48px; padding: 0 16px; }
+  .form-helper-text { font-size: 0.8125rem; }
+  .form-error-text { font-size: 0.8125rem; }
+  .plan-selection-card { padding: 16px; }
+  .plan-card-title { font-size: 1.0625rem; }
+  .plan-card-price { font-size: 1.375rem; }
+  .plan-card-feature { font-size: 0.875rem; line-height: 1.6; }
+
+  /* VAULT */
+  .bento-card-title { font-size: 1.0625rem; }
+  .bento-card-value { font-size: 1.5rem; }
+  .bento-card-label { font-size: 0.8125rem; }
+  .activity-timeline-text { font-size: 0.9375rem; line-height: 1.6; }
+  .welcome-card-heading { font-size: 1.375rem; }
+  .welcome-card-body { font-size: 0.9375rem; }
+
+  .page-section-heading { font-size: 1.375rem; }
+  .record-card-title { font-size: 1.0625rem; }
+  .record-card-meta { font-size: 0.8125rem; }
+  .goal-card-title { font-size: 1.0625rem; }
+  .goal-card-progress-label { font-size: 0.8125rem; }
+  .goal-card-value-large { font-size: 1.125rem; }
+  .library-article-title { font-size: 1.0625rem; line-height: 1.35; }
+  .library-article-excerpt { font-size: 0.9375rem; line-height: 1.6; }
+  .filter-pill-vault { font-size: 0.875rem; min-height: 40px; }
+
+  .profile-tab-label { font-size: 0.9375rem; min-height: 48px; }
+  .profile-section-heading { font-size: 1.25rem; }
+  .profile-form-label { font-size: 0.875rem; }
+  .profile-form-input { font-size: 16px; min-height: 48px; }
+  .subscription-plan-name { font-size: 1.0625rem; }
+  .subscription-price { font-size: 1.5rem; }
+
+  /* GLOBAL COMPONENTS */
+  .pill-badge { font-size: 0.8125rem; padding: 4px 12px; min-height: 28px; }
+  .toast-message { font-size: 0.9375rem; }
+  .toast-description { font-size: 0.8125rem; }
+  .dialog-title { font-size: 1.0625rem; }
+  .dialog-description { font-size: 0.9375rem; line-height: 1.6; }
+  .dialog-button { min-height: 48px; font-size: 0.9375rem; }
+  .dialog-card { width: 90vw; padding: 20px; }
+  .empty-state-heading { font-size: 1.125rem; }
+  .empty-state-body { font-size: 0.9375rem; line-height: 1.6; }
+}
+
+@media (max-width: 768px) {
+  .vault-bottom-nav-item-label { font-size: 0.6875rem; }
+  .vault-bottom-nav-icon { width: 24px; height: 24px; }
+  .vault-bottom-nav-item { min-height: 56px; min-width: 56px; }
+
+  .vault-topbar-title { font-size: 1.125rem; }
+  .vault-plan-status-strip { font-size: 0.8125rem; padding: 6px 12px; min-height: 32px; }
+  .vault-streak-label { font-size: 0.8125rem; }
+  .vault-search-input { font-size: 16px; min-height: 44px; }
+}
+
+/* HAMBURGER DRAWER */
+.mobile-nav-link {
+  font-size: 1.125rem;
+  font-family: var(--font-heading, "Plus Jakarta Sans", sans-serif);
+  font-weight: 600;
+  line-height: 1.35;
+  padding: 16px 24px;
+  min-height: 56px;
+}

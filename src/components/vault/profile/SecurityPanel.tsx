@@ -6,14 +6,14 @@ import { Button } from '@/components/ui/Button';
 
 export function SecurityPanel() {
   return (
-    <div className="bg-white border border-border rounded-[14px] shadow-[0_4px_24px_rgba(46,125,50,0.08)] p-8">
-      <div className="flex items-center gap-3 mb-8 pb-6 border-b border-border">
-        <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center">
-          <Shield size={24} />
+    <div className="bg-white border border-border rounded-xl md:rounded-[14px] shadow-[0_4px_24px_rgba(46,125,50,0.08)] p-4 md:p-8">
+      <div className="flex items-center gap-3 mb-6 md:mb-8 pb-4 md:pb-6 border-b border-border">
+        <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
+          <Shield size={24} className="w-5 h-5 md:w-6 md:h-6" />
         </div>
         <div>
-          <h3 className="font-heading font-bold text-xl text-dark">Security & Privacy</h3>
-          <p className="text-sm text-text-secondary mt-1">Manage your account security and data preferences.</p>
+          <h3 className="font-heading font-bold text-base md:text-xl text-dark">Security & Privacy</h3>
+          <p className="text-xs md:text-sm text-text-secondary mt-1">Manage your account security and data preferences.</p>
         </div>
       </div>
 

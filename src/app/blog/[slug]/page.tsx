@@ -53,9 +53,9 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         {/* Header */}
         <ScrollReveal variant="fadeUp" delay={0.1}>
           <div className="mb-6">
-            <PillBadge active>{post.category}</PillBadge>
+            <PillBadge active className="article-category-pill">{post.category}</PillBadge>
           </div>
-          <h1 className="font-display text-4xl sm:text-5xl lg:text-[56px] leading-[1.1] text-dark mb-8">
+          <h1 className="article-h1 font-display text-4xl sm:text-5xl lg:text-[56px] leading-[1.1] text-dark mb-8">
             {post.title}
           </h1>
 
@@ -69,8 +69,8 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
               />
             </div>
             <div className="flex flex-col">
-              <span className="font-heading font-semibold text-text-primary">{post.author_name}</span>
-              <span className="text-text-muted text-sm">
+              <span className="article-byline-name font-heading font-semibold text-text-primary">{post.author_name}</span>
+              <span className="article-byline-meta text-text-muted text-sm">
                 {post.author_credential && <span className="text-primary mr-2 font-medium">{post.author_credential}</span>}
                 {publishDate} · {post.read_time} min read
               </span>
@@ -129,13 +129,13 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         <div className="mt-10 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-4">
             <span className="font-heading text-sm text-text-muted font-medium">Share:</span>
-            <button className="w-10 h-10 rounded-full bg-surface-alt flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
+            <button className="article-share-icon w-10 h-10 rounded-full bg-surface-alt flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
               <Share2 size={18} />
             </button>
-            <button className="w-10 h-10 rounded-full bg-surface-alt flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
+            <button className="article-share-icon w-10 h-10 rounded-full bg-surface-alt flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
               <MessageCircle size={18} />
             </button>
-            <button className="w-10 h-10 rounded-full bg-surface-alt flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
+            <button className="article-share-icon w-10 h-10 rounded-full bg-surface-alt flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
               <LinkIcon size={18} />
             </button>
           </div>

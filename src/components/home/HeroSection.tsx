@@ -22,10 +22,10 @@ export default function HeroSection() {
           {/* Left Content */}
           <div className="flex flex-col items-start gap-6 max-w-2xl">
             <ScrollReveal variant="slideLeft">
-              <PillBadge active className="mb-2 gap-2"><Sparkles size={16} /> Science-Backed Wellness</PillBadge>
+              <PillBadge active className="hero-eyebrow-pill mb-2 gap-2"><Sparkles size={16} /> Science-Backed Wellness</PillBadge>
             </ScrollReveal>
 
-            <h1 className="font-display text-hero leading-[1.1] text-dark">
+            <h1 className="hero-headline font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-dark leading-tight">
               {headline.map((line, index) => (
                 <motion.span
                   key={index}
@@ -41,26 +41,26 @@ export default function HeroSection() {
             </h1>
 
             <ScrollReveal delay={0.5}>
-              <p className="text-text-secondary text-lg max-w-lg leading-relaxed">
+              <p className="hero-subtext text-text-secondary text-lg max-w-lg">
                 Expert-reviewed articles on Nutrition, Sleep, Fitness and Mental Health — personalized for your journey.
               </p>
             </ScrollReveal>
 
             <ScrollReveal delay={0.6}>
               <div className="flex flex-wrap gap-3 py-2">
-                <motion.div whileHover={{ scale: 1.05 }} className="bg-white rounded-full px-4 py-2 text-sm font-heading shadow-sm text-primary flex items-center gap-2"><Apple size={16} /> Nutrition</motion.div>
-                <motion.div whileHover={{ scale: 1.05 }} className="bg-white rounded-full px-4 py-2 text-sm font-heading shadow-sm text-primary flex items-center gap-2"><Moon size={16} /> Sleep</motion.div>
-                <motion.div whileHover={{ scale: 1.05 }} className="bg-white rounded-full px-4 py-2 text-sm font-heading shadow-sm text-primary flex items-center gap-2"><Dumbbell size={16} /> Fitness</motion.div>
+                <motion.div whileHover={{ scale: 1.05 }} className="hero-floating-badges bg-white rounded-full font-heading shadow-sm text-primary flex items-center gap-2"><Apple size={16} /> Nutrition</motion.div>
+                <motion.div whileHover={{ scale: 1.05 }} className="hero-floating-badges bg-white rounded-full font-heading shadow-sm text-primary flex items-center gap-2"><Moon size={16} /> Sleep</motion.div>
+                <motion.div whileHover={{ scale: 1.05 }} className="hero-floating-badges bg-white rounded-full font-heading shadow-sm text-primary flex items-center gap-2"><Dumbbell size={16} /> Fitness</motion.div>
               </div>
             </ScrollReveal>
 
             <ScrollReveal delay={0.7} className="mt-4">
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/about">
-                  <Button variant="primary" size="lg" className="w-full sm:w-auto">Explore Wellness &rarr;</Button>
+                <Link href="/about" className="w-full sm:w-auto">
+                  <Button variant="primary" size="lg" className="hero-cta-primary w-full sm:w-auto">Explore Wellness &rarr;</Button>
                 </Link>
-                <Link href="/blog">
-                  <Button variant="ghost" size="lg" className="w-full sm:w-auto">Read Our Blog</Button>
+                <Link href="/blog" className="w-full sm:w-auto">
+                  <Button variant="ghost" size="lg" className="hero-cta-secondary w-full sm:w-auto">Read Our Blog</Button>
                 </Link>
               </div>
               <p className="mt-4 text-sm text-text-muted font-medium tracking-wide flex items-center gap-1.5">

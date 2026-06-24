@@ -10,6 +10,7 @@ export default function BlogHero() {
           <SectionHeader
             title="Wellness Knowledge Base"
             subtitle="Explore our library of expert-reviewed articles on nutrition, fitness, sleep, and mental health."
+            titleClassName="blog-hero-h1"
           />
           <div className="mt-6 flex items-center justify-center gap-2 text-sm text-text-secondary font-heading">
             <Link href="/" className="hover:text-primary transition-colors">Home</Link>

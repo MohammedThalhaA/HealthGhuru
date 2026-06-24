@@ -17,7 +17,8 @@ export function RecordSearchBar({ value, onChange }: RecordSearchBarProps) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder="Search records..." 
-        className="w-full pl-10 pr-4 py-2.5 bg-white border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+        className="w-full pl-10 pr-4 py-2.5 bg-white border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+        style={{ fontSize: '16px' }}
       />
     </div>
   );

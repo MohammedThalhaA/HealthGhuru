@@ -94,20 +94,20 @@ export function DialogProvider({ children }: { children: ReactNode }) {
                 role="alertdialog"
                 aria-modal="true"
                 aria-labelledby="dialog-title"
-                className="w-full max-w-[420px] rounded-[14px] bg-white p-6 shadow-[0_20px_60px_rgba(26,46,26,0.25)] pointer-events-auto"
+                className="dialog-content w-full max-w-[420px] rounded-[14px] bg-white p-6 shadow-[0_20px_60px_rgba(26,46,26,0.25)] pointer-events-auto flex flex-col items-center text-center"
               >
-              <div className="flex items-start gap-3 mb-2">
+              <div className="flex flex-col items-center gap-3 mb-2">
                 <div
-                  className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center"
+                  className="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center"
                   style={{ backgroundColor: isDanger ? '#FDF2F2' : '#F5FAF5' }}
                 >
                   {isDanger ? (
-                    <AlertTriangle size={20} style={{ color: '#C62828' }} />
+                    <AlertTriangle size={24} style={{ color: '#C62828' }} />
                   ) : (
-                    <HelpCircle size={20} style={{ color: '#2E7D32' }} />
+                    <HelpCircle size={24} style={{ color: '#2E7D32' }} />
                   )}
                 </div>
-                <div className="flex-1 pt-1.5">
+                <div className="pt-1.5">
                   <h3
                     id="dialog-title"
                     className="font-semibold text-[1.1rem] leading-snug"
@@ -120,18 +120,18 @@ export function DialogProvider({ children }: { children: ReactNode }) {
 
               {pending.description && (
                 <p
-                  className="text-sm leading-relaxed mb-6 ml-[52px]"
+                  className="text-sm leading-relaxed mb-6"
                   style={{ color: '#4A6741', fontFamily: 'var(--font-body, "Inter", sans-serif)' }}
                 >
                   {pending.description}
                 </p>
               )}
 
-              <div className="flex justify-end gap-3 mt-4">
+              <div className="flex justify-center gap-3 mt-4 w-full">
                 <button
                   data-cursor="button"
                   onClick={() => handleClose(false)}
-                  className="px-5 py-2.5 rounded-full text-sm font-medium border transition-all duration-150 hover:-translate-y-0.5"
+                  className="flex-1 max-w-[140px] px-5 py-2.5 rounded-full text-sm font-medium border transition-all duration-150 hover:-translate-y-0.5"
                   style={{ borderColor: 'rgba(46,125,50,0.3)', color: '#2E7D32' }}
                 >
                   {pending.cancelLabel ?? 'Cancel'}
@@ -139,7 +139,7 @@ export function DialogProvider({ children }: { children: ReactNode }) {
                 <button
                   data-cursor="button"
                   onClick={() => handleClose(true)}
-                  className="px-5 py-2.5 rounded-full text-sm font-medium text-white transition-all duration-150 hover:-translate-y-0.5 shadow-md hover:shadow-lg"
+                  className="flex-1 max-w-[140px] px-5 py-2.5 rounded-full text-sm font-medium text-white transition-all duration-150 hover:-translate-y-0.5 shadow-md hover:shadow-lg"
                   style={{
                     background: 'linear-gradient(135deg, #f06d2f 0%, #ff8a57 100%)',
                   }}

@@ -20,12 +20,12 @@ export default function Footer() {
           {/* Column 1: Logo & Tagline */}
           <div className="flex flex-col items-start gap-4">
             <Link href="/" className="transition-transform hover:scale-105">
-              <div className="relative w-48 h-20">
+              <div className="relative w-48 h-20 -ml-2 md:ml-0">
                 <Image
                   src="/images/logo_transparent.png"
                   alt="HealthGhuru Logo"
                   fill
-                  className="object-contain"
+                  className="object-contain object-left"
                 />
               </div>
             </Link>

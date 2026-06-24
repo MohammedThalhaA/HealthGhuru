@@ -20,7 +20,7 @@ function BlockRenderer({ block }: { block: ArticleBlock }) {
     case 'paragraph':
       return (
         <p
-          className="text-[18px] leading-[1.8]"
+          className="article-body-text text-[18px] leading-[1.8]"
           style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-primary)' }}
         >
           {block.text}
@@ -29,7 +29,7 @@ function BlockRenderer({ block }: { block: ArticleBlock }) {
 
     case 'heading':
       const Tag = `h${block.level}` as keyof JSX.IntrinsicElements;
-      const sizeClass = block.level === 2 ? 'text-3xl mt-12 mb-4' : 'text-2xl mt-8 mb-3';
+      const sizeClass = block.level === 2 ? 'article-h2-block text-3xl mt-12 mb-4' : 'article-h3-block text-2xl mt-8 mb-3';
       return (
         <Tag
           className={`${sizeClass} font-display`}
@@ -42,7 +42,7 @@ function BlockRenderer({ block }: { block: ArticleBlock }) {
     case 'pull_quote':
       return (
         <blockquote
-          className="my-12 py-6 px-4 sm:px-6 border-l-4"
+          className="article-quote-block my-12 py-6 px-4 sm:px-6 border-l-4"
           style={{ borderColor: 'var(--color-accent)', backgroundColor: 'var(--color-surface)' }}
         >
           <p
@@ -69,14 +69,14 @@ function BlockRenderer({ block }: { block: ArticleBlock }) {
           style={{ backgroundColor: 'var(--color-surface-alt)', border: '1px solid var(--color-border)' }}
         >
           <h3
-            className="text-lg font-semibold mb-4 flex items-center gap-2"
+            className="article-takeaways-heading text-lg font-semibold mb-4 flex items-center gap-2"
             style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-dark)' }}
           >
             <CheckCircle2 size={20} style={{ color: 'var(--color-primary)' }} /> {block.title}
           </h3>
           <ul className="space-y-3">
             {block.points.map((point, i) => (
-              <li key={i} className="flex gap-3 text-[16px] leading-relaxed" style={{ color: 'var(--color-text-primary)' }}>
+              <li key={i} className="article-takeaways-item flex gap-3 text-[16px] leading-relaxed" style={{ color: 'var(--color-text-primary)' }}>
                 <span className="mt-1" style={{ color: 'var(--color-primary)' }}>•</span>
                 <span>{point}</span>
               </li>
@@ -95,8 +95,8 @@ function BlockRenderer({ block }: { block: ArticleBlock }) {
           <div className="p-2 bg-white rounded-full shadow-sm" style={{ color: 'var(--color-secondary)' }}>
             <Icon size={24} />
           </div>
-          <p className="text-[16px] leading-relaxed pt-1" style={{ color: 'var(--color-text-secondary)' }}>
-            <strong className="font-semibold" style={{ color: 'var(--color-dark)' }}>Pro Tip:</strong> {block.text}
+          <p className="article-callout-text text-[16px] leading-relaxed pt-1" style={{ color: 'var(--color-text-secondary)' }}>
+            <strong className="article-callout-title font-semibold" style={{ color: 'var(--color-dark)' }}>Pro Tip:</strong> {block.text}
           </p>
         </div>
       );

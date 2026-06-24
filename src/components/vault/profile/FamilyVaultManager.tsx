@@ -12,10 +12,10 @@ export function FamilyVaultManager() {
   const isFree = userPlan.tier === 'free';
 
   return (
-    <div className="bg-white border border-border rounded-[14px] shadow-[0_4px_24px_rgba(46,125,50,0.08)] p-8">
-      <div className="flex items-center justify-between mb-6">
+    <div className="bg-white border border-border rounded-xl md:rounded-[14px] shadow-[0_4px_24px_rgba(46,125,50,0.08)] p-4 md:p-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 md:mb-6 gap-4">
         <div>
-          <h3 className="font-heading font-bold text-xl text-dark">Family Vault</h3>
+          <h3 className="font-heading font-bold text-base md:text-xl text-dark">Family Vault</h3>
           <p className="text-sm text-text-secondary mt-1">Manage profiles for your family members.</p>
         </div>
         
@@ -69,7 +69,7 @@ export function FamilyVaultManager() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-dark/60 backdrop-blur-sm">
           <div className="bg-white rounded-[24px] w-full max-w-md shadow-2xl p-6">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="font-heading font-bold text-xl text-dark">Add Family Member</h3>
+              <h3 className="profile-section-heading font-heading font-bold text-xl text-dark">Add Family Member</h3>
               <button onClick={() => setIsAddModalOpen(false)} className="text-text-muted hover:text-dark">
                 <X size={20} />
               </button>
@@ -77,12 +77,12 @@ export function FamilyVaultManager() {
             
             <div className="space-y-4 mb-6">
               <div>
-                <label className="block text-sm font-medium text-text-primary mb-1">Name</label>
-                <input type="text" className="w-full px-4 py-2 bg-white border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
+                <label className="profile-label block text-sm font-medium text-text-primary mb-1">Name</label>
+                <input type="text" className="profile-value w-full px-4 py-2 bg-white border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-text-primary mb-1">Relationship</label>
-                <select className="w-full px-4 py-2 bg-white border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                <label className="profile-label block text-sm font-medium text-text-primary mb-1">Relationship</label>
+                <select className="profile-value w-full px-4 py-2 bg-white border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
                   <option>Spouse</option>
                   <option>Child</option>
                   <option>Parent</option>
@@ -90,8 +90,8 @@ export function FamilyVaultManager() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-text-primary mb-1">Date of Birth</label>
-                <input type="date" className="w-full px-4 py-2 bg-white border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
+                <label className="profile-label block text-sm font-medium text-text-primary mb-1">Date of Birth</label>
+                <input type="date" className="profile-value w-full px-4 py-2 bg-white border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
               </div>
             </div>
             

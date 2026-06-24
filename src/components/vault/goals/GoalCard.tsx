@@ -54,7 +54,7 @@ export function GoalCard({ goal, onUpdateProgress }: GoalCardProps) {
   const timeSinceUpdate = Math.floor((new Date().getTime() - lastUpdateDate.getTime()) / (1000 * 60 * 60 * 24));
 
   return (
-    <div className="bg-white border border-border rounded-[14px] p-6 shadow-[0_4px_24px_rgba(46,125,50,0.08)] flex flex-col h-full">
+    <div className="bg-white border border-border rounded-xl md:rounded-[14px] p-4 md:p-6 shadow-[0_4px_24px_rgba(46,125,50,0.08)] flex flex-col h-full">
       <div className="flex items-center justify-between mb-4">
         <PillBadge className="bg-surface-alt border-border text-xs px-2.5 py-1">
           {getCategoryName(goal.category)}
@@ -74,11 +74,11 @@ export function GoalCard({ goal, onUpdateProgress }: GoalCardProps) {
         </div>
       </div>
 
-      <h3 className="font-heading font-bold text-xl text-dark leading-tight mb-3">
+      <h3 className="font-heading font-bold text-lg md:text-xl text-dark leading-tight mb-2 md:mb-3">
         {goal.title}
       </h3>
 
-      <div className="flex items-center gap-6 text-sm text-text-secondary mb-4 bg-surface-alt p-3 rounded-lg border border-border">
+      <div className="flex items-center gap-3 md:gap-6 text-xs md:text-sm text-text-secondary mb-3 md:mb-4 bg-surface-alt p-2.5 md:p-3 rounded-lg border border-border">
         <div>
           <span className="block text-xs text-text-muted uppercase tracking-wider font-semibold mb-0.5">Starting</span>
           <span className="font-mono text-dark font-medium">{goal.startValue}{goal.unit}</span>
@@ -95,7 +95,7 @@ export function GoalCard({ goal, onUpdateProgress }: GoalCardProps) {
 
       <div className="mb-4">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-sm font-medium text-dark flex items-center gap-1.5">
+          <span className="text-xs md:text-sm font-medium text-dark flex items-center gap-1.5">
             <IconAction context="decorative"><Activity size={14} className="text-secondary" /></IconAction> Current: <span className="font-mono">{currentVal}{goal.unit}</span>
           </span>
           <span className="font-mono font-bold text-primary">{percentage}%</span>

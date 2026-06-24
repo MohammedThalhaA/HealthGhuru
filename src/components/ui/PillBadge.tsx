@@ -10,7 +10,7 @@ export function PillBadge({ children, active = false, className, ...props }: Pil
   return (
     <div
       className={cn(
-        "inline-flex items-center rounded-full px-4 py-1.5 text-sm font-heading font-semibold transition-colors",
+        "pill-badge inline-flex items-center rounded-full px-4 py-1.5 text-sm font-heading font-semibold transition-colors",
         active
           ? "bg-accent text-dark"
           : "bg-white border border-primary text-primary",

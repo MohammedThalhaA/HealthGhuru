@@ -23,10 +23,10 @@ export function SubscriptionPanel() {
   };
 
   return (
-    <div className="bg-white border border-border rounded-[14px] shadow-[0_4px_24px_rgba(46,125,50,0.08)] p-8">
-      <div className="flex items-center justify-between mb-8">
+    <div className="bg-white border border-border rounded-xl md:rounded-[14px] shadow-[0_4px_24px_rgba(46,125,50,0.08)] p-4 md:p-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 md:mb-8 gap-4">
         <div>
-          <h3 className="font-heading font-bold text-xl text-dark">Subscription Plan</h3>
+          <h3 className="font-heading font-bold text-base md:text-xl text-dark">Subscription Plan</h3>
           <p className="text-sm text-text-secondary mt-1">Manage your billing and tier upgrades.</p>
         </div>
         <div className="text-right">

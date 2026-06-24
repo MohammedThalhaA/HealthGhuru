@@ -28,7 +28,7 @@ export default function LoginPage() {
           {/* Logo */}
           <div className="flex justify-center mb-8">
             <Link href="/" className="transition-transform hover:scale-105">
-              <div className="relative w-48 h-20">
+              <div className="relative w-48 h-20 -ml-2">
                 <Image
                   src="/images/logo_transparent.png"
                   alt="HealthGhuru Logo"
@@ -40,8 +40,8 @@ export default function LoginPage() {
           </div>
 
           <div className="text-center mb-8">
-            <h2 className="font-display text-3xl text-dark mb-2">Welcome Back</h2>
-            <p className="text-text-secondary text-sm">Sign in to your HealthGhuru account</p>
+            <h2 className="form-card-heading font-display text-3xl text-dark mb-2">Welcome Back</h2>
+            <p className="form-card-subtitle text-text-secondary text-sm">Sign in to your HealthGhuru account</p>
           </div>
 
           <LoginForm />

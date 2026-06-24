@@ -97,19 +97,19 @@ export default function LoginForm() {
             type="email"
             id="email"
             placeholder=" "
-            className={`block w-full px-4 pt-6 pb-2 text-dark bg-surface-alt border rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-primary peer ${
+            className={`form-input block w-full px-4 pt-6 pb-2 text-dark bg-surface-alt border rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-primary peer ${
               errors.email ? "border-red-500 focus:ring-red-500" : "border-transparent"
             }`}
           />
           <label
             htmlFor="email"
-            className="absolute text-sm text-text-muted duration-300 transform -translate-y-3 scale-75 top-4 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3 font-medium"
+            className="form-label absolute text-sm text-text-muted duration-300 transform -translate-y-3 scale-75 top-4 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3 font-medium"
           >
             Email Address
           </label>
         </div>
         {errors.email && (
-          <p className="mt-1 text-xs text-red-500">{errors.email.message}</p>
+          <p className="form-error-text mt-1 text-xs text-red-500">{errors.email.message}</p>
         )}
       </div>
 
@@ -121,13 +121,13 @@ export default function LoginForm() {
             type={showPassword ? "text" : "password"}
             id="password"
             placeholder=" "
-            className={`block w-full px-4 pt-6 pb-2 text-dark bg-surface-alt border rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-primary peer ${
+            className={`form-input block w-full px-4 pt-6 pb-2 text-dark bg-surface-alt border rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-primary peer ${
               errors.password ? "border-red-500 focus:ring-red-500" : "border-transparent"
             }`}
           />
           <label
             htmlFor="password"
-            className="absolute text-sm text-text-muted duration-300 transform -translate-y-3 scale-75 top-4 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3 font-medium"
+            className="form-label absolute text-sm text-text-muted duration-300 transform -translate-y-3 scale-75 top-4 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3 font-medium"
           >
             Password
           </label>
@@ -140,7 +140,7 @@ export default function LoginForm() {
           </button>
         </div>
         {errors.password && (
-          <p className="mt-1 text-xs text-red-500">{errors.password.message}</p>
+          <p className="form-error-text mt-1 text-xs text-red-500">{errors.password.message}</p>
         )}
       </div>
 

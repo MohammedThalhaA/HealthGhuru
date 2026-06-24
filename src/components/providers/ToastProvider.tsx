@@ -94,7 +94,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
       {/* Fixed stack, top-right on desktop, top-center full-width on mobile */}
       <div
         aria-live="polite"
-        className="fixed top-4 right-4 left-4 sm:left-auto z-[10000] flex flex-col gap-2 sm:w-[380px] pointer-events-none"
+        className="toast-container fixed top-4 right-4 left-4 sm:left-auto z-[10000] flex flex-col gap-2 sm:w-[380px] pointer-events-none"
       >
         <AnimatePresence>
           {toasts.map((t) => {

@@ -71,8 +71,8 @@ export default function SubscribePage() {
           </div>
 
           <div className="text-center mb-6">
-            <h2 className="font-display text-2xl md:text-3xl text-dark mb-2">Start Your Wellness Journey</h2>
-            <p className="text-text-secondary text-sm md:text-base">
+            <h2 className="form-card-heading font-display text-2xl md:text-3xl text-dark mb-2">Start Your Wellness Journey</h2>
+            <p className="form-card-subtitle text-text-secondary text-sm md:text-base">
               Get personalized health content, expert tips, and exclusive resources.
             </p>
           </div>

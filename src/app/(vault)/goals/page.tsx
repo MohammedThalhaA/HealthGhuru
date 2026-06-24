@@ -53,37 +53,37 @@ export default function GoalsPage() {
   };
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-500">
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+    <div className="space-y-4 md:space-y-8 animate-in fade-in duration-500">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 md:gap-6">
         <ScrollReveal>
           <SectionHeader 
             title="Health Goals" 
             eyebrow="My Vault"
-            subtitle="Track and achieve your most important health milestones."
+            subtitle="Track and achieve your health milestones."
           />
         </ScrollReveal>
 
         <ScrollReveal delay={0.1}>
-          <Button variant="primary" onClick={() => setIsCreateModalOpen(true)} className="gap-2">
-            <Plus size={18} /> New Goal
+          <Button variant="primary" onClick={() => setIsCreateModalOpen(true)} className="gap-2 text-sm">
+            <Plus size={16} /> New Goal
           </Button>
         </ScrollReveal>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-8 items-start">
-        <div className="flex-1 w-full space-y-8">
+      <div className="flex flex-col lg:flex-row gap-4 md:gap-8 items-start">
+        <div className="flex-1 w-full space-y-4 md:space-y-8 min-w-0">
           {memberGoals.length === 0 ? (
             <ScrollReveal delay={0.2}>
               <EmptyState 
                 icon={Target}
                 title="No goals yet"
-                description="Setting a health goal is the first step to achieving it. What do you want to accomplish?"
+                description="Set a health goal to get started."
                 actionText="Create your first goal"
                 onAction={() => setIsCreateModalOpen(true)}
               />
             </ScrollReveal>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               {memberGoals.map((goal, index) => (
                 <ScrollReveal key={goal.id} delay={0.1 * index} className="h-full">
                   <GoalCard goal={goal} onUpdateProgress={setGoalToUpdate} />
@@ -97,7 +97,6 @@ export default function GoalsPage() {
           </ScrollReveal>
         </div>
 
-        {/* Ad Rail (Desktop & Free only) */}
         {isFree && (
           <div className="hidden lg:block w-[300px] shrink-0 sticky top-28">
             <ScrollReveal delay={0.4}>
@@ -110,7 +109,7 @@ export default function GoalsPage() {
       {isCreateModalOpen && (
         hasReachedLimit ? (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-dark/60 backdrop-blur-sm">
-            <div className="bg-white rounded-[24px] w-full max-w-md shadow-2xl p-6">
+            <div className="bg-white rounded-xl md:rounded-[24px] w-full max-w-md shadow-2xl p-4 md:p-6">
               <LockedFeatureCard 
                 message={`Free plan includes ${userPlan.activeGoalsLimit} active goal at a time.`}
                 upgradeText="Upgrade to Pro for unlimited goals &rarr;"

@@ -12,7 +12,8 @@ const FILTERS = ['For You', 'Saved', 'Nutrition', 'Fitness', 'Sleep', 'Mental He
 
 export function LibraryFilterBar({ activeFilter, onChange }: LibraryFilterBarProps) {
   return (
-    <div className="flex flex-wrap gap-2 mb-8 border-b border-border pb-4">
+    <div className="flex overflow-x-auto pb-4 mb-4 md:mb-8 border-b border-border hide-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
+      <div className="flex flex-nowrap gap-2 min-w-max">
       {FILTERS.map(filter => (
         <button
           key={filter}
@@ -28,6 +29,7 @@ export function LibraryFilterBar({ activeFilter, onChange }: LibraryFilterBarPro
           {filter}
         </button>
       ))}
+      </div>
     </div>
   );
 }

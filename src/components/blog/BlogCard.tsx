@@ -28,15 +28,15 @@ export const BlogCard = React.memo(function BlogCard({ post, image }: BlogCardPr
             <PillBadge active={false}>{post.category}</PillBadge>
           </div>
           
-          <h3 className="font-display text-xl leading-snug text-dark mb-3 group-hover:text-primary transition-colors">
+          <h3 className="blog-card-title font-display text-xl leading-snug text-dark mb-3 group-hover:text-primary transition-colors">
             {post.title}
           </h3>
           
-          <p className="text-text-secondary text-sm leading-relaxed mb-6 line-clamp-2 flex-grow">
+          <p className="blog-card-excerpt text-text-secondary text-sm leading-relaxed mb-6 line-clamp-2 flex-grow">
             {post.excerpt}
           </p>
           
-          <div className="w-full pt-4 border-t border-border flex items-center justify-between text-xs text-text-muted mt-auto font-medium tracking-wide">
+          <div className="blog-card-meta w-full pt-4 border-t border-border flex items-center justify-between text-xs text-text-muted mt-auto font-medium tracking-wide">
             <span>{post.date}</span>
             <span className="flex items-center gap-1">
               {post.readTime}

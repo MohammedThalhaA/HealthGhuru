@@ -22,8 +22,8 @@ export function QuickAddMenu() {
   }, []);
 
   return (
-    <div className="bg-white rounded-[14px] p-6 shadow-[0_4px_24px_rgba(46,125,50,0.08)] h-full flex flex-col items-center justify-center relative" ref={menuRef}>
-      <h3 className="font-heading font-bold text-lg text-dark mb-4 text-center">Quick Add</h3>
+    <div className="bg-white rounded-xl md:rounded-[14px] p-4 md:p-6 shadow-[0_4px_24px_rgba(46,125,50,0.08)] h-full flex flex-col items-center justify-center relative" ref={menuRef}>
+      <h3 className="font-heading font-bold text-base md:text-lg text-dark mb-3 md:mb-4 text-center">Quick Add</h3>
       
       <div className="relative">
         <Button 

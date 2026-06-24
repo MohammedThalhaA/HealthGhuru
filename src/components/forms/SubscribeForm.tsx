@@ -68,18 +68,18 @@ export default function SubscribeForm() {
               {...register("name")}
               id="name"
               placeholder=" "
-              className={`block w-full px-4 pt-5 pb-1.5 text-dark bg-surface-alt border rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-primary peer ${
+              className={`form-input block w-full px-4 pt-5 pb-1.5 text-dark bg-surface-alt border rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-primary peer ${
                 errors.name ? "border-red-500 focus:ring-red-500" : "border-transparent"
               }`}
             />
             <label
               htmlFor="name"
-              className="absolute text-sm text-text-muted duration-300 transform -translate-y-3 scale-75 top-3.5 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3 font-medium"
+              className="form-label absolute text-sm text-text-muted duration-300 transform -translate-y-3 scale-75 top-3.5 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3 font-medium"
             >
               Full Name
             </label>
           </div>
-          {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>}
+          {errors.name && <p className="form-error-text mt-1 text-xs text-red-500">{errors.name.message}</p>}
         </div>
 
         {/* Email Input */}
@@ -90,18 +90,18 @@ export default function SubscribeForm() {
               type="email"
               id="email"
               placeholder=" "
-              className={`block w-full px-4 pt-5 pb-1.5 text-dark bg-surface-alt border rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-primary peer ${
+              className={`form-input block w-full px-4 pt-5 pb-1.5 text-dark bg-surface-alt border rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-primary peer ${
                 errors.email ? "border-red-500 focus:ring-red-500" : "border-transparent"
               }`}
             />
             <label
               htmlFor="email"
-              className="absolute text-sm text-text-muted duration-300 transform -translate-y-3 scale-75 top-3.5 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3 font-medium"
+              className="form-label absolute text-sm text-text-muted duration-300 transform -translate-y-3 scale-75 top-3.5 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3 font-medium"
             >
               Email Address
             </label>
           </div>
-          {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email.message}</p>}
+          {errors.email && <p className="form-error-text mt-1 text-xs text-red-500">{errors.email.message}</p>}
         </div>
 
         {/* Phone Input */}
@@ -112,11 +112,11 @@ export default function SubscribeForm() {
               type="tel"
               id="phone"
               placeholder=" "
-              className="block w-full px-4 pt-5 pb-1.5 text-dark bg-surface-alt border border-transparent rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-primary peer"
+              className="form-input block w-full px-4 pt-5 pb-1.5 text-dark bg-surface-alt border border-transparent rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-primary peer"
             />
             <label
               htmlFor="phone"
-              className="absolute text-sm text-text-muted duration-300 transform -translate-y-3 scale-75 top-3.5 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3 font-medium"
+              className="form-label absolute text-sm text-text-muted duration-300 transform -translate-y-3 scale-75 top-3.5 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3 font-medium"
             >
               Phone (Optional)
             </label>
@@ -130,7 +130,7 @@ export default function SubscribeForm() {
         <div
           onClick={() => setValue("plan", "free")}
           className={cn(
-            "relative p-4 rounded-xl border-2 cursor-pointer transition-all duration-300",
+            "plan-selection-card relative p-4 rounded-xl border-2 cursor-pointer transition-all duration-300",
             selectedPlan === "free"
               ? "border-primary bg-primary/5 shadow-md"
               : "border-border bg-white hover:border-primary/40"
@@ -141,19 +141,19 @@ export default function SubscribeForm() {
               <CheckCircle2 size={18} />
             </div>
           )}
-          <h4 className="font-heading font-bold text-base text-dark mb-2">FREE</h4>
+          <h4 className="plan-card-title font-heading font-bold text-base text-dark mb-2">FREE</h4>
           <ul className="space-y-1.5 text-xs sm:text-sm text-text-secondary mb-3">
-            <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-primary/70" /> Weekly blog</li>
-            <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-primary/70" /> Basic tips</li>
+            <li className="plan-card-feature flex items-center gap-2"><CheckCircle2 size={14} className="text-primary/70" /> Weekly blog</li>
+            <li className="plan-card-feature flex items-center gap-2"><CheckCircle2 size={14} className="text-primary/70" /> Basic tips</li>
           </ul>
-          <div className="font-mono text-lg font-bold text-dark mt-auto">₹0<span className="text-xs font-body text-text-muted font-normal">/month</span></div>
+          <div className="plan-card-price font-mono text-lg font-bold text-dark mt-auto">₹0<span className="text-xs font-body text-text-muted font-normal">/month</span></div>
         </div>
 
         {/* Premium Plan */}
         <div
           onClick={() => setValue("plan", "premium")}
           className={cn(
-            "relative p-4 rounded-xl border-2 cursor-pointer transition-all duration-300",
+            "plan-selection-card relative p-4 rounded-xl border-2 cursor-pointer transition-all duration-300",
             selectedPlan === "premium"
               ? "border-accent bg-accent/5 shadow-md"
               : "border-border bg-white hover:border-accent/40"
@@ -167,13 +167,13 @@ export default function SubscribeForm() {
           <div className="absolute top-0 right-0 translate-x-1/4 -translate-y-1/2">
             <span className="bg-dark text-accent text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Popular ★</span>
           </div>
-          <h4 className="font-heading font-bold text-base text-dark mb-2">PREMIUM</h4>
+          <h4 className="plan-card-title font-heading font-bold text-base text-dark mb-2">PREMIUM</h4>
           <ul className="space-y-1.5 text-xs sm:text-sm text-text-secondary mb-3">
-            <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-accent" /> Everything</li>
-            <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-accent" /> Personalized</li>
-            <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-accent" /> Expert Q&A</li>
+            <li className="plan-card-feature flex items-center gap-2"><CheckCircle2 size={14} className="text-accent" /> Everything</li>
+            <li className="plan-card-feature flex items-center gap-2"><CheckCircle2 size={14} className="text-accent" /> Personalized</li>
+            <li className="plan-card-feature flex items-center gap-2"><CheckCircle2 size={14} className="text-accent" /> Expert Q&A</li>
           </ul>
-          <div className="font-mono text-lg font-bold text-dark mt-auto">₹299<span className="text-xs font-body text-text-muted font-normal">/month</span></div>
+          <div className="plan-card-price font-mono text-lg font-bold text-dark mt-auto">₹299<span className="text-xs font-body text-text-muted font-normal">/month</span></div>
         </div>
       </div>
 

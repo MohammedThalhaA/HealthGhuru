@@ -44,8 +44,8 @@ export default function RecordsPage() {
   };
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-500">
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+    <div className="space-y-4 md:space-y-8 animate-in fade-in duration-500">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 md:gap-6">
         <ScrollReveal>
           <SectionHeader 
             title="My Records" 
@@ -57,42 +57,42 @@ export default function RecordsPage() {
         <ScrollReveal delay={0.1}>
           {hasReachedLimit ? (
             <LockedFeatureCard 
-              message={`You've reached your ${userPlan.recordsLimit}-record limit on the Free plan.`}
-              upgradeText="Upgrade for unlimited records &rarr;"
+              message={`You've reached your ${userPlan.recordsLimit}-record limit.`}
+              upgradeText="Upgrade &rarr;"
               onUpgrade={() => window.location.href = '/profile'}
               inline
-              className="py-3 px-4 shadow-sm"
+              className="py-2 px-3 md:py-3 md:px-4 shadow-sm text-xs md:text-sm"
             />
           ) : (
-            <Button variant="primary" onClick={() => setIsModalOpen(true)} className="gap-2">
-              <Plus size={18} /> Add Record
+            <Button variant="primary" onClick={() => setIsModalOpen(true)} className="gap-2 text-sm">
+              <Plus size={16} /> Add Record
             </Button>
           )}
         </ScrollReveal>
       </div>
 
-      <ScrollReveal delay={0.2} className="flex flex-col md:flex-row items-center justify-between gap-4 bg-white p-4 rounded-2xl shadow-[0_4px_24px_rgba(46,125,50,0.08)]">
+      <ScrollReveal delay={0.2} className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 md:gap-4 bg-white p-3 md:p-4 rounded-xl md:rounded-2xl shadow-[0_4px_24px_rgba(46,125,50,0.08)]">
         <RecordTypeFilter activeType={activeFilter} onChange={setActiveFilter} />
         <RecordSearchBar value={searchQuery} onChange={setSearchQuery} />
       </ScrollReveal>
 
       {!isLoaded ? (
-        <div className="flex justify-center items-center py-20">
+        <div className="flex justify-center items-center py-16 md:py-20">
           <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full"></div>
         </div>
       ) : filteredRecords.length === 0 ? (
         <ScrollReveal delay={0.3}>
           <EmptyState 
             icon={FolderLock}
-            title={searchQuery ? "No matching records found" : "No records yet"}
-            description={searchQuery ? "Try adjusting your search terms or filters." : "Upload your first lab report, prescription, or visit note to keep everything organized."}
+            title={searchQuery ? "No matching records" : "No records yet"}
+            description={searchQuery ? "Try adjusting your search or filters." : "Upload your first health document to get started."}
             actionText={!searchQuery && !hasReachedLimit ? "Add Record" : undefined}
             onAction={() => setIsModalOpen(true)}
-            className="mt-8"
+            className="mt-4 md:mt-8"
           />
         </ScrollReveal>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
           {filteredRecords.map((record, index) => (
             <ScrollReveal key={record.id} delay={0.1 * (index % 10)} className="h-full">
               <RecordCard record={record} />

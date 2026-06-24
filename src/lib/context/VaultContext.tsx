@@ -117,7 +117,39 @@ export function VaultProvider({ children }: { children: React.ReactNode }) {
       .then(res => res.json())
       .then(data => {
         if (data.success && data.goals) {
-          setGoals(data.goals);
+          const storedGoals = localStorage.getItem(`vault_goals_${memberId}`);
+          let mergedGoals = data.goals;
+          
+          if (storedGoals) {
+             const localGoals = JSON.parse(storedGoals);
+             const dbGoalsMap = new Map(data.goals.map((g: any) => [g.id, g]));
+             
+             const syncedGoals = localGoals.map((localGoal: any) => {
+               const dbGoal = dbGoalsMap.get(localGoal.id) as any;
+               if (!dbGoal) {
+                 fetch('/api/goals', {
+                   method: 'POST',
+                   headers: { 'Content-Type': 'application/json' },
+                   body: JSON.stringify(localGoal)
+                 }).catch(console.error);
+                 return localGoal;
+               } else if (localGoal.history.length > dbGoal.history.length) {
+                 fetch('/api/goals', {
+                   method: 'POST',
+                   headers: { 'Content-Type': 'application/json' },
+                   body: JSON.stringify(localGoal)
+                 }).catch(console.error);
+                 return localGoal;
+               }
+               return dbGoal;
+             });
+             
+             const localIds = new Set(localGoals.map((g: any) => g.id));
+             const uniqueDb = data.goals.filter((g: any) => !localIds.has(g.id));
+             
+             mergedGoals = [...syncedGoals, ...uniqueDb];
+          }
+          setGoals(mergedGoals);
         } else {
           const storedGoals = localStorage.getItem(`vault_goals_${memberId}`);
           setGoals(storedGoals ? JSON.parse(storedGoals) : []);

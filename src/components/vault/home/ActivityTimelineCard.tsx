@@ -82,8 +82,8 @@ export function ActivityTimelineCard() {
   };
 
   return (
-    <div className="bg-white rounded-[14px] p-6 shadow-[0_4px_24px_rgba(46,125,50,0.08)] h-full flex flex-col overflow-hidden">
-      <h3 className="font-heading font-bold text-lg text-dark mb-6 shrink-0">Recent Activity</h3>
+    <div className="bg-white rounded-xl md:rounded-[14px] p-4 md:p-6 shadow-[0_4px_24px_rgba(46,125,50,0.08)] h-full flex flex-col overflow-hidden">
+      <h3 className="font-heading font-bold text-base md:text-lg text-dark mb-4 md:mb-6 shrink-0">Recent Activity</h3>
       
       {topActivities.length === 0 ? (
         <div className="flex-1 flex flex-col justify-center">
@@ -105,11 +105,11 @@ export function ActivityTimelineCard() {
                 {getIcon(activity.type)}
               </div>
               <div className="pt-1.5 flex-1">
-                <p className="text-sm text-text-primary leading-tight font-medium">
+                <p className="timeline-item-title text-sm text-text-primary leading-tight font-medium">
                   {activity.label}
                 </p>
                 <div className="flex items-center justify-between mt-1">
-                  <span className="text-xs text-text-muted" suppressHydrationWarning>
+                  <span className="timeline-item-time text-xs text-text-muted" suppressHydrationWarning>
                     {formatDate(activity.timestamp)}
                   </span>
                   <Link href={activity.linkHref} className="text-xs text-secondary hover:underline font-medium">

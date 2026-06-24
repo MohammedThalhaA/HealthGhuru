@@ -21,7 +21,8 @@ const RECORD_TYPES: { value: RecordType | 'all', label: string }[] = [
 
 export function RecordTypeFilter({ activeType, onChange }: RecordTypeFilterProps) {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex overflow-x-auto pb-2 -mx-3 px-3 md:mx-0 md:px-0 md:pb-0 hide-scrollbar">
+      <div className="flex flex-nowrap md:flex-wrap gap-2 min-w-max">
       {RECORD_TYPES.map(type => (
         <button
           key={type.value}
@@ -36,6 +37,7 @@ export function RecordTypeFilter({ activeType, onChange }: RecordTypeFilterProps
           {type.label}
         </button>
       ))}
+      </div>
     </div>
   );
 }

@@ -45,12 +45,12 @@ export default function Navbar() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex-shrink-0 z-50 transition-transform hover:scale-105">
-            <div className="relative w-40 h-14 sm:h-16">
+            <div className="relative w-40 h-14 sm:h-16 -ml-2 md:ml-0">
               <Image
                 src="/images/logo_transparent.png"
                 alt="HealthGhuru Logo"
                 fill
-                className="object-contain"
+                className="object-contain object-left"
                 priority
               />
             </div>
@@ -132,7 +132,7 @@ export default function Navbar() {
                       key={link.href}
                       href={link.href}
                       className={cn(
-                        "font-heading font-semibold text-lg pb-2 border-b border-gray-100",
+                        "mobile-nav-link border-b border-gray-100",
                         isActive ? "text-primary" : "text-text-primary"
                       )}
                     >
@@ -144,12 +144,12 @@ export default function Navbar() {
               
               <div className="flex flex-col gap-3 pt-2 mt-auto">
                 <Link href="/login" className="w-full">
-                  <Button variant="secondary" className="w-full justify-center">
+                  <Button variant="secondary" className="w-full justify-center min-h-[52px] text-base">
                     Login
                   </Button>
                 </Link>
                 <Link href="/subscribe" className="w-full">
-                  <Button variant="primary" className="w-full justify-center">
+                  <Button variant="primary" className="w-full justify-center min-h-[52px] text-base">
                     Subscribe &rarr;
                   </Button>
                 </Link>
