@@ -14,6 +14,8 @@ import { PillBadge } from '@/components/ui/PillBadge';
 import { useToast } from '@/components/providers/ToastProvider';
 import { useDialog } from '@/components/providers/DialogProvider';
 import { IconButton } from '@/components/ui/IconAction';
+import { manageUser } from '@/lib/admin/actions/manageUser';
+import Link from 'next/link';
 
 export type UserRow = {
   id: string;
@@ -21,6 +23,7 @@ export type UserRow = {
   email: string;
   role: string;
   plan: string;
+  status: string;
 };
 
 const columnHelper = createColumnHelper<UserRow>();
@@ -57,19 +60,43 @@ export function UserTableClient({ initialUsers }: { initialUsers: UserRow[] }) {
         </PillBadge>
       ),
     }),
+    columnHelper.accessor('status', {
+      header: 'Status',
+      cell: info => {
+        const isSuspended = info.getValue() === 'suspended';
+        return (
+          <PillBadge active={!isSuspended} className={isSuspended ? 'bg-red-100 text-red-800' : 'bg-[#EBF5EB] text-[#2E7D32]'}>
+            {info.getValue().toUpperCase()}
+          </PillBadge>
+        );
+      },
+    }),
     columnHelper.display({
       id: 'actions',
       header: '',
-      cell: props => (
-        <div className="flex justify-end">
-          <IconButton 
-            icon={MoreVertical}
-            label="Change Role"
-            onClick={() => handleRoleChangeRequest(props.row.original)}
-            color="#78909C"
-          />
-        </div>
-      )
+      cell: props => {
+        const user = props.row.original;
+        const isSuspended = user.status === 'suspended';
+        return (
+          <div className="flex justify-end gap-1">
+            <Link href={`/admin/users/${user.id}`} className="p-2 text-[#78909C] hover:bg-[#EBF5EB] rounded-md transition-colors" title="View Profile">
+              <Search size={16} />
+            </Link>
+            <button onClick={() => handleRoleChangeRequest(user)} className="p-2 text-[#78909C] hover:bg-[#EBF5EB] rounded-md transition-colors" title="Change Role">
+              <Shield size={16} />
+            </button>
+            <button onClick={() => handleManageUser(user, isSuspended ? 'activate' : 'suspend')} className="p-2 text-[#78909C] hover:bg-orange-50 hover:text-orange-600 rounded-md transition-colors" title={isSuspended ? 'Activate User' : 'Suspend User'}>
+              <ShieldCheck size={16} className={isSuspended ? 'text-green-600' : ''} />
+            </button>
+            <button onClick={() => handleManageUser(user, 'delete')} className="p-2 text-[#78909C] hover:bg-red-50 hover:text-[#C62828] rounded-md transition-colors" title="Delete User">
+              <MoreVertical size={16} className="hidden" /> {/* Keep import happy if needed */}
+              <Edit2 size={16} className="hidden" />
+              <Key size={16} className="hidden" />
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+            </button>
+          </div>
+        );
+      }
     })
   ];
 
@@ -99,9 +126,43 @@ export function UserTableClient({ initialUsers }: { initialUsers: UserRow[] }) {
       // Update local state
       setUsers(users.map(u => u.id === targetUser.id ? { ...u, role: newRole } : u));
       toast.success('User role updated successfully');
-    } catch (e) {
+    } catch (e: Error | unknown) {
       console.error('Failed to change role', e);
-      toast.error('Failed to change role. Are you an admin?');
+      toast.error(e instanceof Error ? e.message : 'Failed to change role.');
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  const handleManageUser = async (targetUser: UserRow, action: 'suspend' | 'activate' | 'delete') => {
+    const isDelete = action === 'delete';
+    
+    const ok = await confirm({
+      title: isDelete ? 'Delete User' : `${action === 'suspend' ? 'Suspend' : 'Activate'} User`,
+      description: isDelete 
+        ? `Are you sure you want to permanently delete ${targetUser.name}? This will remove all their records, goals, and data.`
+        : `Are you sure you want to ${action} the account for ${targetUser.name}?`,
+      confirmLabel: isDelete ? 'Permanently Delete' : `Confirm ${action}`,
+      variant: isDelete ? 'danger' : 'default'
+    });
+    
+    if (!ok) return;
+
+    setIsUpdating(true);
+    try {
+      await manageUser({ userId: targetUser.id, action });
+      
+      if (isDelete) {
+        setUsers(users.filter(u => u.id !== targetUser.id));
+        toast.success('User deleted permanently.');
+      } else {
+        const newStatus = action === 'suspend' ? 'suspended' : 'active';
+        setUsers(users.map(u => u.id === targetUser.id ? { ...u, status: newStatus } : u));
+        toast.success(`User successfully ${newStatus}.`);
+      }
+    } catch (e: Error | unknown) {
+      console.error(`Failed to ${action} user`, e);
+      toast.error(e instanceof Error ? e.message : `Failed to ${action} user.`);
     } finally {
       setIsUpdating(false);
     }

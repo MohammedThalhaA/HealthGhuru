@@ -6,19 +6,14 @@ import { FileText, Pill, FileEdit } from 'lucide-react';
 import { WelcomeCard } from '@/components/vault/home/WelcomeCard';
 import { ActivityTimelineCard } from '@/components/vault/home/ActivityTimelineCard';
 import { PinnedVitalsCard } from '@/components/vault/home/PinnedVitalsCard';
-import { NudgeCard } from '@/components/vault/home/NudgeCard';
-import { MilestoneUpgradeCard } from '@/components/vault/home/MilestoneUpgradeCard';
 import { QuickAddMenu } from '@/components/vault/home/QuickAddMenu';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 
 export default function VaultHomePage() {
-  const { userPlan, welcomeSeen, milestoneSeen, records, goals, activeMemberId } = useVault();
+  const { userPlan, welcomeSeen, records, goals, activeMemberId } = useVault();
   
-  const accountAgeDays = Math.floor((Date.now() - new Date(userPlan.accountCreatedAt).getTime()) / (1000 * 60 * 60 * 24));
-  const hasEnoughActivity = records.length >= 1 && goals.length >= 1;
   const isFree = userPlan.tier === 'free';
-  const shouldShowMilestone = isFree && !milestoneSeen && accountAgeDays >= 7 && hasEnoughActivity;
 
   const memberGoals = goals.filter(g => g.memberId === activeMemberId);
   const activeGoalsCount = memberGoals.filter(g => g.status === 'active').length;
@@ -58,12 +53,7 @@ export default function VaultHomePage() {
           </ScrollReveal>
         </div>
 
-        {/* Nudge or Milestone */}
-        <div className="md:col-span-1 xl:col-span-1">
-          <ScrollReveal delay={0.4} className="h-full">
-            {shouldShowMilestone ? <MilestoneUpgradeCard /> : <NudgeCard />}
-          </ScrollReveal>
-        </div>
+
 
         {/* Goals Snapshot */}
         <div className="md:col-span-1 xl:col-span-1 bg-white rounded-xl md:rounded-[14px] p-4 md:p-6 shadow-[0_4px_24px_rgba(46,125,50,0.08)] flex flex-col justify-between">

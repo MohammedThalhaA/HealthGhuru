@@ -7,7 +7,7 @@ export default async function EditArticlePage({ params }: { params: { articleId:
   await requireAdmin();
 
   const articles = await sql`
-    SELECT id, title, slug, category, matched_goal_category, excerpt, read_time, status
+    SELECT *
     FROM articles
     WHERE id = ${params.articleId}::uuid AND deleted_at IS NULL
   `;

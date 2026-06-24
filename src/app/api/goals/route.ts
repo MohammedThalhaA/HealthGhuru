@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { neon } from '@neondatabase/serverless';
 import { NextRequest, NextResponse } from 'next/server';
+import { auth } from '@/lib/auth/auth.config';
 
 const sql = neon(process.env.DATABASE_URL!);
 
@@ -8,6 +9,7 @@ async function ensureTableExists() {
   await sql`
     CREATE TABLE IF NOT EXISTS app_vault_goals (
       id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL,
       member_id TEXT NOT NULL,
       title TEXT NOT NULL,
       category TEXT NOT NULL,
@@ -23,6 +25,9 @@ async function ensureTableExists() {
 
 export async function GET(request: NextRequest) {
   try {
+    const session = await auth();
+    if (!session?.user) return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+
     const { searchParams } = new URL(request.url);
     const memberId = searchParams.get('memberId');
     
@@ -34,7 +39,7 @@ export async function GET(request: NextRequest) {
     
     const goals = await sql`
       SELECT * FROM app_vault_goals 
-      WHERE member_id = ${memberId}
+      WHERE user_id = ${session.user.id} AND member_id = ${memberId}
       ORDER BY target_date ASC
     `;
     
@@ -60,11 +65,14 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    const session = await auth();
+    if (!session?.user) return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+
     const body = await request.json();
     await ensureTableExists();
     
     // Check if goal exists to do an upsert
-    const existing = await sql`SELECT id FROM app_vault_goals WHERE id = ${body.id}`;
+    const existing = await sql`SELECT id FROM app_vault_goals WHERE id = ${body.id} AND user_id = ${session.user.id}`;
     
     if (existing.length > 0) {
       // Update
@@ -78,15 +86,15 @@ export async function POST(request: NextRequest) {
           target_date = ${body.targetDate},
           status = ${body.status},
           history = ${JSON.stringify(body.history)}::jsonb
-        WHERE id = ${body.id}
+        WHERE id = ${body.id} AND user_id = ${session.user.id}
       `;
     } else {
       // Insert
       await sql`
         INSERT INTO app_vault_goals (
-          id, member_id, title, category, start_value, target_value, unit, target_date, status, history
+          id, user_id, member_id, title, category, start_value, target_value, unit, target_date, status, history
         ) VALUES (
-          ${body.id}, ${body.memberId}, ${body.title}, ${body.category}, 
+          ${body.id}, ${session.user.id}, ${body.memberId}, ${body.title}, ${body.category}, 
           ${body.startValue}, ${body.targetValue}, ${body.unit}, 
           ${body.targetDate}, ${body.status}, ${JSON.stringify(body.history)}::jsonb
         )
@@ -102,6 +110,9 @@ export async function POST(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
+    const session = await auth();
+    if (!session?.user) return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
     
@@ -109,7 +120,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ success: false, error: 'ID is required' }, { status: 400 });
     }
     
-    await sql`DELETE FROM app_vault_goals WHERE id = ${id}`;
+    await sql`DELETE FROM app_vault_goals WHERE id = ${id} AND user_id = ${session.user.id}`;
     
     return NextResponse.json({ success: true });
   } catch (error: any) {

@@ -4,7 +4,6 @@ import React from 'react';
 import { useVault } from '@/lib/context/VaultContext';
 import { ActivityTimelineCard } from './ActivityTimelineCard';
 import { PinnedVitalsCard } from './PinnedVitalsCard';
-import { NudgeCard } from './NudgeCard';
 import { QuickAddMenu } from './QuickAddMenu';
 import Link from 'next/link';
 import { ArrowRight, FileText, Target } from 'lucide-react';
@@ -25,14 +24,9 @@ const BentoGrid: React.FC = () => {
         <ActivityTimelineCard />
       </div>
 
-      {/* Row Span 1 */}
-      <div className="row-span-1">
+      {/* Row Span 2 */}
+      <div className="row-span-2">
         <PinnedVitalsCard />
-      </div>
-
-      {/* Row Span 1 */}
-      <div className="row-span-1">
-        <NudgeCard />
       </div>
 
       {/* Small Card: Goals Snapshot */}

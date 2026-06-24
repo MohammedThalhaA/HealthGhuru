@@ -3,14 +3,20 @@ import { VaultProvider } from '@/lib/context/VaultContext';
 import { Sidebar } from '@/components/vault/Sidebar';
 import { TopBar } from '@/components/vault/TopBar';
 import CustomCursor from '@/components/ui/CustomCursor';
+import { auth } from '@/lib/auth/auth.config';
 
-export default function VaultLayout({
+export default async function VaultLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth();
+
   return (
-    <VaultProvider>
+    <VaultProvider 
+      initialUserName={session?.user?.name}
+      initialUserEmail={session?.user?.email}
+    >
       <div className="min-h-screen bg-surface flex">
         <CustomCursor />
         <Sidebar />

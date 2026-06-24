@@ -6,19 +6,19 @@ import { useVault } from '@/lib/context/VaultContext';
 import { useToast } from '@/components/providers/ToastProvider';
 
 export function AccountForm() {
-  const { familyMembers, updateFamilyMember } = useVault();
+  const { familyMembers, updateFamilyMember, userEmail } = useVault();
   const { toast } = useToast();
   const selfMember = familyMembers.find(m => m.relationship === 'self') || familyMembers[0];
 
   const [formData, setFormData] = useState({
-    name: selfMember.name,
-    email: 'user@example.com',
-    dob: selfMember.dob,
+    name: selfMember.name || '',
+    email: userEmail || '',
+    dob: selfMember.dob || '',
     gender: 'male',
-    phone: '+91 98765 43210',
-    city: 'Bangalore',
-    height: '175',
-    weight: '75'
+    phone: '',
+    city: '',
+    height: '',
+    weight: ''
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {

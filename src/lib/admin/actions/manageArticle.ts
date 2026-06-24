@@ -95,8 +95,8 @@ export async function manageArticle(input: z.infer<typeof articleSchema>) {
   }
 
   if (validated.action === 'delete' && validated.id) {
-    // Soft delete
-    await sql`UPDATE articles SET deleted_at = NOW() WHERE id = ${validated.id}::uuid`;
+    // Hard delete
+    await sql`DELETE FROM articles WHERE id = ${validated.id}::uuid`;
 
     await writeAuditLog({
       adminUserId: session.user.id,

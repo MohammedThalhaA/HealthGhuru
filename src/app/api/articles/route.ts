@@ -6,7 +6,7 @@ export async function GET() {
   try {
     const articles = await sql`
       SELECT * FROM articles 
-      WHERE status = 'published' 
+      WHERE status = 'published' AND deleted_at IS NULL
       ORDER BY publish_date DESC
     `;
 

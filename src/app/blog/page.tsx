@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default async function BlogPage() {
   const articles = await sql`
     SELECT * FROM articles 
-    WHERE status = 'published' 
+    WHERE status = 'published' AND deleted_at IS NULL
     ORDER BY publish_date DESC
   `;
 

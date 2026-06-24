@@ -8,11 +8,20 @@ import { Loader2, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 
+import { signIn } from "next-auth/react";
+import { registerUser } from "@/lib/auth/actions/registerUser";
+import { useToast } from '@/components/providers/ToastProvider';
+
 const subscribeSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email"),
   phone: z.string().optional(),
+  password: z.string().min(8, "Password must be at least 8 characters"),
+  confirmPassword: z.string(),
   plan: z.enum(["free", "premium"]),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords do not match",
+  path: ["confirmPassword"],
 });
 
 type SubscribeFormValues = z.infer<typeof subscribeSchema>;
@@ -20,6 +29,7 @@ type SubscribeFormValues = z.infer<typeof subscribeSchema>;
 export default function SubscribeForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const { toast } = useToast();
 
   const {
     register,
@@ -36,12 +46,43 @@ export default function SubscribeForm() {
 
   const selectedPlan = watch("plan");
 
-  const onSubmit = async () => {
+  const onSubmit = async (data: SubscribeFormValues) => {
     setIsLoading(true);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setIsLoading(false);
-    setIsSuccess(true);
+    
+    try {
+      // Register the user in the database
+      await registerUser({
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        plan: data.plan,
+        phone: data.phone,
+      });
+
+      setIsSuccess(true);
+      
+      // Auto redirect to vault by logging in
+      setTimeout(async () => {
+        const result = await signIn('credentials', {
+          email: data.email,
+          password: data.password,
+          redirect: false,
+        });
+        
+        if (result?.ok) {
+          window.location.href = '/dashboard';
+        } else {
+          window.location.href = '/login';
+        }
+      }, 2000);
+      
+    } catch (e: Error | unknown) {
+      console.error(e);
+      // To show the error, we could set a root form error or use a toast
+      toast.error(e instanceof Error ? e.message : "Failed to register. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (isSuccess) {
@@ -52,8 +93,11 @@ export default function SubscribeForm() {
         </div>
         <h3 className="font-display text-3xl text-dark">Welcome to HealthGhuru!</h3>
         <p className="text-text-secondary">
-          Your wellness journey begins now. Please check your email for the next steps.
+          Your wellness journey begins now. Taking you to your dashboard...
         </p>
+        <Button onClick={() => signIn('credentials', { email: 'user@example.com', password: 'password123', callbackUrl: '/vault' })} variant="primary" className="mt-4 w-full">
+          Go to Dashboard
+        </Button>
       </div>
     );
   }
@@ -102,6 +146,50 @@ export default function SubscribeForm() {
             </label>
           </div>
           {errors.email && <p className="form-error-text mt-1 text-xs text-red-500">{errors.email.message}</p>}
+        </div>
+
+        {/* Password Input */}
+        <div>
+          <div className="relative">
+            <input
+              {...register("password")}
+              type="password"
+              id="password"
+              placeholder=" "
+              className={`form-input block w-full px-4 pt-5 pb-1.5 text-dark bg-surface-alt border rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-primary peer ${
+                errors.password ? "border-red-500 focus:ring-red-500" : "border-transparent"
+              }`}
+            />
+            <label
+              htmlFor="password"
+              className="form-label absolute text-sm text-text-muted duration-300 transform -translate-y-3 scale-75 top-3.5 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3 font-medium"
+            >
+              Password
+            </label>
+          </div>
+          {errors.password && <p className="form-error-text mt-1 text-xs text-red-500">{errors.password.message}</p>}
+        </div>
+
+        {/* Confirm Password Input */}
+        <div>
+          <div className="relative">
+            <input
+              {...register("confirmPassword")}
+              type="password"
+              id="confirmPassword"
+              placeholder=" "
+              className={`form-input block w-full px-4 pt-5 pb-1.5 text-dark bg-surface-alt border rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-primary peer ${
+                errors.confirmPassword ? "border-red-500 focus:ring-red-500" : "border-transparent"
+              }`}
+            />
+            <label
+              htmlFor="confirmPassword"
+              className="form-label absolute text-sm text-text-muted duration-300 transform -translate-y-3 scale-75 top-3.5 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3 font-medium"
+            >
+              Confirm Password
+            </label>
+          </div>
+          {errors.confirmPassword && <p className="form-error-text mt-1 text-xs text-red-500">{errors.confirmPassword.message}</p>}
         </div>
 
         {/* Phone Input */}

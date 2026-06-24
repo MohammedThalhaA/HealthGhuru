@@ -1,7 +1,11 @@
-import NextAuth, { DefaultSession } from 'next-auth';
+import NextAuth, { DefaultSession, CredentialsSignin } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { sql } from '@/lib/db';
 import bcrypt from 'bcryptjs';
+
+class SuspendedAccountError extends CredentialsSignin {
+  code = "suspended"
+}
 
 declare module "next-auth" {
   interface Session {
@@ -28,13 +32,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!credentials?.email || !credentials?.password) return null;
         
         const users = await sql`
-          SELECT id, name, email, password_hash, role 
+          SELECT id, name, email, password_hash, role, status
           FROM users 
           WHERE email = ${credentials.email}
         `;
         
         const user = users[0];
         if (!user) return null;
+        if (user.status === 'suspended') {
+          throw new SuspendedAccountError();
+        }
         
         const passwordsMatch = await bcrypt.compare(
           credentials.password as string, 
@@ -42,10 +49,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         );
         
         if (passwordsMatch) {
-          // Check if this is the admin login flow by checking role. 
-          // If a user tries to login via admin portal, we don't leak "Not an admin".
-          if (user.role !== 'admin') return null;
-
           return {
             id: user.id,
             name: user.name,

@@ -7,6 +7,10 @@ import * as z from "zod";
 import { Loader2, Eye, EyeOff, CheckCircle2, User, Crown } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
+import { signIn } from "next-auth/react";
+import { checkUserStatus } from '@/lib/auth/checkStatus';
+import { useToast } from '@/components/providers/ToastProvider';
+
 const loginSchema = z.object({
   email: z.string().min(1, "Email is required").email("Please enter a valid email"),
   password: z.string().min(8, "Password must be at least 8 characters"),
@@ -18,6 +22,7 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const { toast } = useToast();
 
   const {
     register,
@@ -28,24 +33,47 @@ export default function LoginForm() {
     resolver: zodResolver(loginSchema),
   });
 
-  const handleDemoUser = (type: 'free' | 'pro') => {
-    setValue('email', type === 'free' ? 'demo@healthghuru.com' : 'pro@healthghuru.com', { shouldValidate: true });
+  const handleDemoUser = async (type: 'free' | 'pro') => {
+    setValue('email', type === 'free' ? 'user@example.com' : 'admin@healthghuru.com', { shouldValidate: true });
     setValue('password', 'password123', { shouldValidate: true });
-    // Automatically submit the form
+    // Use handleSubmit to actually trigger the onSubmit flow
     handleSubmit(onSubmit)();
   };
 
-  const onSubmit = async () => {
+  const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setIsLoading(false);
-    setIsSuccess(true);
-    
-    // Simulate redirect
-    setTimeout(() => {
-      window.location.href = "/vault";
-    }, 1500);
+    try {
+      // Pre-flight check for account status
+      const status = await checkUserStatus(data.email);
+      if (status === 'suspended') {
+        toast.error("Your account has been suspended. Please contact support.");
+        setIsLoading(false);
+        return;
+      }
+      const result = await signIn('credentials', {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        if (result.error === 'suspended') {
+          toast.error("Your account has been suspended. Please contact support.");
+        } else {
+          toast.error("Invalid credentials. Please check your email and password.");
+        }
+        setIsLoading(false);
+      } else {
+        setIsSuccess(true);
+        // Automatically redirect to dashboard
+        setTimeout(() => {
+          window.location.href = '/dashboard';
+        }, 1500);
+      }
+    } catch {
+      toast.error("An unexpected error occurred. Please try again.");
+      setIsLoading(false);
+    }
   };
 
   if (isSuccess) {

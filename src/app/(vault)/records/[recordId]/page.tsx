@@ -26,7 +26,7 @@ export default function RecordDetailPage({ params }: { params: { recordId: strin
     notFound();
   }
 
-  // const isFree = userPlan.tier === 'free';
+  // // const isFree = userPlan.tier === \'free\';
   const ocrEnabled = userPlan.ocrEnabled;
 
   const handleShare = async () => {

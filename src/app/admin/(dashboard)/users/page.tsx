@@ -16,6 +16,7 @@ export default async function AdminUsersPage() {
       u.name, 
       u.email, 
       u.role, 
+      COALESCE(u.status, 'active') as status,
       COALESCE(p.tier, 'free') as plan
     FROM users u
     LEFT JOIN user_plans p ON p.user_id = u.id

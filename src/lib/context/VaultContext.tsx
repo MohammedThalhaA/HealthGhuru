@@ -32,14 +32,48 @@ interface VaultContextType {
   milestoneSeen: boolean;
   setMilestoneSeen: (seen: boolean) => void;
   isLoaded: boolean;
+  userEmail: string;
+}
+
+interface VaultProviderProps {
+  children: React.ReactNode;
+  initialUserName?: string | null;
+  initialUserEmail?: string | null;
 }
 
 const VaultContext = createContext<VaultContextType | undefined>(undefined);
 
-export function VaultProvider({ children }: { children: React.ReactNode }) {
+export function VaultProvider({ children, initialUserName, initialUserEmail }: VaultProviderProps) {
+  const defaultFamilyMembers: FamilyMember[] = [
+    {
+      id: 'self',
+      name: initialUserName || 'User',
+      relationship: 'self',
+      avatarInitials: initialUserName ? initialUserName.substring(0, 2).toUpperCase() : 'US',
+      dob: '1990-01-01', // Mock dob for now
+    },
+    ...MOCK_FAMILY_MEMBERS.filter(m => m.id !== 'self')
+  ];
+
   const [userPlan, setUserPlan] = useState<UserPlan>(MOCK_USER_PLAN);
   const [activeMemberId, setActiveMemberId] = useState<string>('self');
-  const [familyMembers, setFamilyMembers] = useState<FamilyMember[]>(MOCK_FAMILY_MEMBERS);
+  const [familyMembers, setFamilyMembers] = useState<FamilyMember[]>(defaultFamilyMembers);
+
+  // Sync initial user props to state in case of client-side navigation between different users
+  useEffect(() => {
+    if (initialUserName) {
+      setFamilyMembers(prev => prev.map(m => {
+        if (m.id === 'self') {
+          return {
+            ...m,
+            name: initialUserName,
+            avatarInitials: initialUserName.substring(0, 2).toUpperCase()
+          };
+        }
+        return m;
+      }));
+    }
+  }, [initialUserName]);
   const [records, setRecords] = useState<VaultRecord[]>([]);
   const [goals, setGoals] = useState<Goal[]>([]);
   const [articles, setArticles] = useState<LibraryArticle[]>([]);
@@ -62,53 +96,44 @@ export function VaultProvider({ children }: { children: React.ReactNode }) {
     const storedMilestone = localStorage.getItem('vault_milestone_seen');
     if (storedMilestone) setMilestoneSeen(JSON.parse(storedMilestone));
 
+    const storedSelfProfile = localStorage.getItem(`vault_self_profile_${initialUserEmail || 'default'}`);
+    if (storedSelfProfile) {
+      try {
+        const parsedProfile = JSON.parse(storedSelfProfile);
+        setFamilyMembers(prev => prev.map(m => m.id === 'self' ? { ...m, ...parsedProfile } : m));
+      } catch (e) {}
+    }
+
     // Load records/goals based on active member
     loadMemberData(storedActiveMember || 'self');
   }, []);
 
   const loadMemberData = (memberId: string) => {
     setIsLoaded(false);
+    
+    // Clear old local storage to prevent future confusion
+    try {
+      localStorage.removeItem(`vault_records_${memberId}`);
+      localStorage.removeItem(`vault_goals_${memberId}`);
+      localStorage.removeItem(`vault_activity_${memberId}`);
+      localStorage.removeItem(`vault_saved_articles_${memberId}`);
+      localStorage.removeItem(`vault_articles_${memberId}`);
+    } catch (e) {}
+
     // Fetch real records from database
     fetch(`/api/records?memberId=${memberId}`)
       .then(res => res.json())
       .then(data => {
         if (data.success && data.records) {
-          // Merge local storage records with DB records
-          const storedRecords = localStorage.getItem(`vault_records_${memberId}`);
-          let mergedRecords = data.records;
-          
-          if (storedRecords) {
-             const localRecords = JSON.parse(storedRecords);
-             // Add any local records that aren't in the DB
-             const dbIds = new Set(data.records.map((r: any) => r.id));
-             const uniqueLocal = localRecords.filter((r: any) => !dbIds.has(r.id));
-             mergedRecords = [...uniqueLocal, ...mergedRecords];
-             
-             // Sync the unique local ones to DB now
-             uniqueLocal.forEach((r: any) => {
-               fetch('/api/records', {
-                 method: 'POST',
-                 headers: { 'Content-Type': 'application/json' },
-                 body: JSON.stringify(r)
-               }).catch(console.error);
-             });
-          }
-          
-          // We no longer automatically re-seed mock data if empty, so the user can have an empty vault.
-          
-          setRecords(mergedRecords);
-          setUserPlan(prev => ({ ...prev, recordsUsed: mergedRecords.length }));
+          setRecords(data.records);
+          setUserPlan(prev => ({ ...prev, recordsUsed: data.records.length }));
         } else {
-          const storedRecords = localStorage.getItem(`vault_records_${memberId}`);
-          const fallbackRecords = storedRecords ? JSON.parse(storedRecords) : (memberId === 'self' ? MOCK_VAULT_RECORDS : []);
-          setRecords(fallbackRecords);
-          setUserPlan(prev => ({ ...prev, recordsUsed: fallbackRecords.length }));
+          setRecords([]);
         }
       })
       .catch(err => {
-        console.error('Failed to fetch records from DB, using fallback', err);
-        const storedRecords = localStorage.getItem(`vault_records_${memberId}`);
-        setRecords(storedRecords ? JSON.parse(storedRecords) : (memberId === 'self' ? MOCK_VAULT_RECORDS : []));
+        console.error('Failed to fetch records from DB', err);
+        setRecords([]);
       })
       .finally(() => setIsLoaded(true));
 
@@ -117,52 +142,16 @@ export function VaultProvider({ children }: { children: React.ReactNode }) {
       .then(res => res.json())
       .then(data => {
         if (data.success && data.goals) {
-          const storedGoals = localStorage.getItem(`vault_goals_${memberId}`);
-          let mergedGoals = data.goals;
-          
-          if (storedGoals) {
-             const localGoals = JSON.parse(storedGoals);
-             const dbGoalsMap = new Map(data.goals.map((g: any) => [g.id, g]));
-             
-             const syncedGoals = localGoals.map((localGoal: any) => {
-               const dbGoal = dbGoalsMap.get(localGoal.id) as any;
-               if (!dbGoal) {
-                 fetch('/api/goals', {
-                   method: 'POST',
-                   headers: { 'Content-Type': 'application/json' },
-                   body: JSON.stringify(localGoal)
-                 }).catch(console.error);
-                 return localGoal;
-               } else if (localGoal.history.length > dbGoal.history.length) {
-                 fetch('/api/goals', {
-                   method: 'POST',
-                   headers: { 'Content-Type': 'application/json' },
-                   body: JSON.stringify(localGoal)
-                 }).catch(console.error);
-                 return localGoal;
-               }
-               return dbGoal;
-             });
-             
-             const localIds = new Set(localGoals.map((g: any) => g.id));
-             const uniqueDb = data.goals.filter((g: any) => !localIds.has(g.id));
-             
-             mergedGoals = [...syncedGoals, ...uniqueDb];
-          }
-          setGoals(mergedGoals);
+          setGoals(data.goals);
         } else {
-          const storedGoals = localStorage.getItem(`vault_goals_${memberId}`);
-          setGoals(storedGoals ? JSON.parse(storedGoals) : []);
+          setGoals([]);
         }
       })
       .catch(err => {
-        console.error('Failed to fetch real goals, using local fallback', err);
-        const storedGoals = localStorage.getItem(`vault_goals_${memberId}`);
-        setGoals(storedGoals ? JSON.parse(storedGoals) : []);
+        console.error('Failed to fetch goals from DB', err);
+        setGoals([]);
       });
 
-    const storedArticles = localStorage.getItem(`vault_saved_articles_${memberId}`);
-    
     // Fetch real articles from database
     fetch('/api/articles')
       .then(res => res.json())
@@ -172,20 +161,26 @@ export function VaultProvider({ children }: { children: React.ReactNode }) {
             id: a.id,
             slug: a.slug,
             title: a.title,
-            excerpt: a.excerpt,
             category: a.category,
-            matchedGoalCategory: a.matched_goal_category,
-            heroImage: a.hero_image_url || a.image_url || '/images/exercise_push.png',
-            readTime: `${a.read_time} min`,
-            saved: storedArticles ? JSON.parse(storedArticles).includes(a.id) : false
+            excerpt: a.excerpt,
+            readTime: a.read_time,
+            date: a.publish_date || new Date().toISOString(),
+            saved: false, // In a real app, query saved state
+            heroImage: a.hero_image_url || '/images/exercise_plank.png',
+            matchedGoalCategory: a.matched_goal_category
           }));
           setArticles(dbArticles);
+        } else {
+          setArticles([]);
         }
       })
       .catch(err => {
-        console.error('Failed to fetch real articles, using local fallback', err);
+        console.error('Failed to fetch articles from DB', err);
         setArticles([]);
       });
+
+    // Temporary: set empty activity until APIs are ready
+    setActivityHistory([]);
   };
 
   const handleSetActiveMemberId = (id: string) => {
@@ -332,7 +327,7 @@ export function VaultProvider({ children }: { children: React.ReactNode }) {
     const newMembers = familyMembers.map(m => m.id === updatedMember.id ? updatedMember : m);
     setFamilyMembers(newMembers);
     if (updatedMember.id === 'self') {
-      localStorage.setItem('vault_self_profile', JSON.stringify(updatedMember));
+      localStorage.setItem(`vault_self_profile_${initialUserEmail || 'default'}`, JSON.stringify(updatedMember));
     }
   };
 
@@ -347,7 +342,8 @@ export function VaultProvider({ children }: { children: React.ReactNode }) {
       activityHistory, addActivity,
       welcomeSeen, setWelcomeSeen: handleSetWelcomeSeen,
       milestoneSeen, setMilestoneSeen: handleSetMilestoneSeen,
-      isLoaded
+      isLoaded,
+      userEmail: initialUserEmail || 'user@example.com'
     }}>
       {children}
     </VaultContext.Provider>

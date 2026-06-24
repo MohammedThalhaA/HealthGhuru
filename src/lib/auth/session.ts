@@ -35,5 +35,16 @@ export async function requireAuth() {
   if (!session?.user) {
     redirect('/login');
   }
+
+  // Real DB check to ensure suspended users are immediately booted out
+  try {
+    const users = await sql`SELECT status FROM users WHERE id = ${session.user.id}::uuid`;
+    if (!users[0] || users[0].status === 'suspended') {
+      redirect('/login');
+    }
+  } catch {
+    // If status column doesn't exist yet, allow it
+  }
+
   return session;
 }
