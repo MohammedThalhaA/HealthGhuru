@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { X } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
-import { GoalCategory } from '@/lib/types';
+
 
 const goalSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),

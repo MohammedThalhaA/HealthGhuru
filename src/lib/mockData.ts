@@ -1,6 +1,19 @@
-import { Article, MealLog, WorkoutLog, SleepLog, WeeklyDataPoint, JournalEntry } from './types';
+import { WeeklyDataPoint } from './types';
 
-export const MOCK_ARTICLES: Article[] = [
+interface MockArticle {
+  id: string;
+  slug: string;
+  image: string;
+  title: string;
+  category: string;
+  readTime: number;
+  date: string;
+  saved: boolean;
+  readProgress: number;
+  excerpt: string;
+}
+
+export const MOCK_ARTICLES: MockArticle[] = [
   {
     id: '1',
     slug: 'sun-salutation-secrets',

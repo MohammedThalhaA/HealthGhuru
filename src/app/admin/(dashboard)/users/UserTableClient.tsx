@@ -10,8 +10,9 @@ import {
 import { MoreVertical, ShieldAlert } from 'lucide-react';
 import { setUserRole } from '@/lib/admin/actions/setUserRole';
 import { PillBadge } from '@/components/ui/PillBadge';
+import { useToast } from '@/lib/context/ToastContext';
 
-type UserRow = {
+export type UserRow = {
   id: string;
   name: string;
   email: string;
@@ -26,7 +27,7 @@ export function UserTableClient({ initialUsers }: { initialUsers: UserRow[] }) {
   const [roleModalOpen, setRoleModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserRow | null>(null);
   const [isUpdating, setIsUpdating] = useState(false);
-  const { addToast } = useToast();
+  const { toast } = useToast();
 
   const columns = [
     columnHelper.accessor('name', {
@@ -88,10 +89,10 @@ export function UserTableClient({ initialUsers }: { initialUsers: UserRow[] }) {
       // Update local state
       setUsers(users.map(u => u.id === selectedUser.id ? { ...u, role: newRole } : u));
       setRoleModalOpen(false);
-      addToast('User role updated successfully', 'success');
+      toast({ title: 'User role updated successfully', type: 'success' });
     } catch (e) {
       console.error('Failed to change role', e);
-      addToast('Failed to change role. Are you an admin?', 'error');
+      toast({ title: 'Failed to change role. Are you an admin?', type: 'error' });
     } finally {
       setIsUpdating(false);
     }

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Users, Plus, X, ShieldAlert } from 'lucide-react';
+import { Plus, X, ShieldAlert } from 'lucide-react';
 import { useVault } from '@/lib/context/VaultContext';
 import { Button } from '@/components/ui/Button';
 import { LockedFeatureCard } from '@/components/ui/LockedFeatureCard';

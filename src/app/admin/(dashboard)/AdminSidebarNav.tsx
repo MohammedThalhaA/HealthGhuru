@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Users, FileText, Settings, CreditCard, LogOut, ShieldAlert } from 'lucide-react';
+import { LayoutDashboard, Users, FileText, Settings, CreditCard, ShieldAlert } from 'lucide-react';
 
 export function AdminSidebarNav() {
   const pathname = usePathname();

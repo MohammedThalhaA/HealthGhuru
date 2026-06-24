@@ -149,7 +149,8 @@ export interface LibraryArticle {
   title: string;
   category: string;
   excerpt: string;
-  readTime: string;
+  readTime: number;
+  date: string;
   saved: boolean;
   heroImage?: string;
   matchedGoalCategory?: string;

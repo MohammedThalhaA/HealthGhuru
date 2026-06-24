@@ -4,6 +4,7 @@ import React from 'react';
 import { useVault } from '@/lib/context/VaultContext';
 import { LibraryArticleCard } from '@/components/vault/library/LibraryArticleCard';
 import { BookOpen } from 'lucide-react';
+import { GoalCategory } from '@/lib/types';
 
 export function GoalLinkedArticles() {
   const { goals, articles, activeMemberId } = useVault();
@@ -14,7 +15,7 @@ export function GoalLinkedArticles() {
   // Find articles matching any active goal category
   const goalCategories = memberGoals.map(g => g.category);
   const suggestedArticles = articles.filter(a => 
-    goalCategories.includes(a.matchedGoalCategory || 'other') ||
+    goalCategories.includes((a.matchedGoalCategory as GoalCategory) || 'other') ||
     goalCategories.some(cat => a.category.toLowerCase().includes(cat.split('_')[0]))
   ).slice(0, 3); // Get top 3
 

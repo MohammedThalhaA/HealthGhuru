@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/Button';
 import { useVault } from '@/lib/context/VaultContext';
 
 export function AccountForm() {
-  const { familyMembers, activeMemberId } = useVault();
+  const { familyMembers } = useVault();
   const selfMember = familyMembers.find(m => m.relationship === 'self') || familyMembers[0];
 
   return (

@@ -5,6 +5,7 @@ import { useVault } from '@/lib/context/VaultContext';
 import { LibraryArticleCard } from '@/components/vault/library/LibraryArticleCard';
 import { SponsoredCard } from '@/components/vault/library/SponsoredCard';
 import { PillBadge } from '@/components/ui/PillBadge';
+import { GoalCategory } from '@/lib/types';
 
 interface PersonalizedFeedProps {
   filter: string;
@@ -27,7 +28,7 @@ export function PersonalizedFeed({ filter }: PersonalizedFeedProps) {
   } else {
     // 'For You' feed logic: prioritize matching goals
     const matched = filteredArticles.filter(a => 
-      activeCategories.includes(a.matchedGoalCategory || 'other') ||
+      activeCategories.includes((a.matchedGoalCategory as GoalCategory) || 'other') ||
       activeCategories.some(cat => a.category.toLowerCase().includes(cat.split('_')[0]))
     );
     const others = filteredArticles.filter(a => !matched.includes(a));
@@ -40,7 +41,7 @@ export function PersonalizedFeed({ filter }: PersonalizedFeedProps) {
   if (filteredArticles.length === 0) {
     return (
       <div className="py-12 text-center text-text-muted">
-        No articles found for "{filter}".
+        No articles found for &quot;{filter}&quot;.
       </div>
     );
   }
@@ -59,7 +60,7 @@ export function PersonalizedFeed({ filter }: PersonalizedFeedProps) {
       const article = filteredArticles[articleIndex];
       if (article) {
         const isMatched = filter === 'For You' && (
-          activeCategories.includes(article.matchedGoalCategory || 'other') ||
+          activeCategories.includes((article.matchedGoalCategory as GoalCategory) || 'other') ||
           activeCategories.some(cat => article.category.toLowerCase().includes(cat.split('_')[0]))
         );
 
@@ -68,7 +69,7 @@ export function PersonalizedFeed({ filter }: PersonalizedFeedProps) {
             {isMatched && (
               <div className="mb-2">
                 <PillBadge active className="text-[10px] px-2 py-0.5 shadow-sm">
-                  Because you're tracking: {article.category}
+                  Because you&apos;re tracking: {article.category}
                 </PillBadge>
               </div>
             )}

@@ -36,7 +36,7 @@ export function MilestoneUpgradeCard() {
         </div>
         
         <p className="text-sm text-text-secondary leading-relaxed mb-4">
-          You've been building your Vault for a week — Free plan users like you often add a family member next.
+          You&apos;ve been building your Vault for a week — Free plan users like you often add a family member next.
         </p>
         
         <div className="mt-auto">

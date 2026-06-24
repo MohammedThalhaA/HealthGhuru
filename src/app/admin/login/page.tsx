@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { signIn } from '@/lib/auth/auth.config';
 import { AlertCircle, ArrowLeft, Shield } from 'lucide-react';
 import { redirect } from 'next/navigation';
